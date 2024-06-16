@@ -18,7 +18,7 @@ class OpenInterest extends PublicEndpoint implements IGetEndpointInterface
         return OpenInterestRequest::class;
     }
 
-    protected function getResponseClassname(): string
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
     {
         return OpenInterestResponse::class;
     }

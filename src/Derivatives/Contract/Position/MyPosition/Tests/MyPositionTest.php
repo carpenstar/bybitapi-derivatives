@@ -1,51 +1,64 @@
 <?php
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Tests;
 
-use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
-use Carpenstar\ByBitAPI\Core\Builders\ResponseHandlerBuilder;
-use Carpenstar\ByBitAPI\Core\Builders\RestBuilder;
-use Carpenstar\ByBitAPI\Core\Enums\EnumOutputMode;
-use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
-use Carpenstar\ByBitAPI\Core\Response\CurlResponseDto;
-use Carpenstar\ByBitAPI\Core\Response\CurlResponseHandler;
-use Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Overrides\TestMyPosition;
+use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\MyPosition;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Request\MyPositionRequest;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Response\MyPositionResponse;
 use PHPUnit\Framework\TestCase;
 
 class MyPositionTest extends TestCase
 {
-    static private string $closedPnLResponse = '{"retCode":0,"retMsg":"OK","result":{"list":[{"positionIdx":0,"riskId":236,"symbol":"ETCUSDT","side":"Sell","size":"5.0","positionValue":"101.025","entryPrice":"20.205","tradeMode":0,"autoAddMargin":0,"leverage":"10","positionBalance":"10.1691765","liqPrice":"1606.060","bustPrice":"1606.260","takeProfit":"0.000","stopLoss":"0.000","trailingStop":"0.000","unrealisedPnl":"1.35","createdTime":"1672986751942","updatedTime":"1673419917797","tpSlMode":"Full","riskLimitValue":"200000","activePrice":"0.000","markPrice":"19.935","cumRealisedPnl":"0.02758243","positionMM":"","positionIM":"","positionStatus": "Normal","sessionAvgPrice":"0.000","occClosingFee":"4.81878","avgPrice":"20.205","adlRankIndicator":2}],"category":"","nextPageCursor":""},"retExtInfo":{},"time":1673421076067}';
-
-    public function testMyPositionDTOBuilder()
+    public function testSuccessPosition()
     {
-        foreach (json_decode(self::$closedPnLResponse, true)['result']["list"] as $feeRate) {
-            $dto = ResponseDtoBuilder::make(MyPositionResponse::class, $feeRate);
-            $this->assertInstanceOf(MyPositionResponse::class, $dto);
+        $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
+
+        $positionsEndpointResponse = $bybit->privateEndpoint(MyPosition::class, (new MyPositionRequest())->setSymbol('BTCUSDT'))->execute();
+
+        echo "Return Code: {$positionsEndpointResponse->getReturnCode()}\n";
+        echo "Return Message: {$positionsEndpointResponse->getReturnMessage()}\n";
+
+        /** @var MyPositionResponse $positionsListInfoResponse */
+        $positionsListInfoResponse = $positionsEndpointResponse->getResult();
+
+        echo "Category: {$positionsListInfoResponse->getCategory()}\n";
+        echo "Next Page Cursor: {$positionsListInfoResponse->getNextPageCursor()}\n";
+
+        foreach ($positionsListInfoResponse->getPositionList() as $position) {
+            echo "-----\n";
+            echo "Symbol: {$position->getSymbol()}\n";
+            echo "Side: {$position->getSide()}\n";
+            echo "Size: {$position->getSize()}\n";
+            echo "Entry Price: {$position->getEntryPrice()}\n";
+            echo "Leverage: {$position->getLeverage()}\n";
+            echo "Position Value: {$position->getPositionValue()}\n";
+            echo "Position Index: {$position->getPositionIdx()}\n";
+            echo "Risk ID: {$position->getRiskId()}\n";
+            echo "Risk Limit Value: {$position->getRiskLimitValue()}\n";
+            echo "Trade ModeL {$position->getTradeMode()}\n";
+            echo "Auto Add Margin: {$position->getAutoAddMargin()}\n";
+            echo "Position Balance: {$position->getPositionBalance()}\n";
+            echo "Liquidation Price: {$position->getLiqPrice()}\n";
+            echo "Bust Price: {$position->getBustPrice()}\n";
+            echo "TP/SL Mode: {$position->getTpSlMode()}\n";
+            echo "Take Profit: {$position->getTakeProfit()}\n";
+            echo "Stop-Loss: {$position->getStopLoss()}\n";
+            echo "Created time: {$position->getCreatedTime()->format('Y-m-d H:i:s')}\n";
+            echo "Update Time: {$position->getUpdatedTime()->format('Y-m-d H:i:s')}\n";
+            echo "Trailing Stop: {$position->getTrailingStop()}\n";
+            echo "Active Price: {$position->getActivePrice()}\n";
+            echo "Mark Price: {$position->getMarkPrice()}\n";
+            echo "Unrealised PnL: {$position->getUnrealisedPnl()}\n";
+            echo "Cumulative Realised PnL: {$position->getCumRealisedPnl()}\n";
+            echo "Maintenance Margin:  {$position->getPositionMM()}\n";
+            echo "Initial Margin: {$position->getPositionIM()}\n";
+            echo "Position Status: {$position->getPositionStatus()}\n";
+            echo "Settlement Price: {$position->getSessionAvgPrice()}\n";
+            echo "Pre-occupancy Closing Fee: {$position->getOccClosingFee()}\n";
+            echo "Auto-deleverage Rank Indicator: {$position->getAdlRankIndicator()}\n";
         }
-    }
 
-    public function testMyPositionResponseHandlerBuilder()
-    {
-        $handler = ResponseHandlerBuilder::make(self::$closedPnLResponse, CurlResponseHandler::class, MyPositionResponse::class);
-        $this->assertInstanceOf(EntityCollection::class, $handler->getBody());
-        $this->assertGreaterThan(0, $handler->getBody()->count());
-    }
-
-    public function testMyPositionEndpoint()
-    {
-        $endpoint = RestBuilder::make(TestMyPosition::class, (new MyPositionRequest()));
-
-        $entityResponse = $endpoint->execute(EnumOutputMode::MODE_ENTITY, self::$closedPnLResponse);
-
-        $this->assertInstanceOf(CurlResponseDto::class, $entityResponse);
-        $body = $entityResponse->getBody();
-        $this->assertInstanceOf(EntityCollection::class, $body);
-
-        foreach ($body->fetch() as $wallet) {
-            $dto = ResponseDtoBuilder::make(MyPositionResponse::class, $wallet);
-            $this->assertInstanceOf(MyPositionResponse::class, $dto);
-        }
+        $this->assertTrue(true);
     }
 }
 

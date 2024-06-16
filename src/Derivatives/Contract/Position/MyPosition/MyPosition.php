@@ -13,13 +13,13 @@ class MyPosition extends PrivateEndpoint implements IGetEndpointInterface
         return "/contract/v3/private/position/list";
     }
 
-    protected function getResponseClassname(): string
-    {
-        return MyPositionResponse::class;
-    }
-
     protected function getRequestClassname(): string
     {
         return MyPositionRequest::class;
+    }
+
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
+    {
+        return MyPositionResponse::class;
     }
 }

@@ -3,7 +3,6 @@ namespace Carpenstar\ByBitAPI\Derivatives\MarketData\PublicTradingHistory;
 
 use Carpenstar\ByBitAPI\Core\Endpoints\PublicEndpoint;
 use Carpenstar\ByBitAPI\Core\Interfaces\IGetEndpointInterface;
-use Carpenstar\ByBitAPI\Derivatives\MarketData\PublicTradingHistory\Response\PublicTradingHistoryAbstractResponse;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\PublicTradingHistory\Request\PublicTradingHistoryRequest;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\PublicTradingHistory\Response\PublicTradingHistoryResponse;
 
@@ -19,7 +18,7 @@ class PublicTradingHistory extends PublicEndpoint implements IGetEndpointInterfa
         return PublicTradingHistoryRequest::class;
     }
 
-    protected function getResponseClassname(): string
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
     {
         return PublicTradingHistoryResponse::class;
     }

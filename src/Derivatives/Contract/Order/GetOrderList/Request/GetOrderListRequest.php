@@ -10,43 +10,43 @@ class GetOrderListRequest extends AbstractParameters implements IGetOrderListReq
      * Symbol name
      * @var string $symbol
      */
-    private string $symbol;
+    protected string $symbol;
 
     /**
      * Order id
      * @var string $orderId
      */
-    private string $orderId;
+    protected string $orderId;
 
     /**
      * User customised order id
      * @var string $orderLinkId
      */
-    private string $orderLinkId;
+    protected string $orderLinkId;
 
     /**
      * Order status. Return all status orders if not passed
      * @var string $orderStatus
      */
-    private string $orderStatus;
+    protected string $orderStatus;
 
     /**
      * Order,StopOrder
      * @var string $orderFilter
      */
-    private string $orderFilter;
+    protected string $orderFilter;
 
     /**
      * Limit for data size per page. [1, 50]. Default: 20
      * @var int $limit
      */
-    private int $limit = 20;
+    protected int $limit = 20;
 
     /**
      * Cursor. Use the nextPageCursor token from the response to retrieve the next page of the result set
      * @var string $cursor
      */
-    private string $cursor;
+    protected string $cursor;
 
     /**
      * @return string

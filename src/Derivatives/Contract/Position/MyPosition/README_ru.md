@@ -2,11 +2,105 @@
 <b>[Официальная страница документации](https://bybit-exchange.github.io/docs/derivatives/contract/position-list)</b>
 <p>Получение списка открытых позиций пользователя</p>
 
-<p align="center" width="100%"><b>ПРИМЕР</b></p>
+<br />
 
-<p align="center" width="100%"><b> --- </b></p>
+<h3 align="left" width="100%"><b>ПРИМЕР ВЫЗОВА</b></h3>
 
-<p align="center" width="100%"><b>ПАРАМЕТРЫ ЗАПРОСА</b></p>
+```php
+use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\MyPosition;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Request\MyPositionRequest;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Response\MyPositionResponse;
+
+$bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'apiKey', 'apiSecret');
+
+$positionsEndpointResponse = $bybit->privateEndpoint(MyPosition::class, (new MyPositionRequest())->setSymbol('BTCUSDT'))->execute();
+
+echo "Return Code: {$positionsEndpointResponse->getReturnCode()}\n";
+echo "Return Message: {$positionsEndpointResponse->getReturnMessage()}\n";
+
+/** @var MyPositionResponse $positionsListInfoResponse */
+$positionsListInfoResponse = $positionsEndpointResponse->getResult();
+
+echo "Category: {$positionsListInfoResponse->getCategory()}\n";
+echo "Next Page Cursor: {$positionsListInfoResponse->getNextPageCursor()}\n";
+
+foreach ($positionsListInfoResponse->getPositionList() as $position) {
+    echo "-----\n";
+    echo "Symbol: {$position->getSymbol()}\n";
+    echo "Side: {$position->getSide()}\n";
+    echo "Size: {$position->getSize()}\n";
+    echo "Entry Price: {$position->getEntryPrice()}\n";
+    echo "Leverage: {$position->getLeverage()}\n";
+    echo "Position Value: {$position->getPositionValue()}\n";
+    echo "Position Index: {$position->getPositionIdx()}\n";
+    echo "Risk ID: {$position->getRiskId()}\n";
+    echo "Risk Limit Value: {$position->getRiskLimitValue()}\n";
+    echo "Trade ModeL {$position->getTradeMode()}\n";
+    echo "Auto Add Margin: {$position->getAutoAddMargin()}\n";
+    echo "Position Balance: {$position->getPositionBalance()}\n";
+    echo "Liquidation Price: {$position->getLiqPrice()}\n";
+    echo "Bust Price: {$position->getBustPrice()}\n";
+    echo "TP/SL Mode: {$position->getTpSlMode()}\n";
+    echo "Take Profit: {$position->getTakeProfit()}\n";
+    echo "Stop-Loss: {$position->getStopLoss()}\n";
+    echo "Created time: {$position->getCreatedTime()->format('Y-m-d H:i:s')}\n";
+    echo "Update Time: {$position->getUpdatedTime()->format('Y-m-d H:i:s')}\n";
+    echo "Trailing Stop: {$position->getTrailingStop()}\n";
+    echo "Active Price: {$position->getActivePrice()}\n";
+    echo "Mark Price: {$position->getMarkPrice()}\n";
+    echo "Unrealised PnL: {$position->getUnrealisedPnl()}\n";
+    echo "Cumulative Realised PnL: {$position->getCumRealisedPnl()}\n";
+    echo "Maintenance Margin:  {$position->getPositionMM()}\n";
+    echo "Initial Margin: {$position->getPositionIM()}\n";
+    echo "Position Status: {$position->getPositionStatus()}\n";
+    echo "Settlement Price: {$position->getSessionAvgPrice()}\n";
+    echo "Pre-occupancy Closing Fee: {$position->getOccClosingFee()}\n";
+    echo "Auto-deleverage Rank Indicator: {$position->getAdlRankIndicator()}\n";
+}
+
+/**
+ * Return Code: 0
+ * Return Message: OK
+ * Category:
+ * Next Page Cursor:
+ * -----
+ * Symbol: BTCUSDT
+ * Side: None
+ * Size: 0
+ * Entry Price: 0
+ * Leverage: 10
+ * Position Value: 0
+ * Position Index: 0
+ * Risk ID: 1
+ * Risk Limit Value: 2000000
+ * Trade ModeL 0
+ * Auto Add Margin: 0
+ * Position Balance: 0
+ * Liquidation Price: 0
+ * Bust Price: 0
+ * TP/SL Mode: Full
+ * Take Profit: 0
+ * Stop-Loss: 0
+ * Created time: 2023-08-02 16:13:32
+ * Update Time: 2024-06-23 00:00:00
+ * Trailing Stop: 0.00
+ * Active Price: 0
+ * Mark Price: 64247.8
+ * Unrealised PnL: 0
+ * Cumulative Realised PnL: -9751.60575724
+ * Maintenance Margin:  0
+ * Initial Margin: 0
+ * Position Status: Normal
+ * Settlement Price: 0
+ * Pre-occupancy Closing Fee: 0
+ * Auto-deleverage Rank Indicator: 0
+ */
+````
+
+<br />
+
+<h3 align="left" width="100%"><b>ПАРАМЕТРЫ ЗАПРОСА</b></h3>
 
 ---
 
@@ -15,10 +109,21 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Interface
 
 interface IMyPositionRequestInterface
 {
-     public function setSymbol(string $symbol): self; // Торговая пара
-     public function setSettleCoin(string $symbol): self; // Расчетная монета
-    
-     // .. Getters
+    /**
+     * Торговая пара
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
+    public function getSymbol(): string;
+
+    /**
+     * Расчетная монета
+     * @param string $symbol
+     * @return self
+     */
+    public function setSettleCoin(string $symbol): self;
+    public function getSettleCoin(): string;
 }
 ```
 
@@ -52,7 +157,9 @@ interface IMyPositionRequestInterface
    </tr>
 </table>
 
-<p align="center" width="100%"><b>Структура ответа</b></p>
+<br />
+
+<h3 align="left" width="100%"><b>Структура ответа</b></h3>
 
 ---
 
@@ -61,38 +168,23 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Interface
 
 interface IMyPositionResponseInterface
 {
-     public function getSymbol(): string; // Торговая пара
-     public function getSide(): string; // Направление. Buy, Sell. Возврат None, когда нулевое положение одностороннего режима
-     public function getSize(): float; // Размер позиции
-     public function getEntryPrice(): float; // Цена входа
-     public function getLeverage(): float; // Кредитное плечо
-     public function getPositionValue(): float; // Значение позиции
-     public function getPositionIdx(): int; // Индекс позиции
-     public function getRiskId(): int; // ID лимита риска
-     public function getRiskLimitValue(): string; // Значение лимита позиции, соответствующее идентификатору риска
-     public function getTradeMode(): int; // 0: cross margin mode. 1: isolated margin mode
-     public function getAutoAddMargin(): int; // 0: false. 1: true
-     public function getPositionBalance(): float; // Маржа позиции
-     public function getLiqPrice(): float; // Ориентировочная цена ликвидации. Он возвращает значение только тогда, когда minPrice < liqPrice < maxPrice
-     public function getBustPrice(): float; // Ориентировочная цена ликвидации
-     public function getTpSlMode(): string; // Depreciated, всегда "Full"
-     public function getTakeProfit(): float; // Цена тейк-профита
-     public function getStopLoss(): float; // Цена стоп-лосса
-     public function getCreatedTime(): \DateTime; // Время создания позиции
-     public function getUpdatedTime(): \DateTime; // Время обновления позиции
-     public function getTrailingStop(): string; // Трейлинг-стоп
-     public function getActivePrice(): float; // Активация цены трейлинг-стопа
-     public function getMarkPrice(): float; // Маркировочная цена в реальном времени
-     public function getUnrealizedPnl(): float; // нереализованный PNL
-     public function getCumRealisedPnl(): float; //совокупный реализованный PNL
-     public function getPositionMM(): float; // Маржа поддержания позиции
-     public function getPositionIM(): float; // Начальная маржа позиции
-     public function getPositionStatus(): string; // Статус позиции
-     public function getSessionAvgPrice(): float; // Расчетная цена
-     public function getOccClosingFee(): float; // Pre-occupancy closing fee
-     public function getAdlRankIndicator(): int; // Auto-deleverage rank indicator.
+    /**
+     * Product type
+     * @return string
+     */
+    public function getCategory(): string;
+
+    /**
+     * Cursor. Used to pagination
+     * @return string
+     */
+    public function getNextPageCursor(): string;
+
+    /** @return IMyPositionResponseItemInterface[] */
+    public function getPositionList(): array;
 }
-```
+````
+
 <table style="width: 100%">
    <tr>
      <td colspan="3">
@@ -117,149 +209,374 @@ interface IMyPositionResponseInterface
      <td>Торговая пара</td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getSide()</td>
+     <td>IMyPositionResponseInterface::getSymbol()</td>
+     <td>string</td>
+     <td>Торговая пара</td>
+   </tr>
+   <tr>
+     <td>IMyPositionResponseInterface::getSymbol()</td>
+     <td>string</td>
+     <td>Торговая пара</td>
+   </tr>
+</table>
+
+<br />
+
+
+```php
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Interfaces;
+
+interface IMyPositionResponseItemInterface
+{
+    /**
+     * Торговая пара
+     * @return string
+     */
+    public function getSymbol(): string;
+
+    /**
+     * Направление. Buy, Sell. Возврат None, когда нулевое положение одностороннего режима
+     * @return string
+     */
+    public function getSide(): string;
+
+    /**
+     * Размер позиции
+     * @return float
+     */
+    public function getSize(): float;
+
+    /**
+     * Цена входа
+     * @return float
+     */
+    public function getEntryPrice(): float;
+
+    /**
+     * Кредитное плечо
+     * @return float
+     */
+    public function getLeverage(): float;
+
+    /**
+     * Значение позиции
+     * @return float
+     */
+    public function getPositionValue(): float;
+
+    /**
+     * Индекс позиции
+     * @return int
+     */
+    public function getPositionIdx(): int;
+
+    /**
+     * ID лимита риска
+     * @return int
+     */
+    public function getRiskId(): int;
+
+    /**
+     * Значение лимита позиции, соответствующее идентификатору риска
+     * @return string
+     */
+    public function getRiskLimitValue(): string;
+
+    /**
+     * 0: cross margin mode. 1: isolated margin mode
+     * @return int
+     */
+    public function getTradeMode(): int;
+
+    /**
+     * 0: false. 1: true
+     * @return int
+     */
+    public function getAutoAddMargin(): int;
+
+    /**
+     * Маржа позиции
+     * @return float
+     */
+    public function getPositionBalance(): float;
+
+    /**
+     * Ориентировочная цена ликвидации. Возвращается значение только тогда, когда minPrice < liqPrice < maxPrice
+     * @return float
+     */
+    public function getLiqPrice(): float;
+
+    /**
+     * Ориентировочная цена ликвидации
+     * @return float
+     */
+    public function getBustPrice(): float;
+
+    /**
+     * Depreciated, всегда "Full"
+     * @return string
+     */
+    public function getTpSlMode(): string;
+
+    /**
+     * Цена тейк-профита
+     * @return float
+     */
+    public function getTakeProfit(): float;
+
+    /**
+     * Цена стоп-лосса
+     * @return float
+     */
+    public function getStopLoss(): float;
+
+    /**
+     * Время создания позиции
+     * @return \DateTime
+     */
+    public function getCreatedTime(): \DateTime;
+
+    /**
+     * Время обновления позиции
+     * @return \DateTime
+     */
+    public function getUpdatedTime(): \DateTime;
+
+    /**
+     * Трейлинг-стоп
+     * @return string
+     */
+    public function getTrailingStop(): string;
+
+    /**
+     * Активация цены трейлинг-стопа
+     * @return float
+     */
+    public function getActivePrice(): float;
+
+    /**
+     * Маркировочная цена в реальном времени
+     * @return float
+     */
+    public function getMarkPrice(): float;
+
+    /**
+     * нереализованный PNL
+     * @return float
+     */
+    public function getUnrealisedPnl(): float;
+
+    /**
+     * совокупный реализованный PNL
+     * @return float
+     */
+    public function getCumRealisedPnl(): float;
+
+    /**
+     * Маржа поддержания позиции
+     * @return float
+     */
+    public function getPositionMM(): float;
+
+    /**
+     * Начальная маржа позиции
+     * @return float
+     */
+    public function getPositionIM(): float;
+
+    /**
+     * Статус позиции
+     * @return string
+     */
+    public function getPositionStatus(): string;
+
+    /**
+     * Расчетная цена
+     * @return float
+     */
+    public function getSessionAvgPrice(): float;
+
+    /**
+     * Pre-occupancy closing fee
+     * @return float
+     */
+    public function getOccClosingFee(): float;
+
+    /**
+     * Auto-deleverage rank indicator
+     * https://www.bybit.com/en-US/help-center/s/article/What-is-Auto-Deleveraging-ADL
+     * @return int
+     */
+    public function getAdlRankIndicator(): int;
+}
+```
+<table style="width: 100%">
+   <tr>
+     <td colspan="3">
+        <sup><b>INTERFACE</b></sup> <br />
+        <b>\Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Interfaces\IMyPositionResponseItemInterface::class</b>
+     </td>
+   </tr>
+   <tr>
+     <td colspan="3">
+        <sup><b>DTO</b></sup> <br />
+        <b>\Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Response\MyPositionResponseItem::class</b>
+     </td>
+   </tr>
+   <tr>
+     <th style="width: 20%; text-align: center">Метод</th>
+     <th style="width: 20%; text-align: center">Тип</th>
+     <th style="width: 60%; text-align: center">Описание</th>
+   </tr>
+   <tr>
+     <td>IMyPositionResponseItemInterface::getSymbol()</td>
+     <td>string</td>
+     <td>Торговая пара</td>
+   </tr>
+   <tr>
+     <td>IMyPositionResponseItemInterface::getSide()</td>
      <td>string</td>
      <td> Side. Buy, Sell. Возврат None, когда нулевое положение одностороннего режима</td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getSize()</td>
+     <td>IMyPositionResponseItemInterface::getSize()</td>
      <td>float</td>
      <td> Размер позиции </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getEntryPrice()</td>
+     <td>IMyPositionResponseItemInterface::getEntryPrice()</td>
      <td>float</td>
      <td> Цена входа </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getLeverage()</td>
+     <td>IMyPositionResponseItemInterface::getLeverage()</td>
      <td>float</td>
      <td> Кредитое плечо </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getPositionValue()</td>
+     <td>IMyPositionResponseItemInterface::getPositionValue()</td>
      <td>float</td>
      <td> Значение позиции </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getPositionIdx()</td>
+     <td>IMyPositionResponseItemInterface::getPositionIdx()</td>
      <td>int</td>
      <td> Индекс позиции </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getRiskId()</td>
+     <td>IMyPositionResponseItemInterface::getRiskId()</td>
      <td>int</td>
      <td> ID риска </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getRiskLimitValue()</td>
+     <td>IMyPositionResponseItemInterface::getRiskLimitValue()</td>
      <td>string</td>
      <td> Значение лимита позиции, соответствующее идентификатору риска </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getTradeMode()</td>
+     <td>IMyPositionResponseItemInterface::getTradeMode()</td>
      <td>int</td>
      <td> 0: cross margin mode. 1: isolated margin mode </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getAutoAddMargin()</td>
+     <td>IMyPositionResponseItemInterface::getAutoAddMargin()</td>
      <td>int</td>
      <td> 0: false. 1: true </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getPositionBalance()</td>
+     <td>IMyPositionResponseItemInterface::getPositionBalance()</td>
      <td>float</td>
      <td> Маржа позиции </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getLiqPrice()</td>
+     <td>IMyPositionResponseItemInterface::getLiqPrice()</td>
      <td>float</td>
      <td>Ориентировочная цена ликвидации. Он возвращает значение только тогда, когда minPrice < liqPrice < maxPrice</td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getBustPrice()</td>
+     <td>IMyPositionResponseItemInterface::getBustPrice()</td>
      <td>float</td>
      <td>Ориентировочная цена ликвидации</td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getTpSlMode()</td>
+     <td>IMyPositionResponseItemInterface::getTpSlMode()</td>
      <td>string</td>
      <td>всегда "Full" </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getTakeProfit()</td>
+     <td>IMyPositionResponseItemInterface::getTakeProfit()</td>
      <td>float</td>
      <td>Цена тейк-профита</td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getStopLoss()</td>
+     <td>IMyPositionResponseItemInterface::getStopLoss()</td>
      <td>float</td>
      <td>Цена стоп-лоса</td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getCreatedTime()</td>
+     <td>IMyPositionResponseItemInterface::getCreatedTime()</td>
      <td>DateTime</td>
      <td>Время создания позиции</td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getUpdatedTime()</td>
+     <td>IMyPositionResponseItemInterface::getUpdatedTime()</td>
      <td>DateTime</td>
      <td>Время обновления позиции</td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getTrailingStop()</td>
+     <td>IMyPositionResponseItemInterface::getTrailingStop()</td>
      <td>string</td>
      <td>Трейлинг стоп</td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getActivePrice()</td>
+     <td>IMyPositionResponseItemInterface::getActivePrice()</td>
      <td>float</td>
      <td>Активация цены трейлинг-стопа</td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getMarkPrice()</td>
+     <td>IMyPositionResponseItemInterface::getMarkPrice()</td>
      <td>float</td>
      <td>Маркировочная цена в реальном времени</td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getUnrealisedPnl()</td>
+     <td>IMyPositionResponseItemInterface::getUnrealisedPnl()</td>
      <td>float</td>
      <td> нереализованный PNL </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getCumRealisedPnl()</td>
+     <td>IMyPositionResponseItemInterface::getCumRealisedPnl()</td>
      <td>float</td>
      <td> совокупный реализованный PNL </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getPositionMM()</td>
+     <td>IMyPositionResponseItemInterface::getPositionMM()</td>
      <td>float</td>
      <td> Поддерживающая маржа </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getPositionIM()</td>
+     <td>IMyPositionResponseItemInterface::getPositionIM()</td>
      <td>float</td>
      <td> Начальная маржа </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getPositionStatus()</td>
+     <td>IMyPositionResponseItemInterface::getPositionStatus()</td>
      <td>string</td>
      <td> Статус позиции </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getSessionAvgPrice()</td>
+     <td>IMyPositionResponseItemInterface::getSessionAvgPrice()</td>
      <td>float</td>
      <td> Расчетная цена </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getOccClosingFee()</td>
+     <td>IMyPositionResponseItemInterface::getOccClosingFee()</td>
      <td>float</td>
      <td> Pre-occupancy closing fee </td>
    </tr>
    <tr>
-     <td>IMyPositionResponseInterface::getAdlRankIndicator()</td>
+     <td>IMyPositionResponseItemInterface::getAdlRankIndicator()</td>
      <td>string</td>
-     <td> Auto-deleverage rank indicator </td>
+     <td> Индикатор ранга автоматического снижения кредитного плеча </td>
    </tr>
 </table>
 

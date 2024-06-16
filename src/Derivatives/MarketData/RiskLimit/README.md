@@ -8,7 +8,9 @@
 \Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\RiskLimit::class
 ```
 
-<p align="center" width="100%"><b>EXAMPLE</b></p>
+<br />
+
+<h3 width="100%"><b>EXAMPLE</b></h3>
 
 ---
 
@@ -18,66 +20,85 @@ use Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\RiskLimit;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Request\RiskLimitsRequest;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Response\RiskLimitsResponse;
 
-$bybit = new BybitAPI("https://api-testnet.bybit.com", "apiKey", "secret");
+$bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-$options = (new RiskLimitsRequest())->setSymbol("BTCUSDT");
+$endpointResponse = $bybit->publicEndpoint(RiskLimit::class, (new RiskLimitsRequest())
+    ->setSymbol('BTCUSDT')
+)->execute();
 
-/** @var RiskLimitsResponse[] $result */
-$result = $bybit->rest(RiskLimit::class, $options)->getBody()->all();
+echo "Return code: {$endpointResponse->getReturnCode()}\n";
+echo "Return message: {$endpointResponse->getReturnMessage()}\n";
 
-
-
-foreach ($result as $riskItem) {
-    echo "Risk ID: {$riskItem->getId()}" . PHP_EOL;
-    echo "Symbol: {$riskItem->getSymbol()}" . PHP_EOL;
-    echo "Limit: {$riskItem->getLimit()}" . PHP_EOL;
-    echo "Maintain Margin: {$riskItem->getMaintainMargin()}". PHP_EOL;
-    echo "Initial Margin: {$riskItem->getInitialMargin()}" . PHP_EOL;
-    echo "isLowerRisk: {$riskItem->getIsLowerRisk()}" . PHP_EOL;
-    echo "maxLeverage: {$riskItem->getMaxLeverage()}" . PHP_EOL;
-    echo "-----" . PHP_EOL;
+/** @var RiskLimitsResponse $riskLimit */
+$riskLimit = $endpointResponse->getResult();
+foreach ($riskLimit->getRiskLimitList() as $risk) {
+    echo "--- \n";
+    echo "ID: {$risk->getId()}\n";
+    echo "Symbol: {$risk->getSymbol()}\n";
+    echo "Limit: {$risk->getLimit()}\n";
+    echo "Maintain Margin: {$risk->getMaintainMargin()}\n";
+    echo "Initial Margin: {$risk->getInitialMargin()}\n";
+    echo "Is Lower Risk: {$risk->getIsLowerRisk()}\n";
+    echo "Maximal Leverage: {$risk->getMaxLeverage()}\n";
 }
 
 /**
- * Result:
- *
- * Risk ID: 1
+ * Return code: 0
+ * Return message: OK
+ * --- 
+ * ID: 1
  * Symbol: BTCUSDT
  * Limit: 2000000
  * Maintain Margin: 0.005
  * Initial Margin: 0.01
- * isLowerRisk: 0
- * maxLeverage: 100
- * -----
- * Risk ID: 2
+ * Is Lower Risk: 0
+ * Maximal Leverage: 100
+ * --- 
+ * ID: 2
  * Symbol: BTCUSDT
- * Limit: 4000000
- * Maintain Margin: 0.01
- * Initial Margin: 0.0175
- * isLowerRisk: 0
- * maxLeverage: 57.14
- * -----
- * Risk ID: 3
+ * Limit: 2600000
+ * Maintain Margin: 0.0056
+ * Initial Margin: 0.0111
+ * Is Lower Risk: 0
+ * Maximal Leverage: 90
+ * --- 
+ * ID: 3
  * Symbol: BTCUSDT
- * Limit: 6000000
- * Maintain Margin: 0.015
- * Initial Margin: 0.025
- * isLowerRisk: 0
- * maxLeverage: 40
- * -----
- * ...
- */
+ * Limit: 3200000
+ * Maintain Margin: 0.0063
+ * Initial Margin: 0.0125
+ * Is Lower Risk: 0
+ * Maximal Leverage: 80
+*/
 ```  
 
-<p align="center" width="100%"><b>REQUEST PARAMETERS</b></p>
+<br />
+
+<h3 width="100%"><b>REQUEST PARAMETERS</b></h3>
 
 ---
 
 ```php
-\Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Request\RiskLimitsRequest::class
+namespace Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Interfaces;
 
-$options = (new RiskLimitsRequest())
-    ->setSymbol("BTCUSDT"); // Trading pair
+interface IRiskLimitsRequestInterface
+{
+    /**
+     * Symbol name
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
+    public function getSymbol(): string;
+
+    /**
+     * Cursor. Use the nextPageCursor token from the response to retrieve the next page of the result set
+     * @param string $cursor
+     * @return self
+     */
+    public function setCursor(string $cursor): self;
+    public function getCursor(): string;
+}
 ```  
 <table style="width: 100%">
   <tr>
@@ -89,7 +110,7 @@ $options = (new RiskLimitsRequest())
   <tr>
     <td colspan="3">
         <sup><b>DTO</b></sup> <br />
-        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Request\RiskLimitsRequest::class</b>
+        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Request\RiskLimitsResponse::class</b>
     </td>
   </tr>
   <tr>
@@ -102,31 +123,41 @@ $options = (new RiskLimitsRequest())
     <td><b>YES</b></td>
     <td>Trading pair</td>
   </tr>
+  <tr>
+    <td>IRiskLimitsRequestInterface::setCursor(string $cursor): self</td>
+    <td>NO</td>
+    <td>Cursor. Use the nextPageCursor token from the response to retrieve the next page of the result set</td>
+  </tr>
 </table>
 
-<p align="center" width="100%"><b>RESPONSE STRUCTURE</b></p>
+<br />
+
+<h3 width="100%"><b>RESPONSE STRUCTURE</b></h3>
 
 ---
 
 ```php
-\Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Interfaces\IRiskLimitsResponse::class;
+namespace Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Interfaces;
 
-interface IRiskLimitsResponse
+interface IRiskLimitsResponseInterface
 {
-    public function getId(): string; // Risk ID
-    public function getSymbol(): string; // Trading pair
-    public function getLimit(): int; // Position limit
-    public function getMaintainMargin(): float; // Margin maintenance
-    public function getInitialMargin(): float; // Initial margin
-    public function getIsLowerRisk(): int; // Is the trading instrument low risk?
-    public function getMaxLeverage(): float; // Maximum leverage
+    /**
+     * Cursor. Use the nextPageCursor token from the response to retrieve the next page of the result set
+     * @param string $cursor
+     * @return mixed
+     */
+    public function getCursor(string $cursor);
+
+    /** @return IRiskLimitsResponseItemInterface[] */
+    public function getRiskLimitList(): array;
 }
 ```
+
 <table style="width: 100%">
   <tr>
     <td colspan="3">
         <sup><b>INTERFACE</b></sup> <br />
-        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Interfaces\IRiskLimitsResponse:class</b>
+        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Interfaces\IRiskLimitsResponseInterface:class</b>
     </td>
   </tr>
   <tr>
@@ -141,49 +172,129 @@ interface IRiskLimitsResponse
     <th style="width: 60%; text-align: center">Description</th>
   </tr>
   <tr>
-    <td>IRiskLimitsResponse::getId()</td>
+    <td>IRiskLimitsResponseInterface::getCursor()</td>
+    <td>string</td>
+    <td>Cursor. Use the nextPageCursor token from the response to retrieve the next page of the result set</td>
+  </tr>
+  <tr>
+    <td>IRiskLimitsResponseInterface::getRiskLimitList()</td>
+    <td>IRiskLimitsResponseItemInterface[]</td>
+    <td>List of risk limits</td>
+  </tr>
+</table>
+
+---
+
+```php
+namespace Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Interfaces;
+
+interface IRiskLimitsResponseItemInterface
+{
+    /**
+     * Risk id
+     * @return string
+     */
+    public function getId(): string;
+
+    /**
+     * Symbol name
+     * @return string
+     */
+    public function getSymbol(): string;
+
+    /**
+     * Position limit
+     * @return int
+     */
+    public function getLimit(): int;
+
+    /**
+     * Maintain margin rate
+     * @return float
+     */
+    public function getMaintainMargin(): float;
+
+    /**
+     * Initial margin rate
+     * @return float
+     */
+    public function getInitialMargin(): float;
+
+    /**
+     * 1: true, 0: false
+     * @return int
+     */
+    public function getIsLowerRisk(): int;
+
+    /**
+     * Allowed max leverage
+     * @return float
+     */
+    public function getMaxLeverage(): float;
+}
+```
+<table style="width: 100%">
+  <tr>
+    <td colspan="3">
+        <sup><b>INTERFACE</b></sup> <br />
+        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Interfaces\IRiskLimitsResponseItemInterface:class</b>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">
+        <sup><b>DTO</b></sup> <br />
+        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Response\RiskLimitsResponseItem::class</b>
+    </td>
+  </tr>
+  <tr>
+    <th style="width: 20%; text-align: center">Method</th>
+    <th style="width: 20%; text-align: center">Type</th>
+    <th style="width: 60%; text-align: center">Description</th>
+  </tr>
+  <tr>
+    <td>IRiskLimitsResponseItemInterface::getId()</td>
     <td>string</td>
     <td>
       Risk ID
     </td>
   </tr>
   <tr>
-    <td>IRiskLimitsResponse::getSymbol()</td>
+    <td>IRiskLimitsResponseItemInterface::getSymbol()</td>
     <td>string</td>
     <td>
       Trading pair
     </td>
   </tr>
   <tr>
-    <td>IRiskLimitsResponse::getLimit()</td>
+    <td>IRiskLimitsResponseItemInterface::getLimit()</td>
     <td>int</td>
     <td>
       Position limit
     </td>
   </tr>
   <tr>
-    <td>IRiskLimitsResponse::getMaintainMargin()</td>
+    <td>IRiskLimitsResponseItemInterface::getMaintainMargin()</td>
     <td>float</td>
     <td>
       Margin maintenance
     </td>
   </tr>
   <tr>
-    <td>IRiskLimitsResponse::getInitialMargin()</td>
+    <td>IRiskLimitsResponseItemInterface::getInitialMargin()</td>
     <td>float</td>
     <td>
       Initial margin
     </td>
   </tr>
   <tr>
-    <td>IRiskLimitsResponse::getIsLowerRisk()</td>
+    <td>IRiskLimitsResponseItemInterface::getIsLowerRisk()</td>
     <td>int</td>
     <td>
       Is the trading instrument low risk?
     </td>
   </tr>
   <tr>
-    <td>IRiskLimitsResponse::getMaxLeverage()</td>
+    <td>IRiskLimitsResponseItemInterface::getMaxLeverage()</td>
     <td>float</td>
     <td>
       Maximum leverage

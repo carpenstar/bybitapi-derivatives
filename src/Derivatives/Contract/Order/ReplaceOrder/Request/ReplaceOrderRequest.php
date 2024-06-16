@@ -303,20 +303,20 @@ class ReplaceOrderRequest extends AbstractParameters implements IReplaceOrderReq
     }
 
     /**
-     * @return array
+     * @return float
      */
-    public function getRequiredBetweenFields(): array
+    public function getSlLimitPrice(): float
     {
-        return $this->requiredBetweenFields;
+        return $this->tpLimitPrice;
     }
 
     /**
-     * @param array $requiredBetweenFields
+     * @param float $slLimitPrice
      * @return ReplaceOrderRequest
      */
-    public function setRequiredBetweenFields(array $requiredBetweenFields): self
+    public function setSlLimitPrice(float $slLimitPrice): self
     {
-        $this->requiredBetweenFields = $requiredBetweenFields;
+        $this->tpLimitPrice = $slLimitPrice;
         return $this;
     }
 }

@@ -20,15 +20,15 @@ class SwitchPositionModeRequest extends AbstractParameters implements ISwitchPos
 
     /**
      * Position mode. 0: Merged Single. 3: Both Side
-     * @var int $positionMode
+     * @var int $mode
      */
-    protected int $positionMode;
+    protected int $mode;
 
     public function __construct()
     {
         $this
             ->setRequiredBetweenField("symbol", "coin")
-            ->setRequiredField("positionMode");
+            ->setRequiredField("mode");
     }
 
     /**
@@ -70,18 +70,18 @@ class SwitchPositionModeRequest extends AbstractParameters implements ISwitchPos
     /**
      * @return int
      */
-    public function getPositionMode(): int
+    public function getMode(): int
     {
-        return $this->positionMode;
+        return $this->mode;
     }
 
     /**
-     * @param int $positionMode
+     * @param int $mode
      * @return SwitchPositionModeRequest
      */
-    public function setPositionMode(int $positionMode): self
+    public function setMode(int $mode): self
     {
-        $this->positionMode = $positionMode;
+        $this->mode = $mode;
         return $this;
     }
 

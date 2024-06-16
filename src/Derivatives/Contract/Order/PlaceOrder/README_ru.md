@@ -5,44 +5,53 @@
 \Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder\PlaceOrder::class
 ```
 
-<p align="center" width="100%"><b>ПРИМЕР</b></p>
+<br />
+
+<h3 align="left" width="100%"><b>ПРИМЕР</b></h3>
 
 ---
 
 ```php
 use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Core\Enums\EnumOrderType;
+use Carpenstar\ByBitAPI\Core\Enums\EnumSide;
+use Carpenstar\ByBitAPI\Core\Interfaces\IResponseInterface;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder\PlaceOrder;
-use Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder\Request\PlaceOrderRequestRequest;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder\Request\PlaceOrderRequest;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder\Response\PlaceOrderResponse;
 
-$bybit = new BybitAPI('https://api-testnet.bybit.com',"apiKey", "apiSecret");
+$bybitApi = (new BybitAPI())
+    ->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-$order = $bybit->rest(PlaceOrder::class,
-    (new PlaceOrderRequestRequest())
-        ->setSymbol("LTCUSDT")
-        ->setSide("Buy")
-        ->setOrderType("Market")
-        ->setQty(1)
-        ->setTimeInForce("GoodTillCancel")
-        ->setOrderLinkId(uniqid())
-)->getBody()->fetch();
+/** @var IResponseInterface $endpointResponse */
+$endpointResponse = $bybitApi->privateEndpoint(PlaceOrder::class,
+    (new PlaceOrderRequest())
+        ->setSymbol('BTCUSDT')
+        ->setOrderType(EnumOrderType::LIMIT)
+        ->setSide(EnumSide::BUY)
+        ->setQty('0.01')
+        ->setPrice(68100)
+)->execute();
 
+echo "Return code: {$endpointResponse->getReturnCode()} \n";
+echo "Return message: {$endpointResponse->getReturnMessage()} \n";
 
-
-
-/** @var PlaceOrderResponse $order */
-echo "Order ID: " . $order->getOrderId() . PHP_EOL;
-echo "Order Link ID: " . $order->getOrderLinkId() . PHP_EOL;
+/** @var PlaceOrderResponse $orderInfo */
+$orderInfo = $endpointResponse->getResult();
+echo "Order ID: {$orderInfo->getOrderId()}\n";
+echo "Order Link ID: {$orderInfo->getOrderLinkId()}\n";
 
 /**
- * Result:
- *
- * Order ID: b75cea8a-6373-4fbb-b82f-ab36e56dbe85
- * Order Link ID: 64728f00c100d
- */
-```
+* Return code: 0
+* Return message: OK 
+* Order ID: bac5bf12-edf6-433b-8ce4-d4d14de281cd
+* Order Link ID:
+*/
+````
 
-<p align="center" width="100%"><b>ПАРАМЕТРЫ ЗАПРОСА</b></p>
+<br />
+
+<h3 align="left" width="100%"><b>ПАРАМЕТРЫ ЗАПРОСА</b></h3>
 
 ---
 
@@ -284,7 +293,7 @@ interface IPlaceOrderRequestInterface
 
 
 
-<p align="center" width="100%"><b>СТРУКТУРА ОТВЕТА</b></p>
+<h3 align="left" width="100%"><b>СТРУКТУРА ОТВЕТА</b></h3>
 
 ---
 

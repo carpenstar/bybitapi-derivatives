@@ -7,86 +7,100 @@
 Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Request\TickerInfo::class
 ```
 
-<p align="center" width="100%"><b>EXAMPLE</b></p>
+<br />
+
+<h3 width="100%"><b>EXAMPLE</b></h3>
 
 ---
 
 ```php
 use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces\ITickerInfoResponseItemInterface;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Request\TickerInfoRequest;
-use Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Response\TickerInfoResponse;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\TickerInfo;
 
-$bybit = new BybitAPI("https://api-testnet.bybit.com", "apiKey", "secret");
+$bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-$options = (new TickerInfoRequest())
-    ->setSymbol("APTUSDT");
+$endpointResponse = $bybit->publicEndpoint(TickerInfo::class, (new TickerInfoRequest())
+    ->setSymbol('BTCUSDT')
+)->execute();
 
-$tickerInfo = $bybit->rest(TickerInfo::class, $options)->getBody()->fetch();
+echo "Return code: {$endpointResponse->getReturnCode()}\n";
+echo "Return message: {$endpointResponse->getReturnMessage()}\n";
 
+/** @var ITickerInfoResponseItemInterface $tickerInfo */
+$tickerInfo = $endpointResponse->getResult()->getTickerInfo();
 
-
-/** @var TickerInfoResponse $tickerInfo */
-echo "Symbol: {$tickerInfo->getSymbol()}" . PHP_EOL;
-echo "Bid Price: {$tickerInfo->getBidPrice()}" . PHP_EOL;
-echo "Ask Price: {$tickerInfo->getAskPrice()}" . PHP_EOL;
-echo "Last Price: {$tickerInfo->getLastPrice()}" . PHP_EOL;
-echo "Last Tick Direction: {$tickerInfo->getLastTickDirection()}" . PHP_EOL;
-echo "Prev Price 24 hours: {$tickerInfo->getPrevPrice24h()}" . PHP_EOL;
-echo "Prev Price 24 hours(%): {$tickerInfo->getPrice24hPcnt()}" . PHP_EOL;
-echo "High Price 24 hours: {$tickerInfo->getHighPrice24h()}" . PHP_EOL;
-echo "Low Price 24 hours: {$tickerInfo->getLowPrice24h()}" . PHP_EOL;
-echo "Prev price 1 hour: {$tickerInfo->getPrevPrice1h()}" . PHP_EOL;
-echo "Mark Price: {$tickerInfo->getMarkPrice()}" . PHP_EOL;
-echo "Index Price: {$tickerInfo->getIndexPrice()}" . PHP_EOL;
-echo "Open Interest: {$tickerInfo->getOpenInterests()}" . PHP_EOL;
-echo "Open Interest Value: {$tickerInfo->getOpenInterestValue()}" . PHP_EOL;
-echo "Turnover 24 hours: {$tickerInfo->getTurnover24h()}" . PHP_EOL;
-echo "Volume 24 hours: {$tickerInfo->getVolume24h()}" . PHP_EOL;
-echo "Funding Rate: {$tickerInfo->getFundingRate()}" . PHP_EOL;
-echo "Next Funding Time: {$tickerInfo->getNextFundingTime()->format("Y-m-d H:i:s")}" . PHP_EOL;
-echo "Predicted Delivery Price: {$tickerInfo->getPredictedDeliveryPrice()}" . PHP_EOL;
-echo "Basis Rate: {$tickerInfo->getBasisRate()}" . PHP_EOL;
-echo "Delivery Fee Rate: {$tickerInfo->getDeliveryFeeRate()}" . PHP_EOL;
-echo "Delivery Time: {$tickerInfo->getDeliveryTime()->format("Y-m-d H:i:s")}" . PHP_EOL;
-
-/**
- * Result: 
- * 
- * Symbol: APTUSDT
- * Bid Price: 8.285
- * Ask Price: 8.2855
- * Last Price: 8.2855
+echo "Symbol: {$tickerInfo->getSymbol()}\n";
+echo "Bid Price: {$tickerInfo->getBidPrice()}\n";
+echo "Ask Price: {$tickerInfo->getAskPrice()}\n";
+echo "Last Price: {$tickerInfo->getLastPrice()}\n";
+echo "Last Tick Direction: {$tickerInfo->getLastTickDirection()}\n";
+echo "Prev Price 24 hours: {$tickerInfo->getPrevPrice24h()}\n";
+echo "Prev Price 24 hours(%): {$tickerInfo->getPrice24hPcnt()}\n";
+echo "High Price 24 hours: {$tickerInfo->getHighPrice24h()}\n";
+echo "Low Price 24 hours: {$tickerInfo->getLowPrice24h()}\n";
+echo "Prev price 1 hour: {$tickerInfo->getPrevPrice1h()}\n";
+echo "Mark Price: {$tickerInfo->getMarkPrice()}\n";
+echo "Index Price: {$tickerInfo->getIndexPrice()}\n";
+echo "Open Interest: {$tickerInfo->getOpenInterests()}\n";
+echo "Open Interest Value: {$tickerInfo->getOpenInterestValue()}\n";
+echo "Turnover 24 hours: {$tickerInfo->getTurnover24h()}\n";
+echo "Volume 24 hours: {$tickerInfo->getVolume24h()}\n";
+echo "Funding Rate: {$tickerInfo->getFundingRate()}\n";
+echo "Next Funding Time: {$tickerInfo->getNextFundingTime()->format("Y-m-d H:i:s")}\n";
+echo "Predicted Delivery Price: {$tickerInfo->getPredictedDeliveryPrice()}\n";
+echo "Basis Rate: {$tickerInfo->getBasisRate()}\n";
+echo "Delivery Fee Rate: {$tickerInfo->getDeliveryFeeRate()}\n";
+echo "Open Interests Value: {$tickerInfo->getOpenInterestValue()}\n";
+    
+/** 
+ * Return code: 0
+ * Return message: OK
+ * Symbol: BTCUSDT
+ * Bid Price: 59933.6
+ * Ask Price: 59935.7
+ * Last Price: 59938
  * Last Tick Direction: ZeroMinusTick
- * Prev Price 24 hours: 8.667
- * Prev Price 24 hours(%): -0.044017
- * High Price 24 hours: 8.667
- * Low Price 24 hours: 7.505
- * Prev price 1 hour: 8.254
- * Mark Price: 8.2872
- * Index Price: 8.2919
- * Open Interest: 403884.9
- * Open Interest Value: 3347074.94
- * Turnover 24 hours: 12624160.9399
- * Volume 24 hours: 1535221.53
- * Funding Rate: 2.8E-5
- * Next Funding Time: 2023-05-10 00:00:00
+ * Prev Price 24 hours: 58627.5
+ * Prev Price 24 hours(%): 0.022352
+ * High Price 24 hours: 63074.5
+ * Low Price 24 hours: 58267.4
+ * Prev price 1 hour: 59997
+ * Mark Price: 59938
+ * Index Price: 59957.26
+ * Open Interest: 208384.158
+ * Open Interest Value: 12490129662.2
+ * Turnover 24 hours: 2907929540.5417
+ * Volume 24 hours: 48504.964
+ * Funding Rate: 8.407E-5
+ * Next Funding Time: 2024-07-15 00:00:00
  * Predicted Delivery Price: 0
  * Basis Rate: 0
  * Delivery Fee Rate: 0
- * Delivery Time: 1970-01-01 00:00:00
+ * Open Interests Value: 12490129662.2 
  */
 ```  
 
-<p align="center" width="100%"><b>REQUEST PARAMETERS</b></p>
+<br />
+
+<h3 width="100%"><b>REQUEST PARAMETERS</b></h3>
 
 ---
 
 ```php
-\Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Request\TickerInfoRequest::class
+namespace Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces;
 
-$options = (new TickerInfoRequest())
-    ->setSymbol("APTUSDT"); // Trading pair
+interface ITickerInfoRequestInterface
+{
+    /**
+     * Symbol name
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
+    public function getSymbol(): string;
+}
 ```  
 
 <table style="width: 100%">
@@ -114,39 +128,31 @@ $options = (new TickerInfoRequest())
   </tr>
 </table>
 
-<p align="center" width="100%"><b>RESPONSE STRUCTURE</b></p>
+<br />
+
+<h3 width="100%"><b>RESPONSE STRUCTURE</b></h3>
 
 ---
 
 ```php
-\Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces\ITickerInfoResponse::class;
+namespace Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces;
 
-interface ITickerInfoResponse
-{    
-    public function getSymbol(): string; // Trading pair
-    public function getBidPrice(): float; // Best selling price
-    public function getAskPrice(): float; // Best purchase price
-    public function getLastPrice(): float; // Last transaction price
-    public function getLastTickDirection(): string; // Direction of last price change
-    public function getPrevPrice24h(): float; // Price 24 hours ago
-    public function getPrice24hPcnt(): float; // Price change over the last 24 hours as a percentage
-    public function getHighPrice24h(): float; // Maximum price for 24 hours
-    public function getLowPrice24h(): float; // Minimum price for 24 hours
-    public function getPrevPrice1h(): float; // Hourly market price an hour ago
-    public function getMarkPrice(): float; // Marking price (liquidation occurs according to this indicator)
-    public function getIndexPrice(): float; // Index price
-    public function getOpenInterests(): float; // Open interest volume for a trading pair
-    public function getTurnover24h(): float; // Turnover in 24 hours
-    public function getVolume24h(): float; // Cumulative volume for 24 hours
-    public function getFundingRate(): float; // Funding rate
-    public function getNextFundingTime(): \DateTime; // Time of next funding rate debit
+use Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Response\TickerInfoResponseItem;
+
+interface ITickerInfoResponseInterface
+{
+    /**
+     * @return null|TickerInfoResponseItem
+     */
+    public function getTickerInfo(): ?TickerInfoResponseItem;
 }
 ```
+
 <table style="width: 100%">
   <tr>
     <td colspan="3">
         <sup><b>INTERFACE</b></sup> <br />
-        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces\ITickerInfoResponse::class</b>
+        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces\ITickerInfoResponseInterface::class</b>
     </td>
   </tr>
   <tr>
@@ -161,119 +167,284 @@ interface ITickerInfoResponse
     <th style="width: 60%; text-align: center">Description</th>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getSymbol()</td>
+    <td>ITickerInfoResponseInterface::getTickerInfo()</td>
+    <td>?TickerInfoResponseItem</td>
+    <td>Ticker info data</td>
+  </tr>
+</table>
+
+---
+
+```php
+namespace Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces;
+
+interface ITickerInfoResponseItemInterface
+{
+    /**
+     * Symbol name
+     * @return string
+     */
+    public function getSymbol(): string;
+
+    /**
+     * Best bid price
+     * @return float
+     */
+    public function getBidPrice(): float;
+
+    /**
+     * Best ask price
+     * @return float
+     */
+    public function getAskPrice(): float;
+
+    /**
+     * Last transaction price
+     * @return float
+     */
+    public function getLastPrice(): float;
+
+    /**
+     * Direction of price change
+     * @return string
+     */
+    public function getLastTickDirection(): string;
+
+    /**
+     * Price of 24 hours ago
+     * @return float
+     */
+    public function getPrevPrice24h(): float;
+
+    /**
+     * Percentage change of market price relative to 24h
+     * @return float
+     */
+    public function getPrice24hPcnt(): float;
+
+    /**
+     * The highest price in the last 24 hours
+     * @return float
+     */
+    public function getHighPrice24h(): float;
+
+    /**
+     * Lowest price in the last 24 hours
+     * @return float
+     */
+    public function getLowPrice24h(): float;
+
+    /**
+     * Hourly market price an hour ago
+     * @return float
+     */
+    public function getPrevPrice1h(): float;
+
+    /**
+     * Mark price
+     * @return float
+     */
+    public function getMarkPrice(): float;
+
+    /**
+     * Index price
+     * @return float
+     */
+    public function getIndexPrice(): float;
+
+    /**
+     * Open interest
+     * @return float
+     */
+    public function getOpenInterests(): float;
+
+    /**
+     * Turnover in the last 24 hours
+     * @return float
+     */
+    public function getTurnover24h(): float;
+
+    /**
+     * Trading volume in the last 24 hours
+     * @return float
+     */
+    public function getVolume24h(): float;
+
+    /**
+     * Funding rate
+     * @return float
+     */
+    public function getFundingRate(): float;
+
+    /**
+     * Next timestamp for funding to settle
+     * @return \DateTime
+     */
+    public function getNextFundingTime(): \DateTime;
+
+    /**
+     * Predicted delivery price. It has value when 30 min before delivery
+     * @return float
+     */
+    public function getPredictedDeliveryPrice(): float;
+
+    /**
+     * Basis rate for futures
+     * @return float
+     */
+    public function getBasisRate(): float;
+
+    /**
+     * Delivery fee rate
+     * @return float
+     */
+    public function getDeliveryFeeRate(): float;
+
+    /**
+     * Delivery timestamp
+     * @return \DateTime
+     */
+    public function getDeliveryTime(): \DateTime;
+
+    /**
+     * Open interest value
+     * @return float
+     */
+    public function getOpenInterestValue(): float;
+}
+```
+<table style="width: 100%">
+  <tr>
+    <td colspan="3">
+        <sup><b>INTERFACE</b></sup> <br />
+        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces\ITickerInfoResponseItemInterface::class</b>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">
+        <sup><b>DTO</b></sup> <br />
+        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Response\TickerInfoResponseItem::class</b>
+    </td>
+  </tr>
+  <tr>
+    <th style="width: 20%; text-align: center">Method</th>
+    <th style="width: 20%; text-align: center">Type</th>
+    <th style="width: 60%; text-align: center">Description</th>
+  </tr>
+  <tr>
+    <td>ITickerInfoResponseItemInterface::getSymbol()</td>
     <td>string</td>
     <td>
       Trading pair
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getBidPrice()</td>
+    <td>ITickerInfoResponseItemInterface::getBidPrice()</td>
     <td>float</td>
     <td>
       Best selling price
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getAskPrice()</td>
+    <td>ITickerInfoResponseItemInterface::getAskPrice()</td>
     <td>float</td>
     <td>
       Best purchase price
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getLastPrice()</td>
+    <td>ITickerInfoResponseItemInterface::getLastPrice()</td>
     <td>float</td>
     <td>
       Last transaction price
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getLastTickDirection()</td>
+    <td>ITickerInfoResponseItemInterface::getLastTickDirection()</td>
     <td>string</td>
     <td>
       Direction of last price change
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getPrevPrice24h()</td>
+    <td>ITickerInfoResponseItemInterface::getPrevPrice24h()</td>
     <td>float</td>
     <td>
       Price 24 hours ago
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getPrice24hPcnt()</td>
+    <td>ITickerInfoResponseItemInterface::getPrice24hPcnt()</td>
     <td>float</td>
     <td>
       Price change over the last 24 hours as a percentage
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getHighPrice24h()</td>
+    <td>ITickerInfoResponseItemInterface::getHighPrice24h()</td>
     <td>float</td>
     <td>
       Maximum price for 24 hours
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getLowPrice24h()</td>
+    <td>ITickerInfoResponseItemInterface::getLowPrice24h()</td>
     <td>float</td>
     <td>
       Minimum price for 24 hours
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getPrevPrice1h()</td>
+    <td>ITickerInfoResponseItemInterface::getPrevPrice1h()</td>
     <td>float</td>
     <td>
       Hourly market price an hour ago
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getMarkPrice()</td>
+    <td>ITickerInfoResponseItemInterface::getMarkPrice()</td>
     <td>float</td>
     <td>
       Marking price (liquidation occurs according to this indicator)
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getIndexPrice()</td>
+    <td>ITickerInfoResponseItemInterface::getIndexPrice()</td>
     <td>float</td>
     <td>
       Index price
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getOpenInterests()</td>
+    <td>ITickerInfoResponseItemInterface::getOpenInterests()</td>
     <td>float</td>
     <td>
       Open interest volume for a trading pair
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getTurnover24h()</td>
+    <td>ITickerInfoResponseItemInterface::getTurnover24h()</td>
     <td>float</td>
     <td>
       Turnover in 24 hours
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getVolume24h()</td>
+    <td>ITickerInfoResponseItemInterface::getVolume24h()</td>
     <td>float</td>
     <td>
       Cumulative volume for 24 hours
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getFundingRate()</td>
+    <td>ITickerInfoResponseItemInterface::getFundingRate()</td>
     <td>float</td>
     <td>
       Funding rate
     </td>
   </tr>
   <tr>
-    <td>ITickerInfoResponse::getNextFundingTime()</td>
+    <td>ITickerInfoResponseItemInterface::getNextFundingTime()</td>
     <td>DateTime</td>
     <td>
       Time of next funding rate debit

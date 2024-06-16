@@ -3,12 +3,37 @@
 
 <p>Запрос изменяет режим маржи (Кросс или Изолированная)</p>
 
-<p align="center" width="100%"><b>ПРИМЕР</b></p>
+<br />
 
-<p align="center" width="100%"><b> --- </b></p>
+<h3 align="left" width="100%"><b>ПРИМЕР ВЫЗОВА</b></h3>
 
+```php
+use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchCrossIsolatedMargin\Request\SwitchCrossIsolatedMarginRequest;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchCrossIsolatedMargin\SwitchCrossIsolatedMargin;
 
-<p align="center" width="100%"><b>ПАРАМЕТРЫ ЗАПРОСА</b></p>
+$bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'apiKey', 'apiSecret');
+
+$isSwitchCrossMargin = $bybit->privateEndpoint(SwitchCrossIsolatedMargin::class, (new SwitchCrossIsolatedMarginRequest())
+    ->setSymbol('BTCUSDT')
+    ->setSellLeverage(6)
+    ->setBuyLeverage(6)
+)->execute();
+
+if ($isSwitchCrossMargin->getReturnCode() == 0) {
+    echo "Success set margin: {$isSwitchCrossMargin->getReturnMessage()}\n";
+} else {
+    echo "Not success set margin: {$isSwitchCrossMargin->getReturnMessage()}\n";
+}
+
+/**
+* Success set cross margin: OK
+*/
+````
+
+<br />
+
+<h3 align="left" width="100%"><b>ПАРАМЕТРЫ ЗАПРОСА</b></h3>
 
 ---
 
@@ -17,12 +42,37 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchCrossIsolatedM
 
 interface ISwitchCrossIsolatedMarginRequestInterface
 {
-     public function setSymbol(string $symbol): self; // Торговая пара
-     public function setTradeMode(int $tradeMode): self; // 0: cross margin. 1: isolated margin
-     public function setBuyLeverage(float $buyLeverage): self; // Установка кредитного плеча направления покупки. Убедитесь, что кредитное плечо покупки равно кредитному плечу продажи.
-     public function setSellLeverage(float $sellLeverage): self; // Установка кредитного плеча направления продажи. Убедитесь, что кредитное плечо покупки равно кредитному плечу продажи.
-    
-     // .. Getters
+    /**
+     * Торговая пара
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
+    public function getSymbol(): string;
+
+    /**
+     * 0: cross margin. 1: isolated margin
+     * @param int $tradeMode
+     * @return self
+     */
+    public function setTradeMode(int $tradeMode): self;
+    public function getTradeMode(): int;
+
+    /**
+     * Установка кредитного плеча направления покупки. Убедитесь, что кредитное плечо покупки равно кредитному плечу продажи.
+     * @param float $buyLeverage
+     * @return self
+     */
+    public function setBuyLeverage(float $buyLeverage): self;
+    public function getBuyLeverage(): float;
+
+    /**
+     * Установка кредитного плеча направления продажи. Убедитесь, что кредитное плечо покупки равно кредитному плечу продажи.
+     * @param float $sellLeverage
+     * @return self
+     */
+    public function setSellLeverage(float $sellLeverage): self;
+    public function getSellLeverage(): float;
 }
 ```
 
@@ -66,7 +116,7 @@ interface ISwitchCrossIsolatedMarginRequestInterface
    </tr>
 </table>
 
-<p align="center" width="100%"><b>СТРУКТУРА ОТВЕТА</b></p>
+<h3 align="left" width="100%"><b>СТРУКТУРА ОТВЕТА</b></h3>
 
 ---
 

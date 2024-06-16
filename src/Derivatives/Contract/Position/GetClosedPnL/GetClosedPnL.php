@@ -13,13 +13,13 @@ class GetClosedPnL extends PrivateEndpoint implements IGetEndpointInterface
         return "/contract/v3/private/position/closed-pnl";
     }
 
-    protected function getResponseClassname(): string
-    {
-        return GetClosedPnLResponse::class;
-    }
-
     protected function getRequestClassname(): string
     {
         return GetClosedPnLRequest::class;
+    }
+
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
+    {
+        return GetClosedPnLResponse::class;
     }
 }

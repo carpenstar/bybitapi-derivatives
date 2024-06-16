@@ -13,7 +13,7 @@ class CancelAllOrder extends PrivateEndpoint implements IPostEndpointInterface
         return "/contract/v3/private/order/cancel-all";
     }
 
-    protected function getResponseClassname(): string
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
     {
         return CancelAllOrderResponse::class;
     }

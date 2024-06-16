@@ -1,16 +1,14 @@
 <?php
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Request;
 
-use Carpenstar\ByBitAPI\Core\Enums\DerivativesCategoryEnum;
 use Carpenstar\ByBitAPI\Core\Enums\EnumDerivativesCategory;
 use Carpenstar\ByBitAPI\Core\Enums\EnumIntervals;
-use Carpenstar\ByBitAPI\Core\Enums\IntervalEnum;
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
 use Carpenstar\ByBitAPI\Core\Helpers\StringHelper;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
-use Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Interfaces\IIndexPriceKlineRequest;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Interfaces\IIndexPriceKlineRequestInterface;
 
-class IndexPriceKlineRequest extends AbstractParameters implements IIndexPriceKlineRequest
+class IndexPriceKlineRequest extends AbstractParameters implements IIndexPriceKlineRequestInterface
 {
     /**
      * Product type. linear,inverse. Default: linear, but in the response category shows
@@ -32,15 +30,15 @@ class IndexPriceKlineRequest extends AbstractParameters implements IIndexPriceKl
 
     /**
      * The start timestamp (ms)
-     * @var \DateTime $startTime
+     * @var int $start
      */
-    protected \DateTime $startTime;
+    protected int $start;
 
     /**
      * The end timestamp (ms)
-     * @var \DateTime $endTime
+     * @var int $end
      */
-    protected \DateTime $endTime;
+    protected int $end;
 
     /**
      * Limit for data size per page. [1, 200]. Default: 200
@@ -53,8 +51,8 @@ class IndexPriceKlineRequest extends AbstractParameters implements IIndexPriceKl
         $this
             ->setRequiredField('symbol')
             ->setRequiredField('interval')
-            ->setRequiredField('startTime')
-            ->setRequiredField('endTime');
+            ->setRequiredField('start')
+            ->setRequiredField('end');
     }
 
     /**
@@ -102,39 +100,39 @@ class IndexPriceKlineRequest extends AbstractParameters implements IIndexPriceKl
     }
 
     /**
-     * @param int $startTime
+     * @param string $start
      * @return IndexPriceKlineRequest
      */
-    public function setStartTime(int $startTime): self
+    public function setStart(string $start): self
     {
-        $this->startTime = DateTimeHelper::makeFromTimestamp($startTime);
+        $this->start = DateTimeHelper::makeTimestampFromDateString($start);
         return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return int
      */
-    public function getStartTime(): \DateTime
+    public function getStart(): int
     {
-        return $this->startTime;
+        return $this->start;
     }
 
     /**
-     * @param int $endTime
+     * @param string $end
      * @return IndexPriceKlineRequest
      */
-    public function setEndTime(int $endTime): self
+    public function setEnd(string $end): self
     {
-        $this->endTime = DateTimeHelper::makeFromTimestamp($endTime);
+        $this->end = DateTimeHelper::makeTimestampFromDateString($end);
         return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return int
      */
-    public function getEndTime(): \DateTime
+    public function getEnd(): int
     {
-        return $this->endTime;
+        return $this->end;
     }
 
     /**

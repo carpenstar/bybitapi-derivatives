@@ -3,8 +3,9 @@ namespace Carpenstar\ByBitAPI\Derivatives\MarketData\FundingRateHistory\Request;
 
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\FundingRateHistory\Interfaces\IFundingRateHistoryRequestInterface;
 
-class FundingRateHistoryRequest extends AbstractParameters
+class FundingRateHistoryRequest extends AbstractParameters implements IFundingRateHistoryRequestInterface
 {
     /**
      * Product type. linear

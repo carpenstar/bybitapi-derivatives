@@ -11,26 +11,13 @@ class ReplaceOrderResponse extends AbstractResponse implements IReplaceOrderResp
 
     public function __construct(array $data)
     {
-        $this
-            ->setOrderId($data['orderId'])
-            ->setOrderLinkId($data['orderLinkId']);
-    }
-
-    private function setOrderId(string $orderId): self
-    {
-        $this->orderId = $orderId;
-        return $this;
+        $this->orderId = $data['orderId'];
+        $this->orderLinkId = $data['orderLinkId'];
     }
 
     public function getOrderId(): string
     {
         return $this->orderId;
-    }
-
-    private function setOrderLinkId(string $orderLinkId): self
-    {
-        $this->orderLinkId = $orderLinkId;
-        return $this;
     }
 
     public function getOrderLinkId(): string

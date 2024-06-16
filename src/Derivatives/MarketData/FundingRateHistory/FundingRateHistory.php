@@ -18,7 +18,7 @@ class FundingRateHistory extends PublicEndpoint implements IGetEndpointInterface
         return FundingRateHistoryRequest::class;
     }
 
-    protected function getResponseClassname(): string
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
     {
         return FundingRateHistoryResponse::class;
     }

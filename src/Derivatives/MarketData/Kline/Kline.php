@@ -22,7 +22,7 @@ class Kline extends PublicEndpoint implements IGetEndpointInterface
         return KlineRequest::class;
     }
 
-    public function getResponseClassname(): string
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
     {
         return KlineResponse::class;
     }

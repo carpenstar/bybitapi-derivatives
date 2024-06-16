@@ -13,13 +13,13 @@ class GetOpenOrders extends PrivateEndpoint implements IGetEndpointInterface
         return "/contract/v3/private/order/unfilled-orders";
     }
 
-    protected function getResponseClassname(): string
-    {
-        return GetOpenOrdersResponse::class;
-    }
-
     protected function getRequestClassname(): string
     {
         return GetOpenOrdersRequest::class;
+    }
+
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
+    {
+        return GetOpenOrdersResponse::class;
     }
 }

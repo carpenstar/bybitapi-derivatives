@@ -4,12 +4,40 @@
 If you are in one-way mode, you can only open one position on the buy or sell side. <br />
 If you are in hedging mode, you can open buy and sell positions simultaneously.</p>
 
-<p align="center" width="100%"><b>EXAMPLE</b></p>
+<br />
 
-<p align="center" width="100%"><b> --- </b></p>
+<h3 align="left" width="100%"><b>EXAMPLE</b></h3>
 
+---
 
-<p align="center" width="100%"><b>REQUEST PARAMETERS</b></p>
+````php
+use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\Request\SwitchPositionModeRequest;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\SwitchPositionMode;
+
+$bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'apiKey', 'apiSecret');
+
+$isSwitchCrossMargin = $bybit->privateEndpoint(SwitchPositionMode::class, (new SwitchPositionModeRequest())
+    ->setSymbol('BTCUSDT')
+    ->setMode(3)
+)->execute();
+
+if ($isSwitchCrossMargin->getReturnCode() == 0) {
+    echo "Success set position mode: {$isSwitchCrossMargin->getReturnMessage()}\n";
+} else {
+    echo "Failed set position mode: {$isSwitchCrossMargin->getReturnMessage()}\n";
+}
+
+/**
+* Success set position mode: OK
+* ----- OR
+* Failed set position mode: symbol has order, can not switch mode
+*/
+````
+
+<br />
+
+<h3 align="left" width="100%"><b>REQUEST PARAMETERS</b></h3>
 
 ---
 
@@ -18,11 +46,29 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\I
 
 interface ISwitchPositionModeRequestInterface
 {
-     public function setSymbol(string $symbol): self; // Trading pair
-     public function setCoin(string $coin): self; // Coin
-     public function setPositionMode(int $positionMode): self; // Position mode. 0: Merged Single. 3: Both Side
-    
-     // .. Getters
+    /**
+     * Symbol name. Either symbol or coin is required. symbol has a higher priority
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
+    public function getSymbol(): string;
+
+    /**
+     * Coin
+     * @param string $coin
+     * @return self
+     */
+    public function setCoin(string $coin): self;
+    public function getCoin(): string;
+
+    /**
+     * Position mode. 0: Merged Single. 3: Both Side
+     * @param int $positionMode
+     * @return self
+     */
+    public function setMode(int $positionMode): self;
+    public function getMode(): int;
 }
 ```
 
@@ -46,12 +92,12 @@ interface ISwitchPositionModeRequestInterface
    </tr>
    <tr>
      <td>ISwitchPositionModeRequestInterface::setSymbol(string $symbol)</td>
-     <td>NO</td>
+     <td><b>YES</b></td>
      <td>Trading pair</td>
    </tr>
    <tr>
      <td>ISwitchPositionModeRequestInterface::setCoin(string $coin)</td>
-     <td>NO</td>
+     <td><b>YES</b></td>
      <td> Coin </td>
    </tr>
    <tr>
@@ -61,7 +107,9 @@ interface ISwitchPositionModeRequestInterface
    </tr>
 </table>
 
-<p align="center" width="100%"><b>RESPONSE STRUCTURE</b></p>
+<br />
+
+<h3 align="left" width="100%"><b>RESPONSE STRUCTURE</b></h3>
 
 ---
 

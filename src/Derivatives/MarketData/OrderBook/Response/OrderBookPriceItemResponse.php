@@ -2,8 +2,9 @@
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\OrderBook\Response;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\OrderBook\Interfaces\IOrderBookResponsePriceItemInterface;
 
-class OrderBookPriceItemResponse extends AbstractResponse
+class OrderBookPriceItemResponse extends AbstractResponse implements IOrderBookResponsePriceItemInterface
 {
     /**
      * @var float $price
@@ -17,20 +18,8 @@ class OrderBookPriceItemResponse extends AbstractResponse
 
     public function __construct(array $data)
     {
-
-        $this
-            ->setPrice($data[0])
-            ->setQuantity($data[1]);
-    }
-
-    /**
-     * @param float $price
-     * @return self
-     */
-    private function setPrice(float $price): self
-    {
-        $this->price = $price;
-        return $this;
+        $this->price = $data[0];
+        $this->quantity = $data[1];
     }
 
     /**
@@ -39,16 +28,6 @@ class OrderBookPriceItemResponse extends AbstractResponse
     public function getPrice(): float
     {
         return $this->price;
-    }
-
-    /**
-     * @param float $quantity
-     * @return self
-     */
-    private function setQuantity(float $quantity): self
-    {
-        $this->quantity = $quantity;
-        return $this;
     }
 
     /**

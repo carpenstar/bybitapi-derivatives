@@ -18,7 +18,7 @@ class TickerInfo extends PublicEndpoint implements IGetEndpointInterface
         return TickerInfoRequest::class;
     }
 
-    protected function getResponseClassname(): string
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
     {
         return TickerInfoResponse::class;
     }

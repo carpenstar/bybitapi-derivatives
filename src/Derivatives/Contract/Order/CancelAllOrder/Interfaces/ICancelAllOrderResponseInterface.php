@@ -3,6 +3,8 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelAllOrder\Interfac
 
 interface ICancelAllOrderResponseInterface
 {
-    public function getOrderId(): string;
-    public function getOrderLinkId(): string;
+    /**
+     * @return ICancelAllOrderResponseItemInterface[]
+     */
+    public function getCancelOrdersList(): array;
 }

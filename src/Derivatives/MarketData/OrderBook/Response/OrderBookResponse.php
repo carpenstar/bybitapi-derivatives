@@ -3,9 +3,9 @@ namespace Carpenstar\ByBitAPI\Derivatives\MarketData\OrderBook\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
-use Carpenstar\ByBitAPI\Core\Interfaces\ICollectionInterface;
 use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\OrderBook\Interfaces\IOrderBookResponsePriceItemInterface;
 
 class OrderBookResponse extends AbstractResponse
 {
@@ -15,31 +15,22 @@ class OrderBookResponse extends AbstractResponse
 
     private int $updateId;
 
-    private ICollectionInterface $bid;
+    private EntityCollection $bid;
 
-    private ICollectionInterface $ask;
+    private EntityCollection $ask;
 
     public function __construct(array $data)
     {
         $this->bid = new EntityCollection();
         $this->ask = new EntityCollection();
 
+        $this->symbol = $data['s'];
+        $this->timestamp = DateTimeHelper::makeFromTimestamp($data['ts']);
+        $this->updateId = $data['u'];
+
         $this
-            ->setSymbol($data['s'])
-            ->setTimestamp($data['ts'])
-            ->setUpdateId($data['u'])
             ->setBid($data['b'])
             ->setAsk($data['a']);
-    }
-
-    /**
-     * @param string $symbol
-     * @return self
-     */
-    private function setSymbol(string $symbol): self
-    {
-        $this->symbol = $symbol;
-        return $this;
     }
 
     /**
@@ -51,31 +42,11 @@ class OrderBookResponse extends AbstractResponse
     }
 
     /**
-     * @param int $timestamp
-     * @return self
-     */
-    private function setTimestamp(int $timestamp): self
-    {
-        $this->timestamp = DateTimeHelper::makeFromTimestamp($timestamp);
-        return $this;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getTimestamp(): \DateTime
     {
         return $this->timestamp;
-    }
-
-    /**
-     * @param $updateId
-     * @return self
-     */
-    private function setUpdateId($updateId): self
-    {
-        $this->updateId = $updateId;
-        return $this;
     }
 
     /**
@@ -100,11 +71,11 @@ class OrderBookResponse extends AbstractResponse
     }
 
     /**
-     * @return ICollectionInterface
+     * @return IOrderBookResponsePriceItemInterface[]
      */
-    public function getBid(): ICollectionInterface
+    public function getBid(): ?array
     {
-        return $this->bid;
+        return $this->bid->all();
     }
 
     private function setAsk(?array $asks = []): self
@@ -121,17 +92,10 @@ class OrderBookResponse extends AbstractResponse
     }
 
     /**
-     * @return ICollectionInterface
+     * @return IOrderBookResponsePriceItemInterface[]
      */
-    public function getAsk(): ICollectionInterface
+    public function getAsk(): ?array
     {
-        return $this->ask;
+        return $this->ask->all();
     }
 }
-
-/**
- * s
-b	string	Bid. Order by price asc
-a	string	Ask. Order by price asc
-
- */

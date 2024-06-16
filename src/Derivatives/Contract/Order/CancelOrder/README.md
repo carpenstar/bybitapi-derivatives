@@ -4,13 +4,43 @@
 
 > You can cancel the specified partially completed order.
 
-<p align="center" width="100%"><b>EXAMPLE</b></p>
+<br />
 
-<p align="center" width="100%"><b> ... </b></p>
+<h3 align="left" width="100%"><b>EXAMPLE</b></h3>
 
 ---
 
-<p align="center" width="100%"><b>REQUEST PARAMETERS</b></p>
+```php
+    use Carpenstar\ByBitAPI\BybitAPI;
+    use Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelOrder\CancelOrder;
+    use Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelOrder\Request\CancelOrderRequest;
+    use Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelOrder\Response\CancelOrderResponse;
+
+    $bybitApi = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'apiKey', 'apiSecret');
+
+    $cancelOrderResponse = $bybitApi->privateEndpoint(CancelOrder::class,
+        (new CancelOrderRequest())->setSymbol('BTCUSDT')->setOrderId('78b869b7-f682-41fe-9edc-dc2dfaaf8d79'))->execute();
+
+    echo "Return code: {$cancelOrderResponse->getReturnCode()} \n";
+    echo "Return message: {$cancelOrderResponse->getReturnMessage()} \n";
+
+    /** @var CancelOrderResponse $cancelOrderInfo */
+    $cancelOrderInfo = $cancelOrderResponse->getResult();
+
+    echo "Order ID: {$cancelOrderInfo->getOrderId()} \n";
+    echo "Order Link ID: {$cancelOrderInfo->getOrderLinkId()} \n";
+
+    /**
+    * Return code: 0
+    * Return message: OK 
+    * Order ID: 78b869b7-f682-41fe-9edc-dc2dfaaf8d79 
+    * Order Link ID:
+    */
+```
+
+<br />
+
+<h3 align="left" width="100%"><b>REQUEST PARAMETERS</b></h3>
 
 ---
 
@@ -19,11 +49,28 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelOrder\Interfaces;
 
 interface ICancelOrderRequestInterface
 {
-    public function setSymbol(string $symbol): self; // Trading pair
-    public function setOrderId(string $orderId): self; // Order ID
-    public function setOrderLinkId(string $orderLinkId): self; // Custom order ID
+    /**
+     * Order id. Either orderId or orderLinkId is required
+     * @return string
+     */
+    public function getOrderId(): string;
+    public function getOrderLinkId(): string;
     
-    // ... Getters
+    /**
+     * User customised order id. Either orderId or orderLinkId is required
+     * @param string $orderLinkId
+     * @return self
+     */
+    public function setOrderLinkId(string $orderLinkId): self;
+    public function setOrderId(string $orderId): self;
+
+    /**
+     * Symbol name
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
+    public function getSymbol(): string;
 }
 ```
 
@@ -52,17 +99,19 @@ interface ICancelOrderRequestInterface
   </tr>
   <tr>
     <td>ICancelOrderRequestInterface::setOrderId(string $orderId)</td>
-    <td>NO</td>
+    <td>NO (if specified orderLinkId)</td>
     <td>Order ID</td>
   </tr>
   <tr>
     <td>ICancelOrderRequestInterface::setOrderLinkId(string $orderLinkId)</td>
-    <td>NO</td>
+    <td>NO (if specified orderId)</td>
     <td>Custom order ID</td>
   </tr>
 </table>
 
-<p align="center" width="100%"><b>RESPONSE STRUCTURE</b></p>
+<br />
+
+<h3 align="left" width="100%"><b>RESPONSE STRUCTURE</b></h3>
 
 ---
 
@@ -71,8 +120,17 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelOrder\Interfaces;
 
 interface ICancelOrderResponseInterface
 {
-    public function getOrderId(): string; // Order ID
-    public function getOrderLinkId(): string; // Custom Order ID
+    /**
+    * Order ID
+    * @return string
+    */
+    public function getOrderId(): string; 
+    
+    /**
+    * Order Link ID
+    * @return string
+    */
+    public function getOrderLinkId(): string;
 }
 ```
 <table style="width: 100%">

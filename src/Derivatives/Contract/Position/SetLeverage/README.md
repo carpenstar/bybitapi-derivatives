@@ -2,11 +2,41 @@
 <b>[Official documentation](https://bybit-exchange.github.io/docs/derivatives/contract/leverage)</b>
 <p>Set position leverage</p>
 
-<p align="center" width="100%"><b>EXAMPLE</b></p>
+<br />
 
-<p align="center" width="100%"><b> --- </b></p>
+<h3 align="left" width="100%"><b>EXAMPLE</b></h3>
 
-<p align="center" width="100%"><b>REQUEST PARAMETERS</b></p>
+---
+
+```php
+use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetLeverage\Request\SetLeverageRequest;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetLeverage\SetLeverage;
+
+$bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'apiKey', 'apiSecret');
+
+$isSetAutoAddMargin = $bybit->privateEndpoint(SetLeverage::class, (new SetLeverageRequest())
+    ->setSymbol('BTCUSDT')
+    ->setSellLeverage(5)
+    ->setBuyLeverage(5)
+)->execute();
+
+if ($isSetAutoAddMargin->getReturnCode() == 0) {
+    echo "Success set leverage: {$isSetAutoAddMargin->getReturnMessage()}\n";
+} else {
+    echo "Not success set leverage: {$isSetAutoAddMargin->getReturnMessage()}\n";
+}
+
+/**
+ * Success set leverage: OK
+ * ---- OR
+ * Not success set leverage: leverage not modified
+*/
+````
+
+<br />
+
+<h3 align="left" width="100%"><b>REQUEST PARAMETERS</b></h3>
 
 ---
 
@@ -15,11 +45,29 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetLeverage\Interfac
 
 interface ISetLeverageRequestInterface
 {
-     public function setSymbol(string $symbol): self; // Trading pair
-     public function setBuyLeverage(float $buyLeverage): self; // (0, max leverage of corresponding risk limit]. For one-way mode, make sure buyLeverage=sellLeverage
-     public function setSellLeverage(float $sellLeverage): self; // (0, max leverage of corresponding risk limit]. For one-way mode, make sure buyLeverage=sellLeverage 
-    
-     // .. Getters
+    /**
+     * Symbol name
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
+    public function getSymbol(): string;
+
+    /**
+     * (0, max leverage of corresponding risk limit]. For one-way mode, make sure buyLeverage=sellLeverage
+     * @param float $buyLeverage
+     * @return self
+     */
+    public function setBuyLeverage(float $buyLeverage): self;
+    public function getBuyLeverage(): float;
+
+    /**
+     * (0, max leverage of corresponding risk limit]. For one-way mode, make sure buyLeverage=sellLeverage
+     * @param float $sellLeverage
+     * @return self
+     */
+    public function setSellLeverage(float $sellLeverage): self;
+    public function getSellLeverage(): float;
 }
 ```
 
@@ -58,7 +106,9 @@ interface ISetLeverageRequestInterface
    </tr>
 </table>
 
-<p align="center" width="100%"><b>RESPONSE STRUCTURE</b></p>
+<br />
+
+<h3 align="left" width="100%"><b>RESPONSE STRUCTURE</b></h3>
 
 ---
 

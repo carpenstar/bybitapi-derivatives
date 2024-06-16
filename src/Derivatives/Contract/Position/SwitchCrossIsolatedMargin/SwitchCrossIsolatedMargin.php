@@ -13,13 +13,13 @@ class SwitchCrossIsolatedMargin extends PrivateEndpoint implements IPostEndpoint
         return "/contract/v3/private/position/switch-isolated";
     }
 
-    protected function getResponseClassname(): string
-    {
-        return SwitchCrossIsolatedMarginResponse::class;
-    }
-
     protected function getRequestClassname(): string
     {
         return SwitchCrossIsolatedMarginRequest::class;
+    }
+
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
+    {
+        return SwitchCrossIsolatedMarginResponse::class;
     }
 }

@@ -22,10 +22,7 @@ class InstrumentInfo extends PublicEndpoint implements IGetEndpointInterface
         return InstrumentInfoRequest::class;
     }
 
-    /**
-     * @return string
-     */
-    protected function getResponseClassname(): string
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
     {
         return InstrumentInfoResponse::class;
     }

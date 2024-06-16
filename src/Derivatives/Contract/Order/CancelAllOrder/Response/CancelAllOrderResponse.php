@@ -1,63 +1,37 @@
 <?php
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelAllOrder\Response;
 
+use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
+use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelAllOrder\Interfaces\ICancelAllOrderResponseInterface;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelAllOrder\Interfaces\ICancelAllOrderResponseItemInterface;
 
 class CancelAllOrderResponse extends AbstractResponse implements ICancelAllOrderResponseInterface
 {
     /**
-     * Order id
-     * @var string $orderId
+     * @var ICancelAllOrderResponseItemInterface[]
      */
-    private string $orderId;
-
-    /**
-     * User customised order id
-     * @var string $orderLinkId
-     */
-    private string $orderLinkId;
+    private EntityCollection $list;
 
     public function __construct(array $data)
     {
-        $this
-            ->setOrderId($data['orderId'])
-            ->setOrderLinkId($data['orderLinkId']);
+        $list = new EntityCollection();
+
+        if (!empty($data['list'])) {
+            array_map(function ($item) use ($list) {
+                $list->push(ResponseDtoBuilder::make(CancelAllOrderResponseItem::class, $item));
+            }, $data['list']);
+        }
+
+        $this->list = $list;
     }
 
     /**
-     * @return string
+     * @return ICancelAllOrderResponseItemInterface[]
      */
-    public function getOrderId(): string
+    public function getCancelOrdersList(): array
     {
-        return $this->orderId;
-    }
-
-    /**
-     * @param string $orderId
-     * @return CancelAllOrderResponse
-     */
-    public function setOrderId(string $orderId): self
-    {
-        $this->orderId = $orderId;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOrderLinkId(): string
-    {
-        return $this->orderLinkId;
-    }
-
-    /**
-     * @param string $orderLinkId
-     * @return CancelAllOrderResponse
-     */
-    private function setOrderLinkId(string $orderLinkId): self
-    {
-        $this->orderLinkId = $orderLinkId;
-        return $this;
+        return $this->list->all();
     }
 }

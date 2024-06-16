@@ -15,6 +15,8 @@ class RiskLimitsRequest extends AbstractParameters implements IRiskLimitsRequest
 
     protected string $symbol;
 
+    protected ?string $cursor;
+
     public function setSymbol(string $symbol): self
     {
         $this->symbol = $symbol;
@@ -35,5 +37,16 @@ class RiskLimitsRequest extends AbstractParameters implements IRiskLimitsRequest
     public function getCategory(): string
     {
         return $this->category;
+    }
+
+    public function setCursor(string $cursor): self
+    {
+        $this->cursor = $cursor;
+        return $this;
+    }
+
+    public function getCursor(): string
+    {
+        return $this->cursor;
     }
 }

@@ -4,8 +4,9 @@ namespace Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Request;
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
 use Carpenstar\ByBitAPI\Core\Helpers\StringHelper;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Interfaces\IMarkPriceKlineRequestInterface;
 
-class MarkPriceKlineRequest extends AbstractParameters
+class MarkPriceKlineRequest extends AbstractParameters implements IMarkPriceKlineRequestInterface
 {
     /**
      * Product type. linear
@@ -26,16 +27,16 @@ class MarkPriceKlineRequest extends AbstractParameters
     protected string $interval;
 
     /**
-     * The start timestamp (ms)
-     * @var \DateTime $startTime
+     * The start datetime string
+     * @var string $start
      */
-    protected \DateTime $startTime;
+    protected int $start;
 
     /**
-     * The end timestamp (ms)
-     * @var \DateTime $endTime
+     * The end datetime string
+     * @var string $end
      */
-    protected \DateTime $endTime;
+    protected int $end;
 
     /**
      * Limit for data size per page. [1, 200]. Default: 200
@@ -48,8 +49,8 @@ class MarkPriceKlineRequest extends AbstractParameters
         $this
             ->setRequiredField('symbol')
             ->setRequiredField('interval')
-            ->setRequiredField('startTime')
-            ->setRequiredField('endTime');
+            ->setRequiredField('start')
+            ->setRequiredField('end');
     }
 
     /**
@@ -97,39 +98,39 @@ class MarkPriceKlineRequest extends AbstractParameters
     }
 
     /**
-     * @param int $startTime
+     * @param string $start
      * @return MarkPriceKlineRequest
      */
-    public function setStartTime(int $startTime): self
+    public function setStart(string $start): self
     {
-        $this->startTime = DateTimeHelper::makeFromTimestamp($startTime);
+        $this->start = DateTimeHelper::makeTimestampFromDateString($start);
         return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return int
      */
-    public function getStartTime(): \DateTime
+    public function getStart(): int
     {
-        return $this->startTime;
+        return $this->start;
     }
 
     /**
-     * @param int $endTime
+     * @param string $end
      * @return MarkPriceKlineRequest
      */
-    public function setEndTime(int $endTime): self
+    public function setEnd(string $end): self
     {
-        $this->endTime = DateTimeHelper::makeFromTimestamp($endTime);
+        $this->end = DateTimeHelper::makeTimestampFromDateString($end);
         return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return int
      */
-    public function getEndTime(): \DateTime
+    public function getEnd(): int
     {
-        return $this->endTime;
+        return $this->end;
     }
 
     /**

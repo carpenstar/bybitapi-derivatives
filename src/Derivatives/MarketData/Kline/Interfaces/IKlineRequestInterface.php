@@ -3,15 +3,49 @@ namespace Carpenstar\ByBitAPI\Derivatives\MarketData\Kline\Interfaces;
 
 interface IKlineRequestInterface
 {
-    public function setSymbol(string $symbol): self;
-    public function setInterval(string $interval): self;
-    public function setStartTime(int $startTime): self;
-    public function setEndTime(int $endTime): self;
-    public function setLimit(int $limit): self;
+    /**
+     * Product type. linear,inverse. Default: linear, but in the response category shows ""
+     * @return string
+     */
     public function getCategory(): string;
+
+    /**
+     * Symbol name
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
     public function getSymbol(): string;
+
+    /**
+     * Kline interval. 1 3 5 15 30 60 120 240 360 720 D M W
+     * @param string $interval
+     * @return self
+     */
+    public function setInterval(string $interval): self;
     public function getInterval(): string;
-    public function getStartTime(): \DateTime;
-    public function getEndTime(): \DateTime;
+
+    /**
+     * The start date string
+     * @param string $start
+     * @return self
+     */
+    public function setStart(string $start): self;
+    public function getStart(): int;
+
+    /**
+     * The end date string
+     * @param string $end
+     * @return self
+     */
+    public function setEnd(string $end): self;
+    public function getEnd(): int;
+
+    /**
+     * Limit for data size per page. [1, 1000]. Default: 200
+     * @param int $limit
+     * @return self
+     */
+    public function setLimit(int $limit): self;
     public function getLimit(): int;
 }

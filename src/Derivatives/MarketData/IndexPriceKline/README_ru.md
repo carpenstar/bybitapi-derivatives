@@ -10,72 +10,68 @@ Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\IndexPriceKline::clas
 ```
 
 <br />
-<p align="center" width="100%"><b>ПРИМЕР</b></p>
+<p align="center" width="100%"><b>ПРИМЕР ВЫЗОВА</b></p>
 
 ---
 
 ```php
 use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Core\Enums\EnumIntervals;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\IndexPriceKline;
-use Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Response\IndexPriceKlineResponse;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Request\IndexPriceKlineRequest;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Response\IndexPriceKlineResponseItem;
 
-$bybit = new BybitAPI("https://api-testnet.bybit.com", "apiKey", "secret");
+$bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-$options = (new IndexPriceKlineRequest())
-    ->setSymbol("ETHUSDT")
-    ->setInterval(1)
-    ->setStartTime((new DateTime("2023-05-01 10:00:00"))->getTimestamp())
-    ->setEndTime((new DateTime("2023-05-01 20:00:00"))->getTimestamp())
-    ->setLimit(5);
+$indexPriceKlineResponse = $bybit->publicEndpoint(IndexPriceKline::class, (new IndexPriceKlineRequest())
+    ->setSymbol('BTCUSDT')
+    ->setInterval(EnumIntervals::HOUR_1)
+    ->setStart('2024-07-11 10:00:00')
+    ->setEnd('2024-07-12 11:00:00')
+    ->setLimit(4)
+)->execute();
 
-/** @var IndexPriceKlineResponse[] $result */
-$result = $bybit->rest(IndexPriceKline::class, $options)->getBody()->all();
+echo "Return code: {$indexPriceKlineResponse->getReturnCode()}\n";
+echo "Return message: {$indexPriceKlineResponse->getReturnMessage()}\n";
 
-
-foreach ($result as $indexPriceKlineItem) {
-    echo "Start: {$indexPriceKlineItem->getStartTime()->format('Y-m-d H:i:s')}" . PHP_EOL;
-    echo "Open: {$indexPriceKlineItem->getOpen()}" . PHP_EOL;
-    echo "High: {$indexPriceKlineItem->getHigh()}" . PHP_EOL;
-    echo "Low: {$indexPriceKlineItem->getLow()}" . PHP_EOL;
-    echo "Close: {$indexPriceKlineItem->getClose()}" . PHP_EOL;
-    echo "-----" . PHP_EOL;
+/** @var IndexPriceKlineResponseItem $indexItem */
+foreach ($indexPriceKlineResponse->getResult()->getKlineList() as $indexItem) {
+    echo " --- \n";
+    echo "Start Time: {$indexItem->getStartTime()->format('Y-m-d H:i:s')}\n";
+    echo "Open Price: {$indexItem->getOpen()}\n";
+    echo "High Price: {$indexItem->getHigh()}\n";
+    echo "Low Price: {$indexItem->getLow()}\n";
+    echo "Close Price: {$indexItem->getClose()}\n";
 }
 
 /**
- * Result:
- *
- * Start: 2023-05-01 10:04:00
- * Open: 1847.37
- * High: 1847.65
- * Low: 1847.37
- * Close: 1847.4
- * -----
- * Start: 2023-05-01 10:03:00
- * Open: 1847.45
- * High: 1847.57
- * Low: 1847.36
- * Close: 1847.37
- * -----
- * Start: 2023-05-01 10:02:00
- * Open: 1847.65
- * High: 1847.79
- * Low: 1847.41
- * Close: 1847.45
- * -----
- * Start: 2023-05-01 10:01:00
- * Open: 1847.63
- * High: 1847.66
- * Low: 1847.27
- * Close: 1847.65
- * -----
- * Start: 2023-05-01 10:00:00
- * Open: 1847.25
- * High: 1847.68
- * Low: 1847.25
- * Close: 1847.63
- * -----
- */
+* Return code: 0
+* Return message: OK
+* ---
+* Start Time: 2024-07-11 13:00:00
+* Open Price: 58814.49
+* High Price: 58971.56
+* Low Price: 58254.48
+* Close Price: 58562.92
+* ---
+* Start Time: 2024-07-11 12:00:00
+* Open Price: 58772.77
+* High Price: 59508.87
+* Low Price: 58478.2
+* Close Price: 58814.49
+* ---
+* Start Time: 2024-07-11 11:00:00
+* Open Price: 58462.45
+* High Price: 58901.22
+* Low Price: 58390.42
+* Close Price: 58772.77
+* ---
+* Start Time: 2024-07-11 10:00:00
+* Open Price: 58288.3
+* High Price: 58502.26
+* Low Price: 58174.91
+* Close Price: 58462.45
+*/
 ``` 
 <br />
 <p align="center" width="100%"><b>ПАРАМЕТРЫ ЗАПРОСА:</b></p>
@@ -83,14 +79,56 @@ foreach ($result as $indexPriceKlineItem) {
 ---
 
 ```php
-use Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Request\IndexPriceKlineRequest;
-    
-$options = (new IndexPriceKlineRequest())
-    ->setSymbol("BTCUSDT") // Торговая пара
-    ->setInterval(1) // Интервал тика. 1 3 5 15 30 60 120 240 360 720 D M W
-    ->setStartTime((new DateTime("2023-05-09 10:00:00"))->getTimestamp()) // Таймштам ОТ которого берется срез данных
-    ->setEndTime((new DateTime("2023-05-09 11:00:00"))->getTimestamp()) // Таймштам ДО которого берется срез данных
-    ->setLimit(200) // Ограничение данных на страницу, по умолчанию: 200
+namespace Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Interfaces;
+
+interface IIndexPriceKlineRequestInterface
+{
+    /**
+     * Категория продукта (только геттер) 
+     * @return string
+     */
+    public function getCategory(): string;
+
+    /**
+     * Торговая пара
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
+    public function getSymbol(): string;
+
+    /**
+     * Интервал тика. 1 3 5 15 30 60 120 240 360 720 D M W
+     * @param string $interval
+     * @return self
+     */
+    public function setInterval(string $interval): self;
+    public function getInterval(): string;
+
+    /**
+     * Строка дата/времени ОТ которого берется срез данных
+     * @param string $start
+     * @return self
+     */
+    public function setStart(string $start): self;
+    public function getStart(): int;
+
+    /**
+     * Строка дата/времени ДО которого берется срез данных
+     * @param string $end
+     * @return self
+     */
+    public function setEnd(string $end): self;
+    public function getEnd(): int;
+
+    /**
+     * Ограничение данных на страницу, по умолчанию: 200
+     * @param int $limit
+     * @return self
+     */
+    public function setLimit(int $limit): self;
+    public function getLimit(): int;
+}
 ```
 <table style="width: 100%">
   <tr>
@@ -139,6 +177,43 @@ $options = (new IndexPriceKlineRequest())
 
 <br />
 <p align="center" width="100%"><b>СТРУКТУРА ОТВЕТА:</b></p>
+
+---
+
+```php
+Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Interfaces\IIndexPriceKlineResponseInterface::class
+
+interface IIndexPriceKlineResponseInterface
+{
+    /** @return IIndexPriceKlineResponseItemInterface[] */
+    public function getKlineList(): array;
+}
+```
+
+<table style="width: 100%">
+  <tr>
+    <td colspan="3">
+        <sup>INTERFACE:</sup> <br />
+        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Interfaces\IIndexPriceKlineResponseItemInterface::class </b>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">
+        <sup>DTO:</sup> <br />
+        <b>\Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Response\IndexPriceKlineResponseItem::class</b>
+    </td>
+  </tr>
+  <tr>
+    <th style="width: 20%; text-align: center">Метод</th>
+    <th style="width: 20%; text-align: center">Тип</th>
+    <th style="width: 60%; text-align: center">Описание</th>
+  </tr>
+  <tr>
+    <td>IIndexPriceKlineResponseInterface::getKlineList()</td>
+    <td>IIndexPriceKlineResponseItemInterface[]</td>
+    <td>Массив объектов тиков</td>
+  </tr>
+</table>
 
 ---
 

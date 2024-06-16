@@ -4,11 +4,112 @@
 
 > A user can have multiple executions in one order.
 
-<p align="center" width="100%"><b>EXAMPLE</b></p>
+<br />
 
-<p align="center" width="100%"><b> --- </b></p>
+<h3 align="left" width="100%"><b>EXAMPLE</b></h3>
 
-<p align="center" width="100%"><b>REQUEST PARAMETERS</b></p>
+```php
+
+$bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'apiKey', 'apiSecret');
+
+/** @var IResponseInterface $execListEndpointResponse */
+$execListEndpointResponse = $bybit->privateEndpoint(GetExecutionList::class, (new GetExecutionListRequest())
+    ->setSymbol('BTCUSDT')
+    ->setLimit(3)
+)->execute();
+
+echo "Return Code: {$execListEndpointResponse->getReturnCode()}\n";
+echo "Return Message: {$execListEndpointResponse->getReturnMessage()}\n";
+
+/** @var GetExecutionListResponse $execListInfoResponse */
+$execListInfoResponse = $execListEndpointResponse->getResult();
+
+echo "Category: {$execListInfoResponse->getCategory()}\n";
+echo "Next Page Cursor: {$execListInfoResponse->getNextPageCursor()}\n";
+foreach ($execListInfoResponse->getExecutionList() as $exec) {
+    echo "-----\n";
+    echo "Symbol: {$exec->getSymbol()}\n";
+    echo "Side: {$exec->getSide()}\n";
+    echo "Order ID: {$exec->getOrderId()}\n";
+    echo "Order Link ID: {$exec->getOrderLinkId()}\n";
+    echo "Order Price: {$exec->getOrderPrice()}\n";
+    echo "Order Quantity: {$exec->getOrderQty()}\n";
+    echo "Order Type: {$exec->getOrderType()}\n";
+    echo "Stop Order Type: {$exec->getOrderType()}\n";
+    echo "Execution ID: {$exec->getExecId()}\n";
+    echo "Execution Price: {$exec->getExecPrice()}\n";
+    echo "Execution Quantity: {$exec->getExecQty()}\n";
+    echo "Execution Fee: {$exec->getExecFee()}\n";
+    echo "Execution Type: {$exec->getExecType()}\n";
+    echo "Execution Value: {$exec->getExecValue()}\n";
+    echo "Fee Rate: {$exec->getFeeRate()}\n";
+    echo "Last Liquidity Ind: {$exec->getLastLiquidityInd()}\n";
+    echo "Is Maker: {$exec->isMaker()}\n";
+    echo "Leaves Quantity: {$exec->getLeavesQty()}\n";
+    echo "Closed Size: {$exec->getClosedSize()}\n";
+    echo "Mark Price: {$exec->getMarkPrice()}\n";
+    echo "Index Price {$exec->getIndexPrice()}\n";
+    echo "Underlying Price: {$exec->getUnderlyingPrice()}\n";
+    echo "Execution Time: {$exec->getExecTime()->format('Y-m-d H:i:s')}\n";
+}
+
+/**
+ * Return Code: 0
+ * Return Message: OK
+ * Category:
+ * Next Page Cursor: page_token%3D91113706%26
+ * -----
+ * Symbol: BTCUSDT
+ * Side: Sell
+ * Order ID: 6e60910f-2c60-48c6-916e-c9c6946b3bc9
+ * Order Link ID:
+ * Order Price: 61022
+ * Order Quantity: 0.015
+ * Order Type: Market
+ * Stop Order Type: Market
+ * Execution ID: 9cb193fe-4367-5d70-95e6-2831af76586f
+ * Execution Price: 64225.5
+ * Execution Quantity: 0.015
+ * Execution Fee: 0.52986038
+ * Execution Type: Trade
+ * Execution Value: 963.3825
+ * Fee Rate: 0.00055
+ * Last Liquidity Ind: RemovedLiquidity
+ * Is Maker:
+ * Leaves Quantity: 0
+ * Closed Size: 0.015
+ * Mark Price: 64235.6
+ * Index Price 0
+ * Underlying Price: 0
+ * Execution Time: 2024-06-22 20:52:39
+ * -----
+ * Symbol: BTCUSDT
+ * Side: Buy
+ * Order ID: 25d14af5-62ad-472c-a8f5-4573fdb3a3f2
+ * Order Link ID:
+ * Order Price: 67436.7
+ * Order Quantity: 0.015
+ * Order Type: Market
+ * Stop Order Type: Market
+ * Execution ID: 6383ff73-9d54-534c-b8bc-160ba08a8edf
+ * Execution Price: 64233.6
+ * Execution Quantity: 0.015
+ * Execution Fee: 0.5299272
+ * Execution Type: Trade
+ * Execution Value: 963.504
+ * Fee Rate: 0.00055
+ * Last Liquidity Ind: RemovedLiquidity
+ * Is Maker:
+ * Leaves Quantity: 0
+ * Closed Size: 0
+ * Mark Price: 64235.76
+ * Index Price 0
+ */
+````
+
+<br />
+
+<h3 align="left" width="100%"><b>REQUEST PARAMETERS</b></h3>
 
 ---
 
@@ -17,13 +118,59 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\GetExecutionList\Int
 
 interface IGetExecutionListRequestInterface
 {
-     public function setSymbol(string $symbol): self; // Trading pair
-     public function setStartTime(int $startTime): self; // Lower limit of the date from which to take records
-     public function setEndTime(int $endTime): self; // Upper limit of the date from which to take records
-     public function setLimit(int $limit): self; // Record limit per request
-     public function setCursor(string $cursor): self; // Next page cursor
-    
-     // .. Getters
+    /**
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
+    public function getSymbol(): string;
+
+    /**
+     * @param string $orderId
+     * @return self
+     */
+    public function setOrderId(string $orderId): self;
+    public function getOrderId(): string;
+
+    /**
+     * The date/time string from which data should be obtained.
+     * startTime and endTime are not passed, return 7 days by default
+     * Only startTime is passed, return range between startTime and startTime+7 days
+     * Only endTime is passed, return range between endTime-7 days and endTime
+     * If both are passed,the rule is endTime - startTime <= 7 days
+     * @param int $startTime
+     * @return self
+     */
+    public function setStartTime(int $startTime): self;
+    public function getStartTime(): \DateTime;
+
+    /**
+     * @param int $endTime
+     * @return self
+     */
+    public function setEndTime(int $endTime): self;
+    public function getEndTime(): \DateTime;
+
+    /**
+     * @param string $execType
+     * @return self
+     */
+    public function setExecType(string $execType): self;
+    public function getExecType(): string;
+
+    /**
+     * @param int $limit
+     * @return self
+     */
+    public function setLimit(int $limit): self;
+    public function getLimit(): int;
+
+    /**
+     * @param string $cursor
+     * @return self
+     */
+    public function setCursor(string $cursor): self;
+    public function getCursor(): string;
 }
 ```
 
@@ -72,7 +219,9 @@ interface IGetExecutionListRequestInterface
    </tr>
 </table>
 
-<p align="center" width="100%"><b>RESPONSE STRUCTURE</b></p>
+<br />
+
+<h3 align="left" width="100%"><b>RESPONSE STRUCTURE</b></h3>
 
 ---
 
@@ -81,24 +230,24 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\GetExecutionList\Int
 
 interface IGetExecutionListResponseInterface
 {
-     public function getSymbol(): string; // Trading pair
-     public function getOrderId(): string; // order ID
-     public function getSide(): string; // Order direction
-     public function getQty(): float; // Order volume
-     public function getLeverage(): float; // Leverage
-     public function getOrderPrice(): float; // Order price
-     public function getOrderType(): string; // Market,Limit
-     public function getExecType(): string; // Execution type
-     public function getClosedSize(): float; // Close size
-     public function getCumEntryValue(): float; //
-     public function getAvgEntryPrice(): float; //
-     public function getCumExitValue(): float; //
-     public function getAvgExitPrice(): float; //
-     public function getClosedPnl(): float; //
-     public function getFillCount(): int; //
-     public function getCreatedAt(): \DateTime; //
+    /**
+     * Product type
+     * @return string
+     */
+    public function getCategory(): string;
+
+    /**
+     * Cursor. Used to pagination
+     * @return string
+     */
+    public function getNextPageCursor(): string;
+
+    /**
+     * @return IGetExecutionListResponseItemInterface[]
+     */
+    public function getExecutionList(): array;
 }
-```
+````
 <table style="width: 100%">
    <tr>
      <td colspan="3">
@@ -122,75 +271,297 @@ interface IGetExecutionListResponseInterface
      <td>string</td>
      <td>Trading pair</td>
    </tr>
+</table>
+
+<br />
+
+```php
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\GetExecutionList\Interfaces;
+
+interface IGetExecutionListResponseItemInterface
+{
+    /**
+     * Symbol name
+     * @return string
+     */
+    public function getSymbol(): string;
+
+    /**
+     * Buy,Sell
+     * @return string
+     */
+    public function getSide(): string;
+
+    /**
+     * Order id
+     * @return string
+     */
+    public function getOrderId(): string;
+
+    /**
+     * User customized order id
+     * @return string
+     */
+    public function getOrderLinkId(): string;
+
+    /**
+     * Order price
+     * @return float
+     */
+    public function getOrderPrice(): float;
+
+    /**
+     * Order quantity
+     * @return float
+     */
+    public function getOrderQty(): float;
+
+    /**
+     * Market,Limit
+     * @return string
+     */
+    public function getOrderType(): string;
+
+    /**
+     * Stop order type
+     * @return string
+     */
+    public function getStopOrderType(): string;
+
+    /**
+     * Trade Id
+     * @return string
+     */
+    public function getExecId(): string;
+
+    /**
+     * Execution price
+     * @return float
+     */
+    public function getExecPrice(): float;
+
+    /**
+     * Execution quantity
+     * @return float
+     */
+    public function getExecQty(): float;
+
+    /**
+     * Execution fee
+     * @return float
+     */
+    public function getExecFee(): float;
+
+    /**
+     * Execution type
+     * @return string
+     */
+    public function getExecType(): string;
+
+    /**
+     * Execution position value
+     * @return float
+     */
+    public function getExecValue(): float;
+
+    /**
+     * Trading fee rate
+     * @return float
+     */
+    public function getFeeRate(): float;
+
+    /**
+     * AddedLiquidity, RemovedLiquidity
+     * @return string
+     */
+    public function getLastLiquidityInd(): string;
+
+    /**
+     * Is maker
+     * @return bool
+     */
+    public function isMaker(): bool;
+
+    /**
+     * Remaining quantity waiting for execution
+     * @return float
+     */
+    public function getLeavesQty(): float;
+
+    /**
+     * Close size
+     * @return float
+     */
+    public function getClosedSize(): float;
+
+    /**
+     * Block trade id
+     * @return string
+     */
+    public function getBlockTradeId(): string;
+
+    /**
+     * Mark price
+     * @return float
+     */
+    public function getMarkPrice(): float;
+
+    /**
+     * Index price
+     * @return float
+     */
+    public function getIndexPrice(): float;
+
+    /**
+     * Underlying price
+     * @return float
+     */
+    public function getUnderlyingPrice(): float;
+
+    /**
+     * Execution datetime
+     * @return \DateTime
+     */
+    public function getExecTime(): \DateTime;
+}
+```
+<table style="width: 100%">
    <tr>
-     <td>IGetExecutionListResponseInterface::getOrderId()</td>
+     <td colspan="3">
+        <sup><b>INTERFACE</b></sup> <br />
+       <b>\Carpenstar\ByBitAPI\Derivatives\Contract\Position\GetExecutionList\Interfaces\IGetExecutionListResponseInterface::class</b>
+     </td>
+   </tr>
+   <tr>
+     <td colspan="3">
+        <sup><b>DTO</b></sup> <br />
+       <b>\Carpenstar\ByBitAPI\Derivatives\Contract\Position\GetExecutionList\Response\GetExecutionListResponse::class</b>
+     </td>
+   </tr>
+   <tr>
+     <th style="width: 20%; text-align: center">Method</th>
+     <th style="width: 20%; text-align: center">Type</th>
+     <th style="width: 60%; text-align: center">Description</th>
+   </tr>
+  <tr>
+     <td>IGetExecutionListResponseItemInterface::getSymbol()</td>
+     <td>string</td>
+     <td>Symbol name</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::getSide()</td>
+     <td>string</td>
+     <td>Buy,Sell</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::getOrderId()</td>
      <td>string</td>
      <td>order ID</td>
    </tr>
    <tr>
-     <td>IGetExecutionListResponseInterface::getSide()</td>
+     <td>IGetExecutionListResponseItemInterface::getOrderLinkId()</td>
      <td>string</td>
-     <td>Order direction</td>
+     <td>User customised order id</td>
    </tr>
    <tr>
-     <td>IGetExecutionListResponseInterface::getQty()</td>
-     <td>float</td>
-     <td>Order volume</td>
-   </tr>
-   <tr>
-     <td>IGetExecutionListResponseInterface::getLeverage()</td>
-     <td>float</td>
-     <td>Leverage</td>
-   </tr>
-   <tr>
-     <td>IGetExecutionListResponseInterface::getOrderPrice()</td>
+     <td>IGetExecutionListResponseItemInterface::getOrderPrice()</td>
      <td>float</td>
      <td>Order price</td>
    </tr>
    <tr>
-     <td>IGetExecutionListResponseInterface::getExecType()</td>
+     <td>IGetExecutionListResponseItemInterface::getOrderQty()</td>
+     <td>float</td>
+     <td>Order qty</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::getOrderType()</td>
      <td>string</td>
-     <td> Execution type </td>
+     <td>Market,Limit</td>
    </tr>
    <tr>
-     <td>IGetExecutionListResponseInterface::getClosedSize()</td>
+     <td>IGetExecutionListResponseItemInterface::getStopOrderType()</td>
+     <td>string</td>
+     <td>Stop order type</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::getExecId()</td>
+     <td>string</td>
+     <td>Trade Id</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::getExecPrice()</td>
      <td>float</td>
-     <td> Close size </td>
+     <td>Execution price</td>
    </tr>
    <tr>
-     <td>IGetExecutionListResponseInterface::getCumEntryValue()</td>
+     <td>IGetExecutionListResponseItemInterface::getExecQty()</td>
      <td>float</td>
-     <td> - </td>
+     <td>Execution qty</td>
    </tr>
    <tr>
-     <td>IGetExecutionListResponseInterface::getAvgEntryPrice()</td>
+     <td>IGetExecutionListResponseItemInterface::getExecFee()</td>
      <td>float</td>
-     <td> - </td>
+     <td>Execution fee</td>
    </tr>
    <tr>
-     <td>IGetExecutionListResponseInterface::getCumExitValue()</td>
+     <td>IGetExecutionListResponseItemInterface::getExecType()</td>
+     <td>string</td>
+     <td>Execution type</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::getExecValue()</td>
      <td>float</td>
-     <td> - </td>
+     <td>Execution position value</td>
    </tr>
    <tr>
-     <td>IGetExecutionListResponseInterface::getAvgExitPrice()</td>
+     <td>IGetExecutionListResponseItemInterface::getFeeRate()</td>
      <td>float</td>
-     <td> - </td>
+     <td>Trading fee rate</td>
    </tr>
    <tr>
-     <td>IGetExecutionListResponseInterface::getClosedPnl()</td>
+     <td>IGetExecutionListResponseItemInterface::getLastLiquidityInd()</td>
+     <td>string</td>
+     <td>AddedLiquidity, RemovedLiquidity</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::isMaker()</td>
+     <td>bool</td>
+     <td>Is maker</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::getLeavesQty()</td>
      <td>float</td>
-     <td> - </td>
+     <td>Remaining qty waiting for execution</td>
    </tr>
    <tr>
-     <td>IGetExecutionListResponseInterface::getFillCount()</td>
+     <td>IGetExecutionListResponseItemInterface::getClosedSize()</td>
      <td>float</td>
-     <td> - </td>
+     <td>Close size</td>
    </tr>
    <tr>
-     <td>IGetExecutionListResponseInterface::getCreatedAt()</td>
-     <td>DateTime</td>
-     <td> - </td>
+     <td>IGetExecutionListResponseItemInterface::getBlockTradeId()</td>
+     <td>string</td>
+     <td>Block trade id</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::getMarkPrice()</td>
+     <td>float</td>
+     <td>Mark Price</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::getIndexPrice()</td>
+     <td>float</td>
+     <td>Index Price</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::getUnderlyingPrice()</td>
+     <td>float</td>
+     <td>Underlying price</td>
+   </tr>
+   <tr>
+     <td>IGetExecutionListResponseItemInterface::getExecTime()</td>
+     <td>\DateTime</td>
+     <td>Execution datetime</td>
    </tr>
 </table>
 

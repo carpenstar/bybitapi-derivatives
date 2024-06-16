@@ -4,9 +4,9 @@ namespace Carpenstar\ByBitAPI\Derivatives\MarketData\OpenInterest\Request;
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
 use Carpenstar\ByBitAPI\Core\Helpers\StringHelper;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
-use Carpenstar\ByBitAPI\Derivatives\MarketData\OpenInterest\Interfaces\IOpenInterestInterface;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\OpenInterest\Interfaces\IOpenInterestRequestInterface;
 
-class OpenInterestRequest extends AbstractParameters implements IOpenInterestInterface
+class OpenInterestRequest extends AbstractParameters implements IOpenInterestRequestInterface
 {
     /**
      *
@@ -27,16 +27,16 @@ class OpenInterestRequest extends AbstractParameters implements IOpenInterestInt
     protected string $interval;
 
     /**
-     * The start timestamp
-     * @var \DateTime $startTime
+     * The start datetime
+     * @var string $start
      */
-    protected \DateTime $startTime;
+    protected int $start;
 
     /**
-     * The end timestamp
-     * @var \DateTime $endTime
+     * The end datetime
+     * @var string $end
      */
-    protected \DateTime $endTime;
+    protected int $end;
 
     /**
      * Limit for data size per page. [1, 200]. Default: 50
@@ -102,39 +102,39 @@ class OpenInterestRequest extends AbstractParameters implements IOpenInterestInt
     }
 
     /**
-     * @param int $startTime
+     * @param string $start
      * @return OpenInterestRequest
      */
-    public function setStartTime(int $startTime): self
+    public function setStart(string $start): self
     {
-        $this->startTime = DateTimeHelper::makeFromTimestamp($startTime);
+        $this->start = DateTimeHelper::makeTimestampFromDateString($start);
         return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return int
      */
-    public function getStartTime(): \DateTime
+    public function getStart(): int
     {
-        return $this->startTime;
+        return $this->start;
     }
 
     /**
-     * @param int $endTime
+     * @param string $end
      * @return OpenInterestRequest
      */
-    public function setEndTime(int $endTime): self
+    public function setEnd(string $end): self
     {
-        $this->endTime = DateTimeHelper::makeFromTimestamp($endTime);
+        $this->end = DateTimeHelper::makeTimestampFromDateString($end);
         return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return int
      */
-    public function getEndTime(): \DateTime
+    public function getEnd(): int
     {
-        return $this->endTime;
+        return $this->end;
     }
 
     /**
