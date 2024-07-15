@@ -13,7 +13,7 @@ class GetTradingFeeRate extends PrivateEndpoint implements IGetEndpointInterface
         return "/contract/v3/private/account/fee-rate";
     }
 
-    protected function getResponseClassname(): string
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
     {
         return GetTradingFeeRateResponse::class;
     }

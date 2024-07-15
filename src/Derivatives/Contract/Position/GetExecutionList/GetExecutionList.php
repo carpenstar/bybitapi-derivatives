@@ -13,13 +13,13 @@ class GetExecutionList extends PrivateEndpoint implements IGetEndpointInterface
         return "/contract/v3/private/execution/list";
     }
 
-    protected function getResponseClassname(): string
-    {
-        return GetExecutionListResponse::class;
-    }
-
     protected function getRequestClassname(): string
     {
         return GetExecutionListRequest::class;
+    }
+
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
+    {
+        return GetExecutionListResponse::class;
     }
 }

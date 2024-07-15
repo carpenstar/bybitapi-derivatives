@@ -2,12 +2,41 @@
 <b>[Официальная страница документации](https://bybit-exchange.github.io/docs/derivatives/contract/auto-margin)</b>
 <p>Включить/выключить автоматическое добавление маржи позиции. Чтобы понять больше, пожалуйста, прочитайте <a href="https://www.bybit.com/en-US/help-center/s/article/Introduction-to-Auto-Margin-Replenishment-USDT-Contract" target="_blank">здесь</a></p>
 
-<p align="center" width="100%"><b>ПРИМЕР</b></p>
+<br />
 
-<p align="center" width="100%"><b> --- </b></p>
+<h3 align="left" width="100%"><b>ПРИМЕР ВЫЗОВА</b></h3>
 
+---
 
-<p align="center" width="100%"><b>ПАРАМЕТРЫ ЗАПРОСА</b></p>
+```php
+use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Core\Enums\EnumSide;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetAutoAddMargin\Request\SetAutoAddMarginRequest;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetAutoAddMargin\SetAutoAddMargin;
+
+$bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'apiKey', 'apiSecret');
+
+$isSetAutoAddMargin = $bybit->privateEndpoint(SetAutoAddMargin::class, (new SetAutoAddMarginRequest())
+    ->setSymbol('BTCUSDT')
+    ->setSide(EnumSide::BUY)
+    ->setPositionIdx(0)
+    ->setAutoAddMargin(1)
+)->execute();
+
+if ($isSetAutoAddMargin->getReturnCode() == 0) {
+    echo "Success auto add margin for position: {$isSetAutoAddMargin->getReturnMessage()}\n";
+} else {
+    echo "Not success response: {$isSetAutoAddMargin->getReturnMessage()}\n";
+}
+
+/**
+* Success auto add margin for position: OK
+*/
+````
+
+<br />
+
+<h3 align="left" width="100%"><b>ПАРАМЕТРЫ ЗАПРОСА</b></h3>
 
 ---
 
@@ -16,12 +45,37 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetAutoAddMargin\Int
 
 interface ISetAutoAddMarginRequestInterface
 {
-     public function setSymbol(string $symbol): self; // Торговая пара
-     public function setSide(string $side): self; // Side. Buy,Sell
-     public function setAutoAddMargin(int $autoAddMargin): self; // Включить/выключить автоматическое добавление маржи. 0: off. 1: on
-     public function setPositionIdx(int $positionIdx): self; // Индекс позиции
-    
-     // .. Getters
+    /**
+     * Торговая пара
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
+    public function getSymbol(): string;
+
+    /**
+     * Side. Buy,Sell
+     * @param string $side
+     * @return self
+     */
+    public function setSide(string $side): self;
+    public function getSide(): string;
+
+    /**
+     * Включить/выключить автоматическое добавление маржи. 0: off. 1: on
+     * @param int $autoAddMargin
+     * @return self
+     */
+    public function setAutoAddMargin(int $autoAddMargin): self;
+    public function getAutoAddMargin(): int;
+
+    /**
+     * Индекс позиции
+     * @param int $positionIdx
+     * @return self
+     */
+    public function setPositionIdx(int $positionIdx): self;
+    public function getPositionIdx(): int;
 }
 ```
 
@@ -65,7 +119,7 @@ interface ISetAutoAddMarginRequestInterface
    </tr>
 </table>
 
-<p align="center" width="100%"><b>СТРУКТУРА ОТВЕТА</b></p>
+<h3 align="left" width="100%"><b>СТРУКТУРА ОТВЕТА</b></h3>
 
 ---
 

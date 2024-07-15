@@ -13,13 +13,13 @@ class GetOrderList extends PrivateEndpoint implements IGetEndpointInterface
         return "/contract/v3/private/order/list";
     }
 
-    protected function getResponseClassname(): string
-    {
-        return GetOrderListResponse::class;
-    }
-
     protected function getRequestClassname(): string
     {
         return GetOrderListRequest::class;
+    }
+
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
+    {
+        return GetOrderListResponse::class;
     }
 }

@@ -16,10 +16,10 @@ class WalletBalance extends PrivateEndpoint implements IGetEndpointInterface
 
     protected function getRequestClassname(): string
     {
-        return StubQueryBag::class;
+        return WalletBalanceRequest::class;
     }
 
-    protected function getResponseClassname(): string
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
     {
         return WalletBalanceResponse::class;
     }

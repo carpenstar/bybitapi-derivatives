@@ -1,134 +1,32 @@
 <?php
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Response;
 
-use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
+use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
-use Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Interfaces\IMarkPriceKline;
+use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Interfaces\IMarkPriceKlineResponseInterface;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Interfaces\IMarkPriceKlineResponseItemInterface;
 
-class MarkPriceKlineResponse extends AbstractResponse implements IMarkPriceKline
+class MarkPriceKlineResponse extends AbstractResponse implements IMarkPriceKlineResponseInterface
 {
-    /**
-     * @var \DateTime $start
-     */
-    private \DateTime $startTime;
-
-    /**
-     * @var float $open
-     */
-    private float $open;
-
-    /**
-     * @var float $high
-     */
-    private float $high;
-
-    /**
-     * @var float $low
-     */
-    private float $low;
-
-    /**
-     * @var float $close
-     */
-    private float $close;
+    /** @var IMarkPriceKlineResponseItemInterface[] */
+    private EntityCollection $list;
 
     public function __construct(array $data)
     {
-        $this
-            ->setStartTime($data[0])
-            ->setOpen($data[1])
-            ->setHigh($data[2])
-            ->setLow($data[3])
-            ->setClose($data[4]);
+        $list = new EntityCollection();
+
+        if (!empty($data['list'])) {
+            array_map(function ($item) use ($list) {
+                $list->push(ResponseDtoBuilder::make(MarkPriceKlineResponseItem::class, $item));
+            }, $data['list']);
+        }
+
+        $this->list = $list;
     }
 
-    /**
-     * @param int $startTime
-     * @return MarkPriceKlineResponse
-     */
-    public function setStartTime(int $startTime): self
+    public function getKlineList(): array
     {
-        $this->startTime = DateTimeHelper::makeFromTimestamp($startTime);
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getStartTime(): \DateTime
-    {
-        return $this->startTime;
-    }
-
-    /**
-     * @param float $open
-     * @return MarkPriceKlineResponse
-     */
-    public function setOpen(float $open): self
-    {
-        $this->open = $open;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getOpen(): float
-    {
-        return $this->open;
-    }
-
-    /**
-     * @param float $high
-     * @return $this
-     */
-    public function setHigh(float $high): self
-    {
-        $this->high = $high;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getHigh(): float
-    {
-        return $this->high;
-    }
-
-    /**
-     * @param float $low
-     * @return $this
-     */
-    public function setLow(float $low): self
-    {
-        $this->low = $low;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLow(): float
-    {
-        return $this->low;
-    }
-
-    /**
-     * @param float $close
-     * @return $this
-     */
-    public function setClose(float $close): self
-    {
-        $this->close = $close;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getClose(): float
-    {
-        return $this->close;
+        return $this->list->all();
     }
 }

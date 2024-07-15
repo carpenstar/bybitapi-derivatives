@@ -13,13 +13,13 @@ class SetLeverage extends PrivateEndpoint implements IPostEndpointInterface
         return "/contract/v3/private/position/set-leverage";
     }
 
-    protected function getResponseClassname(): string
-    {
-        return SetLeverageResponse::class;
-    }
-
     protected function getRequestClassname(): string
     {
         return SetLeverageRequest::class;
+    }
+
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
+    {
+        return SetLeverageResponse::class;
     }
 }

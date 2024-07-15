@@ -13,13 +13,13 @@ class SwitchPositionMode extends PrivateEndpoint implements IPostEndpointInterfa
         return "/contract/v3/private/position/switch-mode";
     }
 
-    protected function getResponseClassname(): string
-    {
-        return SwitchPositionModeResponse::class;
-    }
-
     protected function getRequestClassname(): string
     {
         return SwitchPositionModeRequest::class;
+    }
+
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
+    {
+        return SwitchPositionModeResponse::class;
     }
 }

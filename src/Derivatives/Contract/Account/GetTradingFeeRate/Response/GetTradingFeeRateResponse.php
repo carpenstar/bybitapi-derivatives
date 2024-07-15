@@ -1,89 +1,38 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Response;
 
+use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
+use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Interfaces\IGetTradingFeeRateResponseInterface;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Interfaces\IGetTradingFeeRateResponseItemInterface;
 
 class GetTradingFeeRateResponse extends AbstractResponse implements IGetTradingFeeRateResponseInterface
 {
     /**
-     * Symbol name
-     * @var string
+     * @var IGetTradingFeeRateResponseItemInterface[]
      */
-    private string $symbol;
-
-    /**
-     * Taker fee rate
-     * @var float $takerFeeRate
-     */
-    private float $takerFeeRate;
-
-    /**
-     * Maker fee rate
-     * @var float $makerFeeRate
-     */
-    private float $makerFeeRate;
+    private EntityCollection $list;
 
     public function __construct(array $data)
     {
-        $this
-            ->setSymbol($data['symbol'])
-            ->setTakerFeeRate($data['takerFeeRate'])
-            ->setMakerFeeRate($data['makerFeeRate']);
+        $list = new EntityCollection();
+
+        if (!empty($data['list'])) {
+            array_map(function ($item) use ($list) {
+                $list->push(ResponseDtoBuilder::make(GetTradingFeeRateResponseItem::class, $item));
+            }, $data['list']);
+        }
+
+        $this->list = $list;
     }
 
     /**
-     * @param string $symbol
-     * @return GetTradingFeeRateResponse
+     * @return IGetTradingFeeRateResponseItemInterface[]
      */
-    private function setSymbol(string $symbol): self
+    public function getFeeRates(): array
     {
-        $this->symbol = $symbol;
-        return $this;
+        return $this->list->all();
     }
-
-    /**
-     * @return string
-     */
-    public function getSymbol(): string
-    {
-        return $this->symbol;
-    }
-
-    /**
-     * @param float $takerFeeRate
-     * @return GetTradingFeeRateResponse
-     */
-    private function setTakerFeeRate(float $takerFeeRate): self
-    {
-        $this->takerFeeRate = $takerFeeRate;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getTakerFeeRate(): float
-    {
-        return $this->takerFeeRate;
-    }
-
-    /**
-     * @param float $makerFeeRate
-     * @return GetTradingFeeRateResponse
-     */
-    private function setMakerFeeRate(float $makerFeeRate): self
-    {
-        $this->makerFeeRate = $makerFeeRate;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getMakerFeeRate(): float
-    {
-        return $this->makerFeeRate;
-    }
-
 }

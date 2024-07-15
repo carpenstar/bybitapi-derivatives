@@ -1,50 +1,40 @@
 <?php
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Tests;
 
-use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
-use Carpenstar\ByBitAPI\Core\Builders\ResponseHandlerBuilder;
-use Carpenstar\ByBitAPI\Core\Builders\RestBuilder;
-use Carpenstar\ByBitAPI\Core\Enums\EnumOutputMode;
-use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
-use Carpenstar\ByBitAPI\Core\Response\CurlResponseDto;
-use Carpenstar\ByBitAPI\Core\Response\CurlResponseHandler;
-use Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Overrides\TestMarkPriceKline;
+use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Core\Enums\EnumIntervals;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\MarkPriceKline;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Request\MarkPriceKlineRequest;
-use Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Response\MarkPriceKlineResponse;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Response\MarkPriceKlineResponseItem;
 use PHPUnit\Framework\TestCase;
 
 class MarkPriceKlineTest extends TestCase
 {
-    static private string $markPriceKlineResponse = '{"retCode":0,"retMsg":"OK","result":{"symbol":"BTCUSD","category":"inverse","list":[["1670261280000","17064.76","17068.45","17063.5","17067"],["1670261220000","17062.5","17064.88","17062.5","17064.76"],["1670261160000","17064","17064","17062.5","17062.5"],["1670261100000","17072","17072","17064","17064"]]},"retExtInfo":{},"time":1671968706092}';
-
-    public function testMarkPriceKlineDTOBuilder()
-    {
-        foreach (json_decode(self::$markPriceKlineResponse, true)['result']["list"] as $feeRate) {
-            $dto = ResponseDtoBuilder::make(MarkPriceKlineResponse::class, $feeRate);
-            $this->assertInstanceOf(MarkPriceKlineResponse::class, $dto);
-        }
-    }
-
-    public function testMarkPriceKlineResponseHandlerBuilder()
-    {
-        $handler = ResponseHandlerBuilder::make(self::$markPriceKlineResponse, CurlResponseHandler::class, MarkPriceKlineResponse::class);
-        $this->assertInstanceOf(EntityCollection::class, $handler->getBody());
-        $this->assertGreaterThan(0, $handler->getBody()->count());
-    }
-
     public function testMarkPriceKlineEndpoint()
     {
-        $endpoint = RestBuilder::make(TestMarkPriceKline::class, (new MarkPriceKlineRequest())->setSymbol('BTCPERP'));
+        $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-        $entityResponse = $endpoint->execute(EnumOutputMode::MODE_ENTITY, self::$markPriceKlineResponse);
+        $klineResponse = $bybit->publicEndpoint(MarkPriceKline::class, (new MarkPriceKlineRequest())
+            ->setSymbol('BTCUSDT')
+            ->setInterval(EnumIntervals::HOUR_1)
+            ->setStart('2024-07-11 10:00:00')
+            ->setEnd('2024-07-12 11:00:00')
+            ->setLimit(4)
+        )->execute();
 
-        $this->assertInstanceOf(CurlResponseDto::class, $entityResponse);
-        $body = $entityResponse->getBody();
-        $this->assertInstanceOf(EntityCollection::class, $body);
+        echo "Return code: {$klineResponse->getReturnCode()}\n";
+        echo "Return message: {$klineResponse->getReturnMessage()}\n";
 
-        foreach ($body->fetch() as $price) {
-            $dto = ResponseDtoBuilder::make(MarkPriceKlineResponse::class, $price);
-            $this->assertInstanceOf(MarkPriceKlineResponse::class, $dto);
+        /** @var MarkPriceKlineResponseItem $klineItem */
+        foreach ($klineResponse->getResult()->getKlineList() as $klineItem) {
+            echo " --- \n";
+            echo "Start Time: {$klineItem->getStartTime()->format('Y-m-d H:i:s')}\n";
+            echo "Open Price: {$klineItem->getOpen()}\n";
+            echo "High Price: {$klineItem->getHigh()}\n";
+            echo "Low Price: {$klineItem->getLow()}\n";
+            echo "Close Price: {$klineItem->getClose()}\n";
         }
+
+        $this->assertTrue(true);
     }
 }

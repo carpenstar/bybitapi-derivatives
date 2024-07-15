@@ -1,65 +1,30 @@
 <?php
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\OpenInterest\Response;
 
-use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
+use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
+use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
 
 class OpenInterestResponse extends AbstractResponse
 {
-    /**
-     * Open interest
-     * @var float $openInterest
-     */
-    private float $openInterest;
-
-    /**
-     * The timestamp
-     * @var \DateTime $timestamp
-     */
-    private \DateTime $timestamp;
+    /** @var OpenInterestResponseItem[] */
+    private EntityCollection $list;
 
     public function __construct(array $data)
     {
-        $this
-            ->setOpenInterest($data['openInterest'])
-            ->setTimestamp($data['timestamp']);
+        $list = new EntityCollection();
+
+        if (!empty($data['list'])) {
+            array_map(function ($item) use ($list) {
+                $list->push(ResponseDtoBuilder::make(OpenInterestResponseItem::class, $item));
+            }, $data['list']);
+        }
+
+        $this->list = $list;
     }
 
-    /**
-     * @param float $openInterest
-     * @return OpenInterestResponse
-     */
-    public function setOpenInterest(float $openInterest): self
+    public function getOpenInterestList(): array
     {
-        $this->openInterest = $openInterest;
-        return $this;
+        return $this->list->all();
     }
-
-    /**
-     * @return float
-     */
-    public function getOpenInterest(): float
-    {
-        return $this->openInterest;
-    }
-
-    /**
-     * @param int $timestamp
-     * @return self
-     */
-    private function setTimestamp(int $timestamp): self
-    {
-        $this->timestamp = DateTimeHelper::makeFromTimestamp($timestamp);
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getTimestamp(): \DateTime
-    {
-        return $this->timestamp;
-    }
-
-
 }

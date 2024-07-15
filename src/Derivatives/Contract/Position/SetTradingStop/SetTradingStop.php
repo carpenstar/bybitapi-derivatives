@@ -13,13 +13,13 @@ class SetTradingStop  extends PrivateEndpoint implements IPostEndpointInterface
         return "/contract/v3/private/position/trading-stop";
     }
 
-    protected function getResponseClassname(): string
-    {
-        return SetTradingStopResponse::class;
-    }
-
     protected function getRequestClassname(): string
     {
         return SetTradingStopRequest::class;
+    }
+
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
+    {
+        return SetTradingStopResponse::class;
     }
 }

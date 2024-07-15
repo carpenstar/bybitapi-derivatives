@@ -4,12 +4,38 @@
 Если вы находитесь в одностороннем режиме, вы можете открыть только одну позицию на стороне покупки или продажи. <br />
 Если вы находитесь в режиме хеджирования, вы можете одновременно открывать позиции на покупку и продажу.</p>
 
-<p align="center" width="100%"><b>ПРИМЕР</b></p>
+<br />
 
-<p align="center" width="100%"><b> --- </b></p>
+<h3 align="left" width="100%"><b>ПРИМЕР ВЫЗОВА</b></h3>
 
+````php
+use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\Request\SwitchPositionModeRequest;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\SwitchPositionMode;
 
-<p align="center" width="100%"><b>ПАРАМЕТРЫ ЗАПРОСА</b></p>
+$bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'apiKey', 'apiSecret');
+
+$isSwitchCrossMargin = $bybit->privateEndpoint(SwitchPositionMode::class, (new SwitchPositionModeRequest())
+    ->setSymbol('BTCUSDT')
+    ->setMode(3)
+)->execute();
+
+if ($isSwitchCrossMargin->getReturnCode() == 0) {
+    echo "Success set position mode: {$isSwitchCrossMargin->getReturnMessage()}\n";
+} else {
+    echo "Failed set position mode: {$isSwitchCrossMargin->getReturnMessage()}\n";
+}
+
+/**
+* Success set position mode: OK
+* ----- OR
+* Failed set position mode: symbol has order, can not switch mode
+*/
+````
+
+<br />
+
+<h3 align="left" width="100%"><b>ПАРАМЕТРЫ ЗАПРОСА</b></h3>
 
 ---
 
@@ -18,11 +44,29 @@ namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\I
 
 interface ISwitchPositionModeRequestInterface
 {
-     public function setSymbol(string $symbol): self; // Торговая пара
-     public function setCoin(string $coin): self; // Токен
-     public function setPositionMode(int $positionMode): self; // Режим позиции. 0: Merged Single. 3: Both Side
-    
-     // .. Getters
+    /**
+     * Имя символа. Требуется либо символ, либо монета. символ имеет более высокий приоритет
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol): self;
+    public function getSymbol(): string;
+
+    /**
+     * Токен
+     * @param string $coin
+     * @return self
+     */
+    public function setCoin(string $coin): self;
+    public function getCoin(): string;
+
+    /**
+     * Режим позиции. 0: Merged Single. 3: Both Side
+     * @param int $positionMode
+     * @return self
+     */
+    public function setMode(int $positionMode): self;
+    public function getMode(): int;
 }
 ```
 
@@ -46,12 +90,12 @@ interface ISwitchPositionModeRequestInterface
    </tr>
    <tr>
      <td>ISwitchPositionModeRequestInterface::setSymbol(string $symbol)</td>
-     <td>НЕТ</td>
+     <td><b>ДА</b></td>
      <td>Торговая пара</td>
    </tr>
    <tr>
      <td>ISwitchPositionModeRequestInterface::setCoin(string $coin)</td>
-     <td>НЕТ</td>
+     <td><b>ДА</b></td>
      <td> Токен </td>
    </tr>
    <tr>
@@ -61,7 +105,9 @@ interface ISwitchPositionModeRequestInterface
    </tr>
 </table>
 
-<p align="center" width="100%"><b>Структура ответа</b></p>
+<br />
+
+<h3 align="left" width="100%"><b>Структура ответа</b></h3>
 
 ---
 

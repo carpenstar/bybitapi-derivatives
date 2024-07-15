@@ -22,7 +22,7 @@ class IndexPriceKline extends PublicEndpoint implements IGetEndpointInterface
         return IndexPriceKlineRequest::class;
     }
 
-    public function getResponseClassname(): string
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
     {
         return IndexPriceKlineResponse::class;
     }

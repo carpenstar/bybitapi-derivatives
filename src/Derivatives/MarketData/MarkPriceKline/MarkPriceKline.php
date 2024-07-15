@@ -18,7 +18,7 @@ class MarkPriceKline extends PublicEndpoint implements IGetEndpointInterface
         return MarkPriceKlineRequest::class;
     }
 
-    protected function getResponseClassname(): string
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
     {
         return MarkPriceKlineResponse::class;
     }

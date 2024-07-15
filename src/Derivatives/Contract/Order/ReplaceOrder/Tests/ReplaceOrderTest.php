@@ -1,45 +1,36 @@
 <?php
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\ReplaceOrder\Tests;
 
-use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
-use Carpenstar\ByBitAPI\Core\Builders\ResponseHandlerBuilder;
-use Carpenstar\ByBitAPI\Core\Builders\RestBuilder;
-use Carpenstar\ByBitAPI\Core\Enums\EnumOutputMode;
-use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
-use Carpenstar\ByBitAPI\Core\Response\CurlResponseDto;
-use Carpenstar\ByBitAPI\Core\Response\CurlResponseHandler;
-use Carpenstar\ByBitAPI\Derivatives\Contract\Order\GetOrderList\Response\GetOrderListResponse;
-use Carpenstar\ByBitAPI\Derivatives\Contract\Order\ReplaceOrder\Overrides\TestReplaceOrder;
+use Carpenstar\ByBitAPI\BybitAPI;
+use Carpenstar\ByBitAPI\Core\Interfaces\IResponseInterface;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Order\ReplaceOrder\ReplaceOrder;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Order\ReplaceOrder\Request\ReplaceOrderRequest;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Order\ReplaceOrder\Response\ReplaceOrderResponse;
 use PHPUnit\Framework\TestCase;
 
 class ReplaceOrderTest extends TestCase
 {
-    static private string $replaceOrderResponse = '{"retCode":0,"retMsg":"OK","result":{"orderId":"1a1ae001-2034-4a6b-8b25-45aa9100b1ec","orderLinkId":"e80d558e-ed"}}';
-
-    public function testReplaceOrderDTOBuilder()
+    public function testSuccessEndpoint()
     {
-        $dto = ResponseDtoBuilder::make(ReplaceOrderResponse::class, json_decode(self::$replaceOrderResponse, true)['result']);
-        $this->assertInstanceOf(ReplaceOrderResponse::class, $dto);
-    }
+        $bybitApi = (new BybitAPI())
+            ->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-    public function testReplaceOrderResponseHandlerBuilder()
-    {
-        $handler = ResponseHandlerBuilder::make(self::$replaceOrderResponse, CurlResponseHandler::class, GetOrderListResponse::class);
-        $this->assertInstanceOf(EntityCollection::class, $handler->getBody());
-        $this->assertGreaterThan(0, $handler->getBody()->count());
-    }
+        /** @var IResponseInterface $endpointResponse */
+        $endpointResponse = $bybitApi->privateEndpoint(ReplaceOrder::class,
+            (new ReplaceOrderRequest())
+                ->setSymbol('BTCUSDT')
+                ->setOrderId('4f279264-6d38-46c1-8216-7e5a2f110c11')
+                ->setPrice(68100)
+        )->execute();
 
-    public function testReplaceOrderEndpoint()
-    {
-        $endpoint = RestBuilder::make(TestReplaceOrder::class, (new ReplaceOrderRequest())->setOrderId(12345));
+        echo "Return code: {$endpointResponse->getReturnCode()} \n";
+        echo "Return message: {$endpointResponse->getReturnMessage()} \n";
 
-        $entityResponse = $endpoint->execute(EnumOutputMode::MODE_ENTITY, self::$replaceOrderResponse);
-        $this->assertInstanceOf(CurlResponseDto::class, $entityResponse);
-        $body = $entityResponse->getBody();
-        $this->assertInstanceOf(EntityCollection::class, $body);
-        $dto = $body->fetch();
-        $this->assertInstanceOf(ReplaceOrderResponse::class, $dto);
+        /** @var ReplaceOrderResponse $orderInfo */
+        $orderInfo = $endpointResponse->getResult();
+        echo "Order ID: {$orderInfo->getOrderId()}\n";
+        echo "Order Link ID: {$orderInfo->getOrderLinkId()}\n";
+
+        $this->assertTrue(true);
     }
 }

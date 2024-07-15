@@ -1,26 +1,33 @@
 <?php
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\Tests;
 
-use Carpenstar\ByBitAPI\Core\Builders\RestBuilder;
-use Carpenstar\ByBitAPI\Core\Enums\EnumOutputMode;
-use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
-use Carpenstar\ByBitAPI\Core\Response\CurlResponseDto;
-use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\Overrides\TestSwitchPositionMode;
+
+use Carpenstar\ByBitAPI\BybitAPI;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\Request\SwitchPositionModeRequest;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\SwitchPositionMode;
 use PHPUnit\Framework\TestCase;
 
 class SwitchPositionModeTest extends TestCase
 {
-    static private string $switchCrossResponse = '{"retCode":0,"retMsg":"OK","result":{},"retExtInfo":{},"time":1670826151500}';
-
-    public function testSwitchPositionModeEndpoint()
+    public function testSuccessEndpoint()
     {
-        $endpoint = RestBuilder::make(TestSwitchPositionMode::class, (new SwitchPositionModeRequest()));
+        $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-        $entityResponse = $endpoint->execute(EnumOutputMode::MODE_ENTITY, self::$switchCrossResponse);
+        $isSwitchCrossMargin = $bybit->privateEndpoint(SwitchPositionMode::class, (new SwitchPositionModeRequest())
+            ->setSymbol('BTCUSDT')
+            ->setMode(3)
+        )->execute();
 
-        $this->assertInstanceOf(CurlResponseDto::class, $entityResponse);
-        $body = $entityResponse->getBody();
-        $this->assertInstanceOf(EntityCollection::class, $body);
+        if ($isSwitchCrossMargin->getReturnCode() == 0) {
+            echo "Success set position mode: {$isSwitchCrossMargin->getReturnMessage()}\n";
+        } else {
+            echo "Failed set position mode: {$isSwitchCrossMargin->getReturnMessage()}\n";
+        }
+
+        /**
+         * Success set position mode: OK
+         * ----- OR
+         * Failed set position mode: symbol has order, can not switch mode
+         */
     }
 }

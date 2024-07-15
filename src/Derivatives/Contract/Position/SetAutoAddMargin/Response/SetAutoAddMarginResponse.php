@@ -5,5 +5,7 @@ use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
 
 class SetAutoAddMarginResponse extends AbstractResponse
 {
-    public function __construct(array $data) {}
+    public function __construct(array $data)
+    {
+    }
 }

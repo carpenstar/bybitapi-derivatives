@@ -69,12 +69,12 @@ class GetClosedPnLRequest extends AbstractParameters implements IGetClosedPnLReq
     }
 
     /**
-     * @param int $startTime
+     * @param string $startTime
      * @return GetClosedPnLRequest
      */
-    public function setStartTime(int $startTime): self
+    public function setStartTime(string $startTime): self
     {
-        $this->startTime = DateTimeHelper::makeFromTimestamp($startTime);
+        $this->startTime = DateTimeHelper::makeDateTimeFromDateString($startTime);
         return $this;
     }
 
@@ -87,12 +87,12 @@ class GetClosedPnLRequest extends AbstractParameters implements IGetClosedPnLReq
     }
 
     /**
-     * @param int $endTime
+     * @param string $endTime
      * @return GetClosedPnLRequest
      */
-    public function setEndTime(int $endTime): self
+    public function setEndTime(string $endTime): self
     {
-        $this->endTime = DateTimeHelper::makeFromTimestamp($endTime);
+        $this->endTime = DateTimeHelper::makeDateTimeFromDateString($endTime);
         return $this;
     }
 

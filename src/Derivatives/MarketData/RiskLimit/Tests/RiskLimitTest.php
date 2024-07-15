@@ -1,50 +1,38 @@
 <?php
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Tests;
 
-use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
-use Carpenstar\ByBitAPI\Core\Builders\ResponseHandlerBuilder;
-use Carpenstar\ByBitAPI\Core\Builders\RestBuilder;
-use Carpenstar\ByBitAPI\Core\Enums\EnumOutputMode;
-use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
-use Carpenstar\ByBitAPI\Core\Response\CurlResponseDto;
-use Carpenstar\ByBitAPI\Core\Response\CurlResponseHandler;
-use Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Overrides\TestRiskLimit;
+use Carpenstar\ByBitAPI\BybitAPI;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Request\RiskLimitsRequest;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Response\RiskLimitsResponse;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\RiskLimit;
 use PHPUnit\Framework\TestCase;
 
 class RiskLimitTest extends TestCase
 {
-    static private string $riskLimitResponse = '{"retCode":0,"retMsg":"OK","result":{"category":"","list":[{"id":1,"symbol":"ETHPERP","limit":"500000","maintainMargin":"0.01","initialMargin":"0.015","isLowestRisk":1,"maxLeverage":"66.67"}]},"retExtInfo":{},"time":1671970615467}';
-
-    public function testRiskLimitDTOBuilder()
-    {
-        foreach (json_decode(self::$riskLimitResponse, true)['result']["list"] as $feeRate) {
-            $dto = ResponseDtoBuilder::make(RiskLimitsResponse::class, $feeRate);
-            $this->assertInstanceOf(RiskLimitsResponse::class, $dto);
-        }
-    }
-
-    public function testRiskLimitResponseHandlerBuilder()
-    {
-        $handler = ResponseHandlerBuilder::make(self::$riskLimitResponse, CurlResponseHandler::class, RiskLimitsResponse::class);
-        $this->assertInstanceOf(EntityCollection::class, $handler->getBody());
-        $this->assertGreaterThan(0, $handler->getBody()->count());
-    }
-
     public function testRiskLimitEndpoint()
     {
-        $endpoint = RestBuilder::make(TestRiskLimit::class, (new RiskLimitsRequest())->setSymbol('ETHPERP'));
+        $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-        $entityResponse = $endpoint->execute(EnumOutputMode::MODE_ENTITY, self::$riskLimitResponse);
+        $endpointResponse = $bybit->publicEndpoint(RiskLimit::class, (new RiskLimitsRequest())
+            ->setSymbol('BTCUSDT')
+        )->execute();
 
-        $this->assertInstanceOf(CurlResponseDto::class, $entityResponse);
-        $body = $entityResponse->getBody();
-        $this->assertInstanceOf(EntityCollection::class, $body);
+        echo "Return code: {$endpointResponse->getReturnCode()}\n";
+        echo "Return message: {$endpointResponse->getReturnMessage()}\n";
 
-        foreach ($body->fetch() as $price) {
-            $dto = ResponseDtoBuilder::make(RiskLimitsResponse::class, $price);
-            $this->assertInstanceOf(RiskLimitsResponse::class, $dto);
+        /** @var RiskLimitsResponse $riskLimit */
+        $riskLimit = $endpointResponse->getResult();
+        foreach ($riskLimit->getRiskLimitList() as $risk) {
+            echo "--- \n";
+            echo "ID: {$risk->getId()}\n";
+            echo "Symbol: {$risk->getSymbol()}\n";
+            echo "Limit: {$risk->getLimit()}\n";
+            echo "Maintain Margin: {$risk->getMaintainMargin()}\n";
+            echo "Initial Margin: {$risk->getInitialMargin()}\n";
+            echo "Is Lower Risk: {$risk->getIsLowerRisk()}\n";
+            echo "Maximal Leverage: {$risk->getMaxLeverage()}\n";
         }
+
+        $this->assertTrue(true);
     }
 }

@@ -13,13 +13,13 @@ class ReplaceOrder extends PrivateEndpoint implements IPostEndpointInterface
         return "/contract/v3/private/order/replace";
     }
 
-    protected function getResponseClassname(): string
-    {
-        return ReplaceOrderResponse::class;
-    }
-
     protected function getRequestClassname(): string
     {
         return ReplaceOrderRequest::class;
+    }
+
+    protected function getResponseClassnameByCondition(array &$apiData = null): string
+    {
+        return ReplaceOrderResponse::class;
     }
 }

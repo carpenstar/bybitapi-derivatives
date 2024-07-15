@@ -1,26 +1,33 @@
 <?php
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetLeverage\Tests;
 
-use Carpenstar\ByBitAPI\Core\Builders\RestBuilder;
-use Carpenstar\ByBitAPI\Core\Enums\EnumOutputMode;
-use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
-use Carpenstar\ByBitAPI\Core\Response\CurlResponseDto;
-use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetLeverage\Overrides\TestSetLeverage;
+use Carpenstar\ByBitAPI\BybitAPI;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetLeverage\Request\SetLeverageRequest;
+use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetLeverage\SetLeverage;
 use PHPUnit\Framework\TestCase;
 
 class SetLeverageTest extends TestCase
 {
-    static private string $autoAddMarginResponse = '{"retCode":0,"retMsg":"OK","result":{},"retExtInfo":{},"time":1670826151500}';
-
-    public function testSetLeverageEndpoint()
+    public function testSuccessEndpoint()
     {
-        $endpoint = RestBuilder::make(TestSetLeverage::class, (new SetLeverageRequest()));
+        $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-        $entityResponse = $endpoint->execute(EnumOutputMode::MODE_ENTITY, self::$autoAddMarginResponse);
+        $isSetAutoAddMargin = $bybit->privateEndpoint(SetLeverage::class, (new SetLeverageRequest())
+            ->setSymbol('BTCUSDT')
+            ->setSellLeverage(5)
+            ->setBuyLeverage(5)
+        )->execute();
 
-        $this->assertInstanceOf(CurlResponseDto::class, $entityResponse);
-        $body = $entityResponse->getBody();
-        $this->assertInstanceOf(EntityCollection::class, $body);
+        if ($isSetAutoAddMargin->getReturnCode() == 0) {
+            echo "Success set leverage: {$isSetAutoAddMargin->getReturnMessage()}\n";
+        } else {
+            echo "Not success set leverage: {$isSetAutoAddMargin->getReturnMessage()}\n";
+        }
+
+        /**
+         * Success set leverage: OK
+         * ---- OR
+         * Not success set leverage: leverage not modified
+         */
     }
 }

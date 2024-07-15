@@ -10,19 +10,19 @@ class CancelOrderRequest extends AbstractParameters implements ICancelOrderReque
      * Symbol name
      * @var string $symbol
      */
-    private string $symbol;
+    protected string $symbol;
 
     /**
      * Order id. Either orderId or orderLinkId is required
      * @var string $orderId
      */
-    private string $orderId;
+    protected string $orderId;
 
     /**
      * User customised order id. Either orderId or orderLinkId is required
      * @var string $orderLinkId
      */
-    private string $orderLinkId;
+    protected string $orderLinkId;
 
     public function __construct()
     {

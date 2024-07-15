@@ -1,134 +1,34 @@
 <?php
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Response;
 
-use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
+use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
-use Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Interfaces\IIndexPriceKlineResponse;
+use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
+use Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Interfaces\IIndexPriceKlineResponseInterface;
 
-class IndexPriceKlineResponse extends AbstractResponse implements IIndexPriceKlineResponse
+class IndexPriceKlineResponse extends AbstractResponse implements IIndexPriceKlineResponseInterface
 {
-    /**
-     * @var \DateTime $start
-     */
-    private \DateTime $startTime;
 
     /**
-     * @var float $open
+     * @var IndexPriceKlineResponseItem[]
      */
-    private float $open;
-
-    /**
-     * @var float $high
-     */
-    private float $high;
-
-    /**
-     * @var float $low
-     */
-    private float $low;
-
-    /**
-     * @var float $close
-     */
-    private float $close;
+    private EntityCollection $list;
 
     public function __construct(array $data)
     {
-        $this
-            ->setStartTime($data[0])
-            ->setOpen($data[1])
-            ->setHigh($data[2])
-            ->setLow($data[3])
-            ->setClose($data[4]);
+        $list = new EntityCollection();
+
+        if (!empty($data['list'])) {
+            array_map(function ($item) use ($list) {
+                $list->push(ResponseDtoBuilder::make(IndexPriceKlineResponseItem::class, $item));
+            }, $data['list']);
+        }
+
+        $this->list = $list;
     }
 
-    /**
-     * @param int $startTime
-     * @return IndexPriceKlineResponse
-     */
-    public function setStartTime(int $startTime): self
+    public function getKlineList(): array
     {
-        $this->startTime = DateTimeHelper::makeFromTimestamp($startTime);
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getStartTime(): \DateTime
-    {
-        return $this->startTime;
-    }
-
-    /**
-     * @param float $open
-     * @return $this
-     */
-    private function setOpen(float $open): self
-    {
-        $this->open = $open;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getOpen(): float
-    {
-        return $this->open;
-    }
-
-    /**
-     * @param float $high
-     * @return $this
-     */
-    private function setHigh(float $high): self
-    {
-        $this->high = $high;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getHigh(): float
-    {
-        return $this->high;
-    }
-
-    /**
-     * @param float $low
-     * @return $this
-     */
-    private function setLow(float $low): self
-    {
-        $this->low = $low;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLow(): float
-    {
-        return $this->low;
-    }
-
-    /**
-     * @param float $close
-     * @return $this
-     */
-    private function setClose(float $close): self
-    {
-        $this->close = $close;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getClose(): float
-    {
-        return $this->close;
+        return $this->list->all();
     }
 }

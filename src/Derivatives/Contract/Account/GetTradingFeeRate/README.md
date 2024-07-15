@@ -7,7 +7,9 @@
 Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\GetTradingFeeRate::class
 ```
 
-<p align="center" width="100%"><b>EXAMPLE</b></p>
+<br />
+
+<h3 align="left" width="100%"><b>EXAMPLE</b></h3>
 
 ---
 
@@ -17,40 +19,43 @@ use Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\GetTradin
 use Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Request\GetTradingFeeRateRequest;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Response\GetTradingFeeRateResponse;
 
-$bybit = new BybitAPI('https://api-testnet.bybit.com',"apiKey", "secret");
+$bybit = (new BybitAPI())
+    ->setCredentials('https://api-testnet.bybit.com', 'apiKey', 'apiSecret');
 
-$feeRateData = $bybit->rest(GetTradingFeeRate::class, (new GetTradingFeeRateRequest()))->getBody()->all();
-$feeRateData = array_slice($feeRateData, 0, 3);
+$feeRateData = $bybit->privateEndpoint(GetTradingFeeRate::class, (new GetTradingFeeRateRequest()))->execute();
 
+echo "Return code: {$feeRateData->getReturnCode()} \n";
+echo "Return message: {$feeRateData->getReturnMessage()} \n";
 
-
-/** @var GetTradingFeeRateResponse $feeRate */
-foreach ($feeRateData as $feeRate) {
-    echo "Symbol: {$feeRate->getSymbol()}" . PHP_EOL;
-    echo "Taker Fee Rate: {$feeRate->getTakerFeeRate()}" . PHP_EOL;
-    echo "Maker Fee Rate: {$feeRate->getMakerFeeRate()}" . PHP_EOL;
-    echo "---" . PHP_EOL;
+/** @var GetTradingFeeRateResponseItem $feeRate */
+foreach (array_slice($feeRateData->getResult()->getFeeRates(), 0, 3) as $feeRate) {
+    echo "---\n";
+    echo "Symbol: {$feeRate->getSymbol()} \n";
+    echo "Taker Fee Rate: {$feeRate->getTakerFeeRate()} \n";
+    echo "Maker Fee Rate: {$feeRate->getMakerFeeRate()} \n";
 }
 
 /**
- * Result:
- *
- * Symbol: CTKUSDT
- * Taker Fee Rate: 0.0006
- * Maker Fee Rate: 0.0001
- * ---
- * Symbol: FILUSDT
- * Taker Fee Rate: 0.0006
- * Maker Fee Rate: 0.0001
- * ---
- * Symbol: BLURUSDT
- * Taker Fee Rate: 0.0006
- * Maker Fee Rate: 0.0001
- * ---
- */
+* Return code: 0
+* Return message: OK 
+* ---
+* Symbol: ORCAUSDT 
+* Taker Fee Rate: 0.00055 
+* Maker Fee Rate: 0.0002 
+* ---
+* Symbol: BBUSDT 
+* Taker Fee Rate: 0.00055 
+* Maker Fee Rate: 0.0002 
+* ---
+* Symbol: INJUSDT 
+* Taker Fee Rate: 0.00055 
+* Maker Fee Rate: 0.0002
+**/
 ```
 
-<p align="center" width="100%"><b>REQUEST PARAMETERS</b></p>
+<br />
+
+<h3 align="left" width="100%"><b>REQUEST PARAMETERS</b></h3>
 
 ---
 
@@ -88,18 +93,22 @@ interface IGetTradingFeeRateRequestInterface
   </tr>
 </table>
 
-<p align="center" width="100%"><b>RESPONSE STRUCTURE</b></p>
+
+<br />
+
+<h3 align="left" width="100%"><b>RESPONSE STRUCTURE</b></h3>
 
 ---
 
 ```php
-namespace Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Interfaces\IGetTradingFeeRateResponseInterface;
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Interfaces;
 
 interface IGetTradingFeeRateResponseInterface
 {
-    public function getSymbol(): string; // Trading pair
-    public function getTakerFeeRate(): float; // Taker (buyer) commission
-    public function getMakerFeeRate(): float; // Maker (seller) commission
+    /**
+     * @return IGetTradingFeeRateResponseItemInterface[]
+     */
+    public function getFeeRates(): array;
 }
 ```
 <table style="width: 100%">
@@ -122,23 +131,62 @@ interface IGetTradingFeeRateResponseInterface
   </tr>
   <tr>
     <td>IGetTradingFeeRateResponseInterface::getSymbol()</td>
+    <td>IGetTradingFeeRateResponseItemInterface[]</td>
+    <td>
+      List of fee rates
+    </td>
+  </tr>
+</table>
+
+<br />
+
+```php
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Interfaces\IGetTradingFeeRateResponseInterface;
+
+interface IGetTradingFeeRateResponseItemInterface
+{
+    public function getSymbol(): string; // Trading pair
+    public function getTakerFeeRate(): float; // Taker (buyer) commission
+    public function getMakerFeeRate(): float; // Maker (seller) commission
+}
+```
+<table style="width: 100%">
+  <tr>
+    <td colspan="3">
+        <sup><b>INTERFACE</b></sup> <br />
+        <b>\Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Interfaces\IGetTradingFeeRateResponseItemInterface::class</b>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">
+        <sup><b>DTO</b></sup> <br />
+        <b>\Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Response\GetTradingFeeRateResponseItem::class</b>
+    </td>
+  </tr>
+  <tr>
+    <th style="width: 20%; text-align: center">Method</th>
+    <th style="width: 20%; text-align: center">Type</th>
+    <th style="width: 60%; text-align: center">Description</th>
+  </tr>
+  <tr>
+    <td>IGetTradingFeeRateResponseItemInterface::getSymbol()</td>
     <td>string</td>
     <td>
       Trading pair
     </td>
   </tr>
   <tr>
-    <td>IGetTradingFeeRateResponseInterface::getTakerFeeRate()</td>
+    <td>IGetTradingFeeRateResponseItemInterface::getTakerFeeRate()</td>
     <td>float</td>
     <td>
-      Taker (buyer) commission
+      Taker commission
     </td>
   </tr>
   <tr>
-    <td>IGetTradingFeeRateResponseInterface::getMakerFeeRate()</td>
+    <td>IGetTradingFeeRateResponseItemInterface::getMakerFeeRate()</td>
     <td>float</td>
     <td>
-      Maker (seller) commission
+      Maker commission
     </td>
   </tr>
 </table>
