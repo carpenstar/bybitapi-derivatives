@@ -30,15 +30,6 @@ class SwitchCrossIsolatedMarginRequest extends AbstractParameters implements ISw
      */
     protected float $sellLeverage;
 
-    public function __construct()
-    {
-        $this
-            ->setRequiredField("symbol")
-            ->setRequiredField('tradeMode')
-            ->setRequiredField('buyLeverage')
-            ->setRequiredField('sellLeverage');
-    }
-
     /**
      * @return string
      */

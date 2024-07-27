@@ -50,13 +50,6 @@ class OpenInterestRequest extends AbstractParameters implements IOpenInterestReq
      */
     protected string $cursor;
 
-    public function __construct()
-    {
-        $this
-            ->setRequiredField('symbol')
-            ->setRequiredField('interval');
-    }
-
     /**
      * @return string
      */

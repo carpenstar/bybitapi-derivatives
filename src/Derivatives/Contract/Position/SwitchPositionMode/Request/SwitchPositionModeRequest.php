@@ -24,13 +24,6 @@ class SwitchPositionModeRequest extends AbstractParameters implements ISwitchPos
      */
     protected int $mode;
 
-    public function __construct()
-    {
-        $this
-            ->setRequiredBetweenField("symbol", "coin")
-            ->setRequiredField("mode");
-    }
-
     /**
      * @return string
      */

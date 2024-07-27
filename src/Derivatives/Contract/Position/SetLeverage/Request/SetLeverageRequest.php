@@ -24,14 +24,6 @@ class SetLeverageRequest extends AbstractParameters implements ISetLeverageReque
      */
     protected float $sellLeverage;
 
-    public function __construct()
-    {
-        $this
-            ->setRequiredField('symbol')
-            ->setRequiredField('buyLeverage')
-            ->setRequiredField('sellLeverage');
-    }
-
     /**
      * @return string
      */

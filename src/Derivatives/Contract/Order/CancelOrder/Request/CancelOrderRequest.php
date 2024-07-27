@@ -24,11 +24,6 @@ class CancelOrderRequest extends AbstractParameters implements ICancelOrderReque
      */
     protected string $orderLinkId;
 
-    public function __construct()
-    {
-        $this->setRequiredField('symbol');
-    }
-
     /**
      * @return string
      */

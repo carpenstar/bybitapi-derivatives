@@ -46,15 +46,6 @@ class IndexPriceKlineRequest extends AbstractParameters implements IIndexPriceKl
      */
     protected int $limit = 200;
 
-    public function __construct()
-    {
-        $this
-            ->setRequiredField('symbol')
-            ->setRequiredField('interval')
-            ->setRequiredField('start')
-            ->setRequiredField('end');
-    }
-
     /**
      * @return string
      */

@@ -24,11 +24,6 @@ class PublicTradingHistoryRequest extends AbstractParameters implements IPublicT
      */
     protected int $limit = 500;
 
-    public function __construct()
-    {
-        $this->setRequiredField('symbol');
-    }
-
     /**
      * @return string
      */

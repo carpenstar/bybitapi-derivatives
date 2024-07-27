@@ -31,15 +31,6 @@ class SetAutoAddMarginRequest extends AbstractParameters implements ISetAutoAddM
      */
     protected int $positionIdx;
 
-    public function __construct()
-    {
-        $this
-            ->setRequiredField('symbol')
-            ->setRequiredField('side')
-            ->setRequiredField('autoAddMargin')
-            ->setRequiredField('positionIdx');
-    }
-
     /**
      * @return string
      */

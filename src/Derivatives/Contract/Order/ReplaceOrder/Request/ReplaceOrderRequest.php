@@ -81,11 +81,6 @@ class ReplaceOrderRequest extends AbstractParameters implements IReplaceOrderReq
      */
     protected array $requiredBetweenFields;
 
-    public function __construct()
-    {
-        $this->setRequiredField("symbol");
-    }
-
     /**
      * @return string
      */

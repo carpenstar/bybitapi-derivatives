@@ -14,11 +14,6 @@ class TickerInfoRequest extends AbstractParameters implements ITickerInfoRequest
 
     protected string $symbol;
 
-    public function __construct()
-    {
-        $this->setRequiredField('symbol');
-    }
-
     public function getCategory(): string
     {
         return $this->category;

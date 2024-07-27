@@ -100,11 +100,6 @@ class SetTradingStopRequest extends AbstractParameters implements ISetTradingSto
      */
     protected int $positionIdx;
 
-    public function __construct()
-    {
-        $this->setRequiredField("symbol");
-    }
-
     /**
      * @return string
      */

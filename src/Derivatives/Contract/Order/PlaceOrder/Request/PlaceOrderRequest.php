@@ -173,15 +173,6 @@ class PlaceOrderRequest extends AbstractParameters implements IPlaceOrderRequest
      */
     protected string $slOrderType;
 
-    public function __construct()
-    {
-        $this
-            ->setRequiredField('symbol')
-            ->setRequiredField('side')
-            ->setRequiredField('orderType')
-            ->setRequiredField('qty');
-    }
-
     /**
      * @return string
      */

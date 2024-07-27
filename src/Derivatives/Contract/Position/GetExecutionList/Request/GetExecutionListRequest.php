@@ -49,11 +49,6 @@ class GetExecutionListRequest extends AbstractParameters implements IGetExecutio
      */
     protected string $cursor;
 
-    public function __construct()
-    {
-        $this->setRequiredField("symbol");
-    }
-
     /**
      * @return string
      */

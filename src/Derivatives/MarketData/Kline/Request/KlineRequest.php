@@ -44,15 +44,6 @@ class KlineRequest extends AbstractParameters implements IKlineRequestInterface
      */
     protected int $limit = 200;
 
-    public function __construct()
-    {
-        $this
-            ->setRequiredField('symbol')
-            ->setRequiredField('interval')
-            ->setRequiredField('start')
-            ->setRequiredField('end');
-    }
-
     /**
      * @return string
      */
