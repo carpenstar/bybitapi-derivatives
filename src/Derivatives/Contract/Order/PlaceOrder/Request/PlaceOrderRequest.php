@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder\Request;
 
 use Carpenstar\ByBitAPI\Core\Enums\EnumOrderType;
@@ -15,7 +16,6 @@ use Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder\Interfaces\IPlaceO
 
 class PlaceOrderRequest extends AbstractParameters implements IPlaceOrderRequestInterface
 {
-
     /**
      * Symbol name
      * @var string $symbol

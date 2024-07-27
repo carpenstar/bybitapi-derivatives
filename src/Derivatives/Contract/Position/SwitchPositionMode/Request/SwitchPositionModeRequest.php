@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;

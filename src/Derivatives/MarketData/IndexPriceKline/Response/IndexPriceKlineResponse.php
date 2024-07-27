@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
@@ -8,7 +9,6 @@ use Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Interfaces\IIndex
 
 class IndexPriceKlineResponse extends AbstractResponse implements IIndexPriceKlineResponseInterface
 {
-
     /**
      * @var IndexPriceKlineResponseItem[]
      */

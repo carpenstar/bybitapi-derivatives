@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder\Response;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;

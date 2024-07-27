@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetTradingStop\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;

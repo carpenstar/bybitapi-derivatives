@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\OrderBook\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -14,7 +15,9 @@ class OrderBookTest extends TestCase
     {
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-        $orderBookResponse = $bybit->publicEndpoint(OrderBook::class, (new OrderBookRequest())
+        $orderBookResponse = $bybit->publicEndpoint(
+            OrderBook::class,
+            (new OrderBookRequest())
             ->setSymbol('BTCUSDT')
             ->setLimit(3)
         )->execute();

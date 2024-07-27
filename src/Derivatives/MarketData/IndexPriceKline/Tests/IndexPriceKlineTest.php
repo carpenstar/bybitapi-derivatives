@@ -1,6 +1,6 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Tests;
 
+namespace Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
 use Carpenstar\ByBitAPI\Core\Enums\EnumIntervals;
@@ -15,7 +15,9 @@ class indexPriceKlineTest extends TestCase
     {
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-        $indexPriceKlineResponse = $bybit->publicEndpoint(IndexPriceKline::class, (new IndexPriceKlineRequest())
+        $indexPriceKlineResponse = $bybit->publicEndpoint(
+            IndexPriceKline::class,
+            (new IndexPriceKlineRequest())
             ->setSymbol('BTCUSDT')
             ->setInterval(EnumIntervals::HOUR_1)
             ->setStart('2024-07-11 10:00:00')

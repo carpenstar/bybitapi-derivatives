@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\GetClosedPnL\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -13,7 +14,9 @@ class GetClosedPnLTest extends TestCase
     {
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-        $pnlEndpointResponse = $bybit->privateEndpoint(GetClosedPnL::class, (new GetClosedPnLRequest())
+        $pnlEndpointResponse = $bybit->privateEndpoint(
+            GetClosedPnL::class,
+            (new GetClosedPnLRequest())
             ->setSymbol('BTCUSDT')
             ->setLimit(2)
         )->execute();

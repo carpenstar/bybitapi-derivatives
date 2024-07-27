@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Account\WalletBalance\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;

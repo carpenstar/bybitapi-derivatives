@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\GetOrderList\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;

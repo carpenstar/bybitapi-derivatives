@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\InstrumentInfo\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Interfaces;
 
 interface IRiskLimitsResponseItemInterface

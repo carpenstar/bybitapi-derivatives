@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\GetOrderList\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -17,8 +18,10 @@ class GetOrderListTest extends TestCase
             ->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
         /** @var IResponseInterface $endpointResponse */
-        $endpointResponse = $bybitApi->privateEndpoint(GetOrderList::class,
-            (new GetOrderListRequest())->setSymbol('BTCUSDT')->setLimit(2))
+        $endpointResponse = $bybitApi->privateEndpoint(
+            GetOrderList::class,
+            (new GetOrderListRequest())->setSymbol('BTCUSDT')->setLimit(2)
+        )
             ->execute();
 
         echo "Return code: {$endpointResponse->getReturnCode()} \n";

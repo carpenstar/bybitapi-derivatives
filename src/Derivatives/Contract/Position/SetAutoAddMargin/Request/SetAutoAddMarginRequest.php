@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetAutoAddMargin\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
@@ -6,7 +7,6 @@ use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetAutoAddMargin\Interface
 
 class SetAutoAddMarginRequest extends AbstractParameters implements ISetAutoAddMarginRequestInterface
 {
-
     /**
      * Symbol name
      * @var string $symbol

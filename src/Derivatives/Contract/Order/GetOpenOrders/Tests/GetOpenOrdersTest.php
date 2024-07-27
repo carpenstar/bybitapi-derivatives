@@ -1,6 +1,6 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\GetOpenOrders\Tests;
 
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\GetOpenOrders\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Order\GetOpenOrders\GetOpenOrders;
@@ -16,8 +16,10 @@ class GetOpenOrdersTest extends TestCase
         $bybitApi = (new BybitAPI())
             ->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-        $getOpenOrdersResponse = $bybitApi->privateEndpoint(GetOpenOrders::class,
-            (new GetOpenOrdersRequest())->setSymbol('BTCUSDT')->setLimit(2))->execute();
+        $getOpenOrdersResponse = $bybitApi->privateEndpoint(
+            GetOpenOrders::class,
+            (new GetOpenOrdersRequest())->setSymbol('BTCUSDT')->setLimit(2)
+        )->execute();
 
         echo "Return code: {$getOpenOrdersResponse->getReturnCode()} \n";
         echo "Return message: {$getOpenOrdersResponse->getReturnMessage()} \n";

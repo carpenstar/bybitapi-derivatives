@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\Kline\Response;
 
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;

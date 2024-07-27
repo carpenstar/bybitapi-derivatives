@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Request;
 
 use Carpenstar\ByBitAPI\Core\Enums\EnumDerivativesCategory;

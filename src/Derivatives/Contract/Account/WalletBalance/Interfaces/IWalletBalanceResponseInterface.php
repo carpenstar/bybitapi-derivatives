@@ -1,6 +1,6 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\Contract\Account\WalletBalance\Interfaces;
 
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Account\WalletBalance\Interfaces;
 
 use Carpenstar\ByBitAPI\Spot\Account\WalletBalance\Interfaces\IWalletBalanceResponseItemInterfaces;
 

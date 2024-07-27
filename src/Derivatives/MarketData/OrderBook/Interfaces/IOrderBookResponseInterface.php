@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\OrderBook\Interfaces;
 
 use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;

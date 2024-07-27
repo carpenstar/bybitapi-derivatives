@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;

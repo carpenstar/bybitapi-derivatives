@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\PublicTradingHistory\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -14,7 +15,9 @@ class PublicTradingHistoryTest extends TestCase
     {
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-        $endpointResponse = $bybit->publicEndpoint(PublicTradingHistory::class, (new PublicTradingHistoryRequest())
+        $endpointResponse = $bybit->publicEndpoint(
+            PublicTradingHistory::class,
+            (new PublicTradingHistoryRequest())
             ->setSymbol('BTCUSDT')
             ->setLimit(3)
         )->execute();

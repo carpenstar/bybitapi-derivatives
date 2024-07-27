@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces;
 
 interface ITickerInfoRequestInterface

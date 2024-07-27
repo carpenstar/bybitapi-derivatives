@@ -1,6 +1,6 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\MarketData\FundingRateHistory\Response;
 
+namespace Carpenstar\ByBitAPI\Derivatives\MarketData\FundingRateHistory\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;

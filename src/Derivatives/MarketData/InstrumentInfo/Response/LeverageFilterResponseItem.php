@@ -1,10 +1,11 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\InstrumentInfo\Response;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\InstrumentInfo\Interfaces\ILeverageFilterItemInterface;
 
-class LeverageFilterResponseItem extends AbstractResponse implements  ILeverageFilterItemInterface
+class LeverageFilterResponseItem extends AbstractResponse implements ILeverageFilterItemInterface
 {
     /**
      * Min. leverage

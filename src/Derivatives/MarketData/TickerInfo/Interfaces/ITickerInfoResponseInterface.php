@@ -1,6 +1,6 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces;
 
+namespace Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces;
 
 interface ITickerInfoResponseInterface
 {
