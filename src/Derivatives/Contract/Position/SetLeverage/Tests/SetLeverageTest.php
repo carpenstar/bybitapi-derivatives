@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetLeverage\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -12,7 +13,9 @@ class SetLeverageTest extends TestCase
     {
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-        $isSetAutoAddMargin = $bybit->privateEndpoint(SetLeverage::class, (new SetLeverageRequest())
+        $isSetAutoAddMargin = $bybit->privateEndpoint(
+            SetLeverage::class,
+            (new SetLeverageRequest())
             ->setSymbol('BTCUSDT')
             ->setSellLeverage(5)
             ->setBuyLeverage(5)

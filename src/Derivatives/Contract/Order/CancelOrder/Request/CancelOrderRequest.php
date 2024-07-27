@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelOrder\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
@@ -23,11 +24,6 @@ class CancelOrderRequest extends AbstractParameters implements ICancelOrderReque
      * @var string $orderLinkId
      */
     protected string $orderLinkId;
-
-    public function __construct()
-    {
-        $this->setRequiredField('symbol');
-    }
 
     /**
      * @return string

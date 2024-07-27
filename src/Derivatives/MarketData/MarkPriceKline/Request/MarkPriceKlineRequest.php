@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Request;
 
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
@@ -43,15 +44,6 @@ class MarkPriceKlineRequest extends AbstractParameters implements IMarkPriceKlin
      * @var int $limit
      */
     protected int $limit = 200;
-
-    public function __construct()
-    {
-        $this
-            ->setRequiredField('symbol')
-            ->setRequiredField('interval')
-            ->setRequiredField('start')
-            ->setRequiredField('end');
-    }
 
     /**
      * @return string

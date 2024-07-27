@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -61,4 +62,3 @@ class MyPositionTest extends TestCase
         $this->assertTrue(true);
     }
 }
-

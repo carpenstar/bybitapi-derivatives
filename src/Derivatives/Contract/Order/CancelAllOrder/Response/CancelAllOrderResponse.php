@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelAllOrder\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;

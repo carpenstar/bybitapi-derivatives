@@ -1,6 +1,6 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelOrder\Tests;
 
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelOrder\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelOrder\CancelOrder;
@@ -15,8 +15,10 @@ class CancelOrderTest extends TestCase
         $bybitApi = (new BybitAPI())
             ->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-        $cancelOrderResponse = $bybitApi->privateEndpoint(CancelOrder::class,
-            (new CancelOrderRequest())->setSymbol('BTCUSDT')->setOrderId('78b869b7-f682-41fe-9edc-dc2dfaaf8d79'))->execute();
+        $cancelOrderResponse = $bybitApi->privateEndpoint(
+            CancelOrder::class,
+            (new CancelOrderRequest())->setSymbol('BTCUSDT')->setOrderId('78b869b7-f682-41fe-9edc-dc2dfaaf8d79')
+        )->execute();
 
         echo "Return code: {$cancelOrderResponse->getReturnCode()} \n";
         echo "Return message: {$cancelOrderResponse->getReturnMessage()} \n";

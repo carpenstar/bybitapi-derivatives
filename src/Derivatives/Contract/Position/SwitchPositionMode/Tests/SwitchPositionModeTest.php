@@ -1,6 +1,6 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\Tests;
 
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\Request\SwitchPositionModeRequest;
@@ -13,7 +13,9 @@ class SwitchPositionModeTest extends TestCase
     {
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-        $isSwitchCrossMargin = $bybit->privateEndpoint(SwitchPositionMode::class, (new SwitchPositionModeRequest())
+        $isSwitchCrossMargin = $bybit->privateEndpoint(
+            SwitchPositionMode::class,
+            (new SwitchPositionModeRequest())
             ->setSymbol('BTCUSDT')
             ->setMode(3)
         )->execute();

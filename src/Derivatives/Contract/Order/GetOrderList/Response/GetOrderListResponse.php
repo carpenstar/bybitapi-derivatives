@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\GetOrderList\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
@@ -25,7 +26,7 @@ class GetOrderListResponse extends AbstractResponse implements IGetOrderListResp
     /**
      * @var IGetOrderListResponseItemInterface[]
      */
-    private  $list;
+    private $list;
 
     public function __construct(array $data)
     {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\FundingRateHistory\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -13,7 +14,9 @@ class FundingRateHistoryTest extends TestCase
     {
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-        $fundingRatesEndpointResponse = $bybit->publicEndpoint(FundingRateHistory::class, (new FundingRateHistoryRequest())
+        $fundingRatesEndpointResponse = $bybit->publicEndpoint(
+            FundingRateHistory::class,
+            (new FundingRateHistoryRequest())
             ->setSymbol('BTCUSDT')
         )->execute();
 

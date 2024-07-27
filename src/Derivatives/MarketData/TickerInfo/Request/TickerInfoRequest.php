@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
@@ -13,11 +14,6 @@ class TickerInfoRequest extends AbstractParameters implements ITickerInfoRequest
     protected string $category = 'linear';
 
     protected string $symbol;
-
-    public function __construct()
-    {
-        $this->setRequiredField('symbol');
-    }
 
     public function getCategory(): string
     {

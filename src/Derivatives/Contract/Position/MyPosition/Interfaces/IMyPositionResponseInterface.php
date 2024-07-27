@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Interfaces;
 
 interface IMyPositionResponseInterface

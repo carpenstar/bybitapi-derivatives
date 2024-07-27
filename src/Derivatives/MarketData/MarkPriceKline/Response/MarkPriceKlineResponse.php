@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\MarkPriceKline\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;

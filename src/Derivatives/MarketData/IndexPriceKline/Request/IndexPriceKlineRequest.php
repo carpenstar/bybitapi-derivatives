@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\IndexPriceKline\Request;
 
 use Carpenstar\ByBitAPI\Core\Enums\EnumDerivativesCategory;
@@ -45,15 +46,6 @@ class IndexPriceKlineRequest extends AbstractParameters implements IIndexPriceKl
      * @var int $limit
      */
     protected int $limit = 200;
-
-    public function __construct()
-    {
-        $this
-            ->setRequiredField('symbol')
-            ->setRequiredField('interval')
-            ->setRequiredField('start')
-            ->setRequiredField('end');
-    }
 
     /**
      * @return string

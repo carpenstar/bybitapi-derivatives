@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetTradingStop\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
@@ -99,11 +100,6 @@ class SetTradingStopRequest extends AbstractParameters implements ISetTradingSto
      *  2: hedge-mode Sell side
      */
     protected int $positionIdx;
-
-    public function __construct()
-    {
-        $this->setRequiredField("symbol");
-    }
 
     /**
      * @return string

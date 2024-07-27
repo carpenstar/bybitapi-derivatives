@@ -1,11 +1,10 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Response;
 
+namespace Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Response;
 
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Interfaces\ITickerInfoResponseItemInterface;
-
 
 class TickerInfoResponseItem extends AbstractResponse implements ITickerInfoResponseItemInterface
 {

@@ -1,6 +1,6 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Response;
 
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\MyPosition\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;

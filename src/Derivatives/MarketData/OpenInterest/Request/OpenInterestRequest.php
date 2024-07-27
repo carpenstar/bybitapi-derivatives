@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\OpenInterest\Request;
 
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
@@ -49,13 +50,6 @@ class OpenInterestRequest extends AbstractParameters implements IOpenInterestReq
      * @var string $cursor
      */
     protected string $cursor;
-
-    public function __construct()
-    {
-        $this
-            ->setRequiredField('symbol')
-            ->setRequiredField('interval');
-    }
 
     /**
      * @return string

@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Response;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;

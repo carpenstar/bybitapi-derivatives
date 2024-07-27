@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\FundingRateHistory\Interfaces;
 
 interface IFundingRateHistoryRequestInterface

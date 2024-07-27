@@ -1,6 +1,6 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelAllOrder\Tests;
 
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelAllOrder\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelAllOrder\CancelAllOrder;
@@ -13,7 +13,7 @@ class CancelAllOrderTest extends TestCase
 {
     public function testSuccessEndpoint()
     {
-        $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com','fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
+        $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
         $response = $bybit->privateEndpoint(CancelAllOrder::class, (new CancelAllOrderRequest())->setSymbol('BTCUSDT'))->execute();
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\InstrumentInfo\Response;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
@@ -14,10 +15,10 @@ class LotSizeFilterResponseItem extends AbstractResponse implements ILotSizeFilt
 
     public function __construct(array $data)
     {
-       $this
-           ->setMaxOrderQty($data['maxOrderQty'])
-           ->setMinOrderQty($data['minOrderQty'])
-           ->setQtyStep($data['qtyStep']);
+        $this
+            ->setMaxOrderQty($data['maxOrderQty'])
+            ->setMinOrderQty($data['minOrderQty'])
+            ->setQtyStep($data['qtyStep']);
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\InstrumentInfo\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -13,7 +14,9 @@ class InstrumentInfoTest extends TestCase
     {
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-        $instrumentInfoResponse = $bybit->publicEndpoint(InstrumentInfo::class, (new InstrumentInfoRequest())
+        $instrumentInfoResponse = $bybit->publicEndpoint(
+            InstrumentInfo::class,
+            (new InstrumentInfoRequest())
             ->setSymbol('BTCUSDT')
         )->execute();
 

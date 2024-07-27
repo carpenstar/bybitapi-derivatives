@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\CancelOrder\Interfaces;
 
 interface ICancelOrderResponseInterface

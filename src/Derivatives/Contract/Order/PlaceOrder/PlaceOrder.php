@@ -1,13 +1,19 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder;
 
 use Carpenstar\ByBitAPI\Core\Endpoints\PrivateEndpoint;
-use Carpenstar\ByBitAPI\Core\Interfaces\IPostEndpointInterface;
+use Carpenstar\ByBitAPI\Core\Enums\EnumHttpMethods;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder\Request\PlaceOrderRequest;
 use Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder\Response\PlaceOrderResponse;
 
-class PlaceOrder extends PrivateEndpoint implements IPostEndpointInterface
+class PlaceOrder extends PrivateEndpoint
 {
+    public function getEndpointRequestMethod(): string
+    {
+        return EnumHttpMethods::POST;
+    }
+
     protected function getEndpointUrl(): string
     {
         return "/contract/v3/private/order/create";

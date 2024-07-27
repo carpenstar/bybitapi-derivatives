@@ -1,6 +1,6 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\GetOpenOrders\Response;
 
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\GetOpenOrders\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;

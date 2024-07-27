@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\PublicTradingHistory\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
@@ -23,11 +24,6 @@ class PublicTradingHistoryRequest extends AbstractParameters implements IPublicT
      * @var int $limit
      */
     protected int $limit = 500;
-
-    public function __construct()
-    {
-        $this->setRequiredField('symbol');
-    }
 
     /**
      * @return string

@@ -1,11 +1,11 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\Kline\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;
 use Carpenstar\ByBitAPI\Core\Objects\Collection\EntityCollection;
 use Carpenstar\ByBitAPI\Derivatives\MarketData\Kline\Interfaces\IKlineResponseInterface;
-
 
 class KlineResponse extends AbstractResponse implements IKlineResponseInterface
 {

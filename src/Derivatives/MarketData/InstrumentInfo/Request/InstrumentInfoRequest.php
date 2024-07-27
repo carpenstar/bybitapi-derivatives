@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\InstrumentInfo\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
@@ -29,11 +30,6 @@ class InstrumentInfoRequest extends AbstractParameters implements IInstrumentInf
      * @var string $cursor
      */
     protected string $cursor;
-
-    public function __construct()
-    {
-        $this->setRequiredField('symbol');
-    }
 
     /**
      * @return string

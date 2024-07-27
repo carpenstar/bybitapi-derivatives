@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\GetClosedPnL\Request;
 
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
@@ -36,11 +37,6 @@ class GetClosedPnLRequest extends AbstractParameters implements IGetClosedPnLReq
      * @var string $cursor
      */
     protected string $cursor;
-
-    public function __construct()
-    {
-        $this->setRequiredField('symbol');
-    }
 
     /**
      * @return string

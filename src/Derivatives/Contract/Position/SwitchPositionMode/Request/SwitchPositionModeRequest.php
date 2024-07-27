@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchPositionMode\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
@@ -23,13 +24,6 @@ class SwitchPositionModeRequest extends AbstractParameters implements ISwitchPos
      * @var int $mode
      */
     protected int $mode;
-
-    public function __construct()
-    {
-        $this
-            ->setRequiredBetweenField("symbol", "coin")
-            ->setRequiredField("mode");
-    }
 
     /**
      * @return string

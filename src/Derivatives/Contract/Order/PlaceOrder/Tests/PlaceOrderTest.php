@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\PlaceOrder\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -18,7 +19,8 @@ class PlaceOrderTest extends TestCase
             ->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
         /** @var IResponseInterface $endpointResponse */
-        $endpointResponse = $bybitApi->privateEndpoint(PlaceOrder::class,
+        $endpointResponse = $bybitApi->privateEndpoint(
+            PlaceOrder::class,
             (new PlaceOrderRequest())
                 ->setSymbol('BTCUSDT')
                 ->setOrderType(EnumOrderType::LIMIT)

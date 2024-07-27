@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\GetExecutionList\Request;
 
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;
@@ -48,11 +49,6 @@ class GetExecutionListRequest extends AbstractParameters implements IGetExecutio
      * @var string $cursor
      */
     protected string $cursor;
-
-    public function __construct()
-    {
-        $this->setRequiredField("symbol");
-    }
 
     /**
      * @return string

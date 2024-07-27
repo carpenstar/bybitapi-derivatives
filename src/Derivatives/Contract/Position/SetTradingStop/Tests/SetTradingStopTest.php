@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetTradingStop\Tests;
 
 use PHPUnit\Framework\TestCase;

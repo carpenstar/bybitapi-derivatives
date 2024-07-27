@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\InstrumentInfo\Interfaces;
 
 interface IPriceFilterItemInterface

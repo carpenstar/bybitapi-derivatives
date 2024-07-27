@@ -1,6 +1,6 @@
 <?php
-namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\GetClosedPnL\Response;
 
+namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\GetClosedPnL\Response;
 
 use Carpenstar\ByBitAPI\Core\Builders\ResponseDtoBuilder;
 use Carpenstar\ByBitAPI\Core\Objects\AbstractResponse;

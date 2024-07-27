@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\Kline\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -14,7 +15,9 @@ class KlineTest extends TestCase
     {
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-        $klineResponse = $bybit->publicEndpoint(Kline::class, (new KlineRequest())
+        $klineResponse = $bybit->publicEndpoint(
+            Kline::class,
+            (new KlineRequest())
             ->setSymbol('BTCUSDT')
             ->setInterval(EnumIntervals::HOUR_1)
             ->setStart('2024-07-11 10:00:00')

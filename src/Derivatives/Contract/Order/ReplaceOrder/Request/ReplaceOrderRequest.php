@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Order\ReplaceOrder\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
@@ -80,11 +81,6 @@ class ReplaceOrderRequest extends AbstractParameters implements IReplaceOrderReq
      * @var array $requiredBetweenFields
      */
     protected array $requiredBetweenFields;
-
-    public function __construct()
-    {
-        $this->setRequiredField("symbol");
-    }
 
     /**
      * @return string

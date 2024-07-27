@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Account\WalletBalance\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -11,7 +12,7 @@ class WalletBalanceTest extends TestCase
 {
     public function testSuccessEndpoint()
     {
-        $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com','fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
+        $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
         $response = $bybit->privateEndpoint(WalletBalance::class, (new WalletBalanceRequest()))->execute();
 

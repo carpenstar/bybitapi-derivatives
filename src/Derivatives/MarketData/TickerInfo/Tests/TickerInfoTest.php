@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\RiskLimit\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -7,13 +8,15 @@ use Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\Request\TickerInfoRequ
 use Carpenstar\ByBitAPI\Derivatives\MarketData\TickerInfo\TickerInfo;
 use PHPUnit\Framework\TestCase;
 
-class RiskLimitTest extends TestCase
+class TickerInfoTest extends TestCase
 {
     public function testRiskLimitEndpoint()
     {
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-        $endpointResponse = $bybit->publicEndpoint(TickerInfo::class, (new TickerInfoRequest())
+        $endpointResponse = $bybit->publicEndpoint(
+            TickerInfo::class,
+            (new TickerInfoRequest())
             ->setSymbol('BTCUSDT')
         )->execute();
 

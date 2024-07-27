@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\OpenInterest\Tests;
 
 use Carpenstar\ByBitAPI\BybitAPI;
@@ -13,7 +14,9 @@ class OpenInterestTest extends TestCase
     {
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-        $openInterestResponse = $bybit->publicEndpoint(OpenInterest::class, (new OpenInterestRequest())
+        $openInterestResponse = $bybit->publicEndpoint(
+            OpenInterest::class,
+            (new OpenInterestRequest())
             ->setSymbol('BTCUSDT')
             ->setInterval('5min')
             ->setStart('2024-07-11 10:00:00')

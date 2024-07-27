@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SetLeverage\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
@@ -23,14 +24,6 @@ class SetLeverageRequest extends AbstractParameters implements ISetLeverageReque
      * @var float $sellLeverage
      */
     protected float $sellLeverage;
-
-    public function __construct()
-    {
-        $this
-            ->setRequiredField('symbol')
-            ->setRequiredField('buyLeverage')
-            ->setRequiredField('sellLeverage');
-    }
 
     /**
      * @return string

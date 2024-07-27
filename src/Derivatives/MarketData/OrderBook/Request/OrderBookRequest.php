@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\MarketData\OrderBook\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
@@ -20,11 +21,6 @@ class OrderBookRequest extends AbstractParameters implements IOrderBookRequestIn
      * @var int $limit
      */
     protected int $limit = 25;
-
-    public function __construct()
-    {
-        $this->setRequiredField("symbol");
-    }
 
     /**
      * @return string

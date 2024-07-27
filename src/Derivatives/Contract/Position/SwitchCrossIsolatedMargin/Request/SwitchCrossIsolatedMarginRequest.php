@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\SwitchCrossIsolatedMargin\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
@@ -29,15 +30,6 @@ class SwitchCrossIsolatedMarginRequest extends AbstractParameters implements ISw
      * @var float $sellLeverage
      */
     protected float $sellLeverage;
-
-    public function __construct()
-    {
-        $this
-            ->setRequiredField("symbol")
-            ->setRequiredField('tradeMode')
-            ->setRequiredField('buyLeverage')
-            ->setRequiredField('sellLeverage');
-    }
 
     /**
      * @return string

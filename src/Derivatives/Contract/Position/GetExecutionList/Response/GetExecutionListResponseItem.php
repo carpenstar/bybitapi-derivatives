@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Position\GetExecutionList\Response;
 
 use Carpenstar\ByBitAPI\Core\Helpers\DateTimeHelper;

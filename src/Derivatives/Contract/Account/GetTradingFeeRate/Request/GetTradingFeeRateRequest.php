@@ -1,4 +1,5 @@
 <?php
+
 namespace Carpenstar\ByBitAPI\Derivatives\Contract\Account\GetTradingFeeRate\Request;
 
 use Carpenstar\ByBitAPI\Core\Objects\AbstractParameters;
