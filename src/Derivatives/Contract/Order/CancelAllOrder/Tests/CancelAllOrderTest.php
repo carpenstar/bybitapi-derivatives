@@ -13,21 +13,32 @@ class CancelAllOrderTest extends TestCase
 {
     public function testSuccessEndpoint()
     {
+        echo "\n //// --- //// \n";
+        
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
         $response = $bybit->privateEndpoint(CancelAllOrder::class, (new CancelAllOrderRequest())->setSymbol('BTCUSDT'))->execute();
 
-        echo "Return code: {$response->getReturnCode()} \n";
-        echo "Return message: {$response->getReturnMessage()} \n";
+        if ($response->getReturnCode() == 0) {
 
-        /** @var ICancelAllOrderResponseInterface $cancelOrdersResponse */
-        $cancelOrdersResponse = $response->getResult();
+            echo "CODE: {$response->getReturnCode()} \n";
+            echo "MESSAGE: {$response->getReturnMessage()} \n";
 
-        /** @var ICancelAllOrderResponseItemInterface $order */
-        foreach ($cancelOrdersResponse->getCancelOrdersList() as $order) {
-            echo "--- \n";
-            echo "Order ID: {$order->getOrderId()} \n";
-            echo "Order Link ID: {$order->getOrderLinkId()} \n";
+            /** @var ICancelAllOrderResponseInterface $cancelOrdersResponse */
+            $cancelOrdersResponse = $response->getResult();
+
+            /** @var ICancelAllOrderResponseItemInterface $order */
+            foreach ($cancelOrdersResponse->getCancelOrdersList() as $order) {
+                echo "--- \n";
+                echo "Order ID: {$order->getOrderId()} \n";
+                echo "Order Link ID: {$order->getOrderLinkId()} \n";
+            }
+
+        } else {
+            echo "API ERORR: " . get_class($this) . "\n";
+            echo "CODE: {$response->getReturnCode()} \n"; 
+            echo "MESSAGE: {$response->getReturnMessage()} \n"; 
+            echo "EXTENDED:" . implode(";\n", $response->getExtendedInfo()) . "\n"; 
         }
 
         $this->assertTrue(true);

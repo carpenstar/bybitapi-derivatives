@@ -57,7 +57,7 @@ class RiskLimitsResponseItem extends AbstractResponse implements IRiskLimitsResp
         $this->initialMargin = $data['initialMargin'];
         $this->maintainMargin = $data['maintainMargin'];
         $this->maxLeverage = $data['maxLeverage'];
-        $this->isLowerRisk = (int) $data['isLowerRisk'];
+        $this->isLowerRisk = (int) $data['isLowestRisk'];
     }
 
     /**

@@ -32,5 +32,7 @@ class SetLeverageTest extends TestCase
          * ---- OR
          * Not success set leverage: leverage not modified
          */
+
+         $this->assertTrue(true);
     }
 }

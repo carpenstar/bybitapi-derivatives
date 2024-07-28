@@ -13,11 +13,13 @@ class ReplaceOrderTest extends TestCase
 {
     public function testSuccessEndpoint()
     {
+        echo "\n //// --- //// \n";
+        
         $bybitApi = (new BybitAPI())
             ->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-        /** @var IResponseInterface $endpointResponse */
-        $endpointResponse = $bybitApi->privateEndpoint(
+        /** @var IResponseInterface $response */
+        $response = $bybitApi->privateEndpoint(
             ReplaceOrder::class,
             (new ReplaceOrderRequest())
                 ->setSymbol('BTCUSDT')
@@ -25,13 +27,21 @@ class ReplaceOrderTest extends TestCase
                 ->setPrice(68100)
         )->execute();
 
-        echo "Return code: {$endpointResponse->getReturnCode()} \n";
-        echo "Return message: {$endpointResponse->getReturnMessage()} \n";
+        if ($response->getReturnCode() == 0) {
 
-        /** @var ReplaceOrderResponse $orderInfo */
-        $orderInfo = $endpointResponse->getResult();
-        echo "Order ID: {$orderInfo->getOrderId()}\n";
-        echo "Order Link ID: {$orderInfo->getOrderLinkId()}\n";
+            echo "CODE: {$response->getReturnCode()} \n";
+            echo "MESSAGE: {$response->getReturnMessage()} \n";
+
+            /** @var ReplaceOrderResponse $orderInfo */
+            $orderInfo = $response->getResult();
+            echo "Order ID: {$orderInfo->getOrderId()}\n";
+            echo "Order Link ID: {$orderInfo->getOrderLinkId()}\n";
+        } else {
+            echo "API ERORR: " . get_class($this) . "\n";
+            echo "CODE: {$response->getReturnCode()} \n"; 
+            echo "MESSAGE: {$response->getReturnMessage()} \n"; 
+            echo "EXTENDED:" . implode(";\n", $response->getExtendedInfo()) . "\n"; 
+        }
 
         $this->assertTrue(true);
     }

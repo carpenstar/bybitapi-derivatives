@@ -26,8 +26,8 @@ $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 $indexPriceKlineResponse = $bybit->publicEndpoint(IndexPriceKline::class, (new IndexPriceKlineRequest())
     ->setSymbol('BTCUSDT')
     ->setInterval(EnumIntervals::HOUR_1)
-    ->setStart('2024-07-11 10:00:00')
-    ->setEnd('2024-07-12 11:00:00')
+    ->setStart('2024-07-28 10:00:00')
+    ->setEnd('2024-07-27 11:00:00')
     ->setLimit(4)
 )->execute();
 
