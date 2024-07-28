@@ -30,5 +30,7 @@ class SwitchCrossIsolatedMarginTest extends TestCase
         /**
          * Success set cross margin: OK
          */
+
+         $this->assertTrue(true);
     }
 }

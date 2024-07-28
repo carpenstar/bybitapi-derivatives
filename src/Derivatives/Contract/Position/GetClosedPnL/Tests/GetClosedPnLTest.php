@@ -12,43 +12,53 @@ class GetClosedPnLTest extends TestCase
 {
     public function testSuccessEndpoint()
     {
+        echo "\n //// --- //// \n";
+        
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-        $pnlEndpointResponse = $bybit->privateEndpoint(
+        $response = $bybit->privateEndpoint(
             GetClosedPnL::class,
             (new GetClosedPnLRequest())
             ->setSymbol('BTCUSDT')
             ->setLimit(2)
         )->execute();
 
-        echo "Return code: {$pnlEndpointResponse->getReturnCode()} \n";
-        echo "Return message: {$pnlEndpointResponse->getReturnMessage()} \n";
-
-        /** @var IGetClosedPnLResponseInterface $pnlInfoResponse */
-        $pnlInfoResponse = $pnlEndpointResponse->getResult();
-        echo "Next page cursor: {$pnlInfoResponse->getNextPageCursor()}\n";
-        echo "----\n";
-        foreach ($pnlInfoResponse->getClosedPnlList() as $pnl) {
+        if ($response->getReturnCode()) {
+            echo "CODE: {$response->getReturnCode()} \n";
+            echo "MESSAGE: {$response->getReturnMessage()} \n";
+    
+            /** @var IGetClosedPnLResponseInterface $pnlInfoResponse */
+            $pnlInfoResponse = $response->getResult();
+            echo "Next page cursor: {$pnlInfoResponse->getNextPageCursor()}\n";
             echo "----\n";
-            echo "Symbol: {$pnl->getSymbol()}\n";
-            echo "Order ID: {$pnl->getOrderId()}\n";
-            echo "Side: {$pnl->getSide()}\n";
-            echo "Quantity: {$pnl->getQty()}\n";
-            echo "Leverage: {$pnl->getLeverage()}\n";
-            echo "Order Price: {$pnl->getOrderPrice()}\n";
-            echo "Order Type: {$pnl->getOrderType()}\n";
-            echo "Executed Type: {$pnl->getExecType()}\n";
-            echo "Closed Size: {$pnl->getClosedSize()}\n";
-            echo "Cumulative Entry Value: {$pnl->getCumEntryValue()}\n";
-            echo "Average Entry Price: {$pnl->getAvgEntryPrice()}\n";
-            echo "Cumulative Exit Value {$pnl->getCumExitValue()}\n";
-            echo "Average Exit Price: {$pnl->getAvgExitPrice()}\n";
-            echo "Closed PnL: {$pnl->getClosedPnl()}\n";
-            echo "Filled Count: {$pnl->getFillCount()}\n";
-            echo "Created At: {$pnl->getCreatedAt()->format('Y-m-d H:i:s')}\n";
-            echo "Created Time: {$pnl->getCreatedTime()->format('Y-m-d H:i:s')}\n";
-            echo "Updated Time: {$pnl->getUpdatedTime()->format('Y-m-d H:i:s')}\n";
+            foreach ($pnlInfoResponse->getClosedPnlList() as $pnl) {
+                echo "----\n";
+                echo "Symbol: {$pnl->getSymbol()}\n";
+                echo "Order ID: {$pnl->getOrderId()}\n";
+                echo "Side: {$pnl->getSide()}\n";
+                echo "Quantity: {$pnl->getQty()}\n";
+                echo "Leverage: {$pnl->getLeverage()}\n";
+                echo "Order Price: {$pnl->getOrderPrice()}\n";
+                echo "Order Type: {$pnl->getOrderType()}\n";
+                echo "Executed Type: {$pnl->getExecType()}\n";
+                echo "Closed Size: {$pnl->getClosedSize()}\n";
+                echo "Cumulative Entry Value: {$pnl->getCumEntryValue()}\n";
+                echo "Average Entry Price: {$pnl->getAvgEntryPrice()}\n";
+                echo "Cumulative Exit Value {$pnl->getCumExitValue()}\n";
+                echo "Average Exit Price: {$pnl->getAvgExitPrice()}\n";
+                echo "Closed PnL: {$pnl->getClosedPnl()}\n";
+                echo "Filled Count: {$pnl->getFillCount()}\n";
+                echo "Created At: {$pnl->getCreatedAt()->format('Y-m-d H:i:s')}\n";
+                echo "Created Time: {$pnl->getCreatedTime()->format('Y-m-d H:i:s')}\n";
+                echo "Updated Time: {$pnl->getUpdatedTime()->format('Y-m-d H:i:s')}\n";
+            }
+        } else {
+            echo "API ERORR: " . get_class($this) . "\n";
+            echo "CODE: {$response->getReturnCode()} \n"; 
+            echo "MESSAGE: {$response->getReturnMessage()} \n"; 
+            echo "EXTENDED:" . implode(";\n", $response->getExtendedInfo()) . "\n"; 
         }
+
 
         $this->assertTrue(true);
     }

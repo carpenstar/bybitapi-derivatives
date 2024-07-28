@@ -12,9 +12,11 @@ class OpenInterestTest extends TestCase
 {
     public function testOpenInterestEndpoint()
     {
+        echo "\n //// --- //// \n";
+
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com');
 
-        $openInterestResponse = $bybit->publicEndpoint(
+        $response = $bybit->publicEndpoint(
             OpenInterest::class,
             (new OpenInterestRequest())
             ->setSymbol('BTCUSDT')
@@ -24,16 +26,23 @@ class OpenInterestTest extends TestCase
             ->setLimit(10)
         )->execute();
 
-        echo "Return code: {$openInterestResponse->getReturnCode()}\n";
-        echo "Return message: {$openInterestResponse->getReturnMessage()}\n";
+        if ($response->getReturnCode() == 0) {
+            echo "CODE: {$response->getReturnCode()}\n";
+            echo "MESSAGE: {$response->getReturnMessage()}\n";
 
-        /** @var OpenInterestResponseItem $interest */
-        foreach ($openInterestResponse->getResult()->getOpenInterestList() as $interest) {
-            echo " --- \n";
-            echo "Time: {$interest->getTimestamp()->format('Y-m-d H:i:s')}\n";
-            echo "Open Interest: {$interest->getOpenInterest()}\n";
+            /** @var OpenInterestResponseItem $interest */
+            foreach ($response->getResult()->getOpenInterestList() as $interest) {
+                echo " --- \n";
+                echo "Time: {$interest->getTimestamp()->format('Y-m-d H:i:s')}\n";
+                echo "Open Interest: {$interest->getOpenInterest()}\n";
+            }
+
+            $this->assertTrue(true);
+        } else {
+            echo "API ERORR: " . get_class($this) . "\n";
+            echo "CODE: {$response->getReturnCode()} \n"; 
+            echo "MESSAGE: {$response->getReturnMessage()} \n"; 
+            echo "EXTENDED:" . implode(";\n", $response->getExtendedInfo()) . "\n"; 
         }
-
-        $this->assertTrue(true);
     }
 }

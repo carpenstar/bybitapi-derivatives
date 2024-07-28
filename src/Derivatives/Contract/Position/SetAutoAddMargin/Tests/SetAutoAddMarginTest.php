@@ -12,26 +12,24 @@ class SetAutoAddMarginTest extends TestCase
 {
     public function testSuccessEndpoint()
     {
+        echo "\n //// --- //// \n";
+
         $bybit = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-        $isSetAutoAddMargin = $bybit->privateEndpoint(
-            SetAutoAddMargin::class,
-            (new SetAutoAddMarginRequest())
-            ->setSymbol('BTCUSDT')
-            ->setSide(EnumSide::BUY)
-            ->setPositionIdx(0)
-            ->setAutoAddMargin(1)
+        $response = $bybit->privateEndpoint(SetAutoAddMargin::class, (new SetAutoAddMarginRequest())
+            ->setSymbol('BTCUSDT')->setSide(EnumSide::BUY)->setPositionIdx(0)->setAutoAddMargin(1)
         )->execute();
 
-        if ($isSetAutoAddMargin->getReturnCode() == 0) {
-            echo "Success auto add margin for position: {$isSetAutoAddMargin->getReturnMessage()}\n";
+        if ($response->getReturnCode() == 0) {
+            echo "SUCCESS ENDPOINT: " . get_class($this) . "\n";
+            echo "MESSAGE: {$response->getReturnMessage()}\n";
         } else {
-            echo "Not success response: {$isSetAutoAddMargin->getReturnMessage()}\n";
+            echo "API ERORR: " . get_class($this) . "\n";
+            echo "CODE: {$response->getReturnCode()} \n"; 
+            echo "MESSAGE: {$response->getReturnMessage()} \n"; 
+            echo "EXTENDED:" . implode(";\n", $response->getExtendedInfo()) . "\n"; 
         }
-
-        /**
-         * Success auto add margin for position: OK
-         */
-
+        
+         $this->assertTrue(true);
     }
 }

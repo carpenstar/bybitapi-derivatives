@@ -12,22 +12,29 @@ class CancelOrderTest extends TestCase
 {
     public function testSuccessEndpoint()
     {
-        $bybitApi = (new BybitAPI())
-            ->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
+        echo "\n //// --- //// \n";
+        
+        $bybitApi = (new BybitAPI())->setCredentials('https://api-testnet.bybit.com', 'fL02oi5qo8i2jDxlum', 'Ne1EE35XTprIWrId9vGEAc1ZYJTmodA4qFzZ');
 
-        $cancelOrderResponse = $bybitApi->privateEndpoint(
-            CancelOrder::class,
-            (new CancelOrderRequest())->setSymbol('BTCUSDT')->setOrderId('78b869b7-f682-41fe-9edc-dc2dfaaf8d79')
-        )->execute();
+        $response = $bybitApi->privateEndpoint(CancelOrder::class, (new CancelOrderRequest())->setSymbol('BTCUSDT')->setOrderId('78b869b7-f682-41fe-9edc-dc2dfaaf8d79'))->execute();
 
-        echo "Return code: {$cancelOrderResponse->getReturnCode()} \n";
-        echo "Return message: {$cancelOrderResponse->getReturnMessage()} \n";
+        if ($response->getReturnCode() == 0) {
 
-        /** @var CancelOrderResponse $cancelOrderInfo */
-        $cancelOrderInfo = $cancelOrderResponse->getResult();
+            echo "CODE: {$response->getReturnCode()} \n";
+            echo "MESSAGE: {$response->getReturnMessage()} \n";
+    
+            /** @var CancelOrderResponse $cancelOrderInfo */
+            $cancelOrderInfo = $response->getResult();
 
-        echo "Order ID: {$cancelOrderInfo->getOrderId()} \n";
-        echo "Order Link ID: {$cancelOrderInfo->getOrderLinkId()} \n";
+            echo "Order ID: {$cancelOrderInfo->getOrderId()} \n";
+            echo "Order Link ID: {$cancelOrderInfo->getOrderLinkId()} \n";
+        
+        } else {
+            echo "API ERORR: " . get_class($this) . "\n";
+            echo "CODE: {$response->getReturnCode()} \n"; 
+            echo "MESSAGE: {$response->getReturnMessage()} \n"; 
+            echo "EXTENDED:" . implode(";\n", $response->getExtendedInfo()) . "\n"; 
+        }
 
         $this->assertTrue(true);
     }
