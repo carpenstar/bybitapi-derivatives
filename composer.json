@@ -10,7 +10,7 @@
   ],
   "require": {
     "php": ">=7.4",
-    "carpenstar/bybitapi-sdk-core": "5.0.0.*"
+    "carpenstar/bybitapi-sdk-core": "5.1.*"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5"
