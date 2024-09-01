@@ -1,7 +1,16 @@
 <phpunit bootstrap="vendor/autoload.php">
     <testsuites>
-        <testsuite name="derivatives">
-            <directory>src/</directory>
+        <testsuite name="derivatives-market-data">
+            <directory>src/Derivatives/MarketData/FundingRateHistory/Tests/</directory>
+            <directory>src/Derivatives/MarketData/IndexPriceKline/Tests/</directory>
+            <directory>src/Derivatives/MarketData/InstrumentInfo/Tests/</directory>
+            <directory>src/Derivatives/MarketData/Kline/Tests/</directory>
+            <directory>src/Derivatives/MarketData/MarkPriceKline/Tests/</directory>
+            <directory>src/Derivatives/MarketData/OpenInterest/Tests/</directory>
+            <directory>src/Derivatives/MarketData/OrderBook/Tests/</directory>
+            <directory>src/Derivatives/MarketData/PublicTradingHistory/Tests/</directory>
+            <directory>src/Derivatives/MarketData/RiskLimit/Tests/</directory>
+            <directory>src/Derivatives/MarketData/TickerInfo/Tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
