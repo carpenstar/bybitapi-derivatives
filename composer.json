@@ -17,8 +17,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Carpenstar\\ByBitAPI\\Derivatives\\": "src/Derivatives",
-      "Carpenstar\\ByBitAPI\\Tests\\": "src/tests"
+      "Carpenstar\\ByBitAPI\\Derivatives\\": "src/Derivatives"
     }
   }
 }
