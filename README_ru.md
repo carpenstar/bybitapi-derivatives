@@ -5,10 +5,12 @@
 
 # ByBitAPI - derivatives-trading package
 
-**Дисклэймер: это неофициальный SDK для интеграции с биржей ByBit.   
-Поддержка функционала осуществляется только в пределах зоны отвественности кода и при возможности со стороны разработчика**
+> [!IMPORTANT]
+> Это неофициальный SDK для взаимодействия с биржей ByBit. Разработка ведется одним человеком исключительно на энтузиазме и по мере возможности  
+По всем вопросам вы можете связаться со мной в Issues, по email: mighty.vlad@gmail.com или в телеграм: @novisad0189
 
-**Разработка интеграции еще не закончена, поэтому работоспособность (как полностью, так и отдельных компонентов) не гарантируется.**
+> [!IMPORTANT]
+> Этот пакет является расширением [bybitapi-sdk-core](https://github.com/carpenstar/bybitapi-sdk-core) 
 
 ## Требования
 
@@ -17,7 +19,7 @@
 ## Установка
 
 ```sh 
-composer require carpenstar/bybitapi-sdk-derivatives
+composer require carpenstar/bybitapi-sdk-derivatives:3.*
 ```
 
 ## Содержание:
@@ -35,7 +37,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#market-data---funding-rate-history">Funding Rate History</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/FundingRateHistory">Funding Rate History</a>
     </td>
     <td>Публичный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/FundingRateHistory">перейти</a></td>
@@ -46,7 +48,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#market-data---index-price-kline">Index Price Kline</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/IndexPriceKline">Index Price Kline</a>
     </td>
     <td>Публичный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/IndexPriceKline">перейти</a></td>
@@ -58,7 +60,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#market-data---instrument-info">Instrument Info</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/InstrumentInfo">Instrument Info</a>
     </td>
     <td>Публичный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/InstrumentInfo">перейти</a></td>
@@ -71,7 +73,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
 </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#market-data---kline">Kline</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/Kline">Kline</a>
     </td>
     <td>Публичный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/Kline">перейти</a></td>
@@ -83,7 +85,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#market-data---mark-price-kline">Mark Price Kline</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/MarkPriceKline">Mark Price Kline</a>
     </td>
     <td>Публичный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/MarkPriceKline">перейти</a></td>
@@ -95,7 +97,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#market-data---open-interest">Open Interest</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/OpenInterest">Open Interest</a>
     </td>
     <td>Публичный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/OpenInterest">перейти</a></td>
@@ -107,7 +109,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#market-data---order-book">Order Book</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/OrderBook">Order Book</a>
     </td>
     <td>Публичный</td>
     <td style="text-align: center"><a href="https://bybit-exchange.github.io/docs/derivatives/public/orderbook">перейти</a></td>
@@ -119,7 +121,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
 </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#market-data---public-trading-history">Public Trading History</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/PublicTradingHistory">Public Trading History</a>
     </td>
     <td>Публичный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/PublicTradingHistory">перейти</a></td>
@@ -131,7 +133,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#market-data---risk-limit">Risk Limit</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/RiskLimit">Risk Limit</a>
     </td>
     <td>Публичный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/RiskLimit">перейти</a></td>
@@ -143,7 +145,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
 </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#market-data---ticker-info">Ticker Info</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/TickerInfo">Ticker Info</a>
     </td>
     <td>Публичный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/MarketData/TickerInfo">перейти</a></td>
@@ -164,7 +166,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---account---get-trading-fee-rate">Get Trading Fee Rate</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Account/GetTradingFeeRate">Get Trading Fee Rate</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Account/GetTradingFeeRate">перейти</a></td>
@@ -176,7 +178,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---account---wallet-balance">Wallet Balance</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Account/WalletBalance">Wallet Balance</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Account/WalletBalance">перейти</a></td>
@@ -197,7 +199,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---account---order---cancel-all-order">Cancel All Order</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/CancelAllOrder">Cancel All Order</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/CancelAllOrder">перейти</a></td>
@@ -209,7 +211,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---account---order---cancel-order">Cancel Order</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/CancelOrder">Cancel Order</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/CancelOrder">перейти</a></td>
@@ -221,7 +223,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---account---order---get-open-orders">Get Open Orders</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/GetOpenOrders">Get Open Orders</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/GetOpenOrders">перейти</a></td>
@@ -233,7 +235,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---account---order---get-order-list">Get Order List</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/GetOrderList">Get Order List</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/GetOrderList">перейти</a></td>
@@ -245,7 +247,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---account---order---place-order">Place Order</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/PlaceOrder">Place Order</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/PlaceOrder">перейти</a></td>
@@ -257,7 +259,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---account---order---replace-order">Replace Order</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/ReplaceOrder">Replace Order</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Order/ReplaceOrder">перейти</a></td>
@@ -279,7 +281,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---position---get-closed-pnl">Get Closed PnL</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/GetClosedPnL">Get Closed PnL</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/GetClosedPnL">перейти</a></td>
@@ -291,7 +293,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---position---get-execution-list">Get Execution List</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/GetExecutionList">Get Execution List</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/GetExecutionList">перейти</a></td>
@@ -303,7 +305,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---position---my-position">My Position</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/MyPosition">My Position</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/MyPosition">перейти</a></td>
@@ -315,7 +317,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---position---set-auto-add-margin">Set Auto Add Margin</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SetAutoAddMargin">Set Auto Add Margin</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SetAutoAddMargin">перейти</a></td>
@@ -327,7 +329,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---position---set-leverage">Set Leverage</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SetLeverage">Set Leverage</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SetLeverage">перейти</a></td>
@@ -339,7 +341,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---position---set-risk-limit">Set Risk Limit</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SetRiskLimit">Set Risk Limit</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SetRiskLimit">перейти</a></td>
@@ -351,7 +353,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---position---set-trading-stop">Set Trading Stop</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SetTradingStop">Set Trading Stop</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SetTradingStop">перейти</a></td>
@@ -363,7 +365,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---position---switch-cross-isolated-margin">Switch Cross Isolated Margin</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SwitchCrossIsolatedMargin">Switch Cross Isolated Margin</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SwitchCrossIsolatedMargin">перейти</a></td>
@@ -375,7 +377,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---position---switch-position-mode">Switch Position Mode</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SwitchPositionMode">Switch Position Mode</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SwitchPositionMode">перейти</a></td>
@@ -387,7 +389,7 @@ composer require carpenstar/bybitapi-sdk-derivatives
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master#contract---position---switch-tpsl-mode">Switch TpSl Mode</a>
+      <a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SwitchTpSlMode">Switch TpSl Mode</a>
     </td>
     <td>Приватный</td>
     <td style="text-align: center"><a href="https://github.com/carpenstar/bybitapi-sdk-derivatives/tree/master/src/Derivatives/Contract/Position/SwitchTpSlMode">перейти</a></td>
